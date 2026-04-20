@@ -338,7 +338,7 @@
     .header { height: 72px; }
     .tabs { top: 72px; background:#111720; }
     [data-theme="light"] .tabs { background:#ffffff; }
-    .filter-bar { top: 156px; }
+    .filter-bar { top: 0; }
     .filter-refresh-btn { display:none; }
     .section-nav { top: 126px; }
     .chart-grid { grid-template-columns: 1fr; }
@@ -1027,6 +1027,12 @@ function showDashboard(csvText){
   document.getElementById('tabs').classList.add('visible');
   document.getElementById('section-nav').classList.remove('hidden');
   document.getElementById('filter-bar').classList.remove('filter-hidden');
+  if(window.innerWidth <= 768){
+    requestAnimationFrame(function(){
+      var tabs = document.getElementById('tabs');
+      if(tabs) document.getElementById('filter-bar').style.top = tabs.getBoundingClientRect().bottom + 'px';
+    });
+  }
   const allRows=[...(allData.Declan||[]),...(allData.Emi||[])];
   const months=getAvailableMonths(allRows);
   const sel=document.getElementById('month-filter');
