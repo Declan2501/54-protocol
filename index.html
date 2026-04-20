@@ -336,8 +336,8 @@
     .mobile-theme-btn { display: block; margin-left: auto; background: var(--toggle-bg); border: 1px solid var(--toggle-border); border-radius: 8px; padding: 6px 12px; font-family: Calibri,sans-serif; font-size: 11px; font-weight: 600; color: var(--toggle-text); cursor: pointer; align-self: center; }
     .snav-theme { display: block; }
     .header { height: 72px; }
-    .tabs { top: 72px; background: #111720; }
-    [data-theme="light"] .tabs { background: #ffffff; }
+    .tabs { top: 72px; background:#111720; }
+    [data-theme="light"] .tabs { background:#ffffff; }
     .filter-bar { top: 126px; }
     .section-nav { top: 126px; }
     .chart-grid { grid-template-columns: 1fr; }
@@ -1026,21 +1026,6 @@ function showDashboard(csvText){
   document.getElementById('tabs').classList.add('visible');
   document.getElementById('section-nav').classList.remove('hidden');
   document.getElementById('filter-bar').classList.remove('filter-hidden');
-  // Mobile sticky fix
-  if(window.innerWidth <= 768){
-    var filter = document.getElementById('filter-bar');
-    var tabs = document.getElementById('tabs');
-    var tabsBottom = tabs ? tabs.getBoundingClientRect().bottom : 126;
-    filter.style.position = 'fixed';
-    filter.style.top = tabsBottom + 'px';
-    filter.style.left = '0';
-    filter.style.right = '0';
-    filter.style.zIndex = '84';
-    filter.style.width = '100%';
-    filter.style.background = document.documentElement.getAttribute('data-theme')==='light' ? '#ffffff' : '#111720';
-    // Add padding to dashboard to compensate
-    document.querySelectorAll('.dashboard').forEach(function(d){ d.style.paddingTop='50px'; });
-  }
   const allRows=[...(allData.Declan||[]),...(allData.Emi||[])];
   const months=getAvailableMonths(allRows);
   const sel=document.getElementById('month-filter');
