@@ -711,10 +711,10 @@ function renderDashboard(person,rows){
       <div style="font-size:11px;color:var(--muted);margin-top:4px;">Start → Day 91</div>
     </div>
   </div>
-  <div class="section-title" style="margin-top:24px;">Current Protocol Progress <span class="section-line"></span></div>
+  <div class="section-title" style="margin-top:24px;">Current 5.4 Protocol Progress <span class="section-line"></span></div>
   <div style="font-size:15px;color:var(--muted);margin-bottom:14px;margin-top:-8px;">Where you are right now in the 91-day cycle.</div>
   <div class="kpi-grid">
-    <div class="kpi-card blue"><div class="kpi-label">Days on Protocol</div><div class="kpi-value">${m.daysOnProtocol}</div><div class="kpi-sub">since 13 Apr 2026</div></div>
+    <div class="kpi-card blue"><div class="kpi-label">Days on 5.4 Protocol</div><div class="kpi-value">${m.daysOnProtocol}</div><div class="kpi-sub">since 13 Apr 2026</div></div>
     <div class="kpi-card"><div class="kpi-label">Days Remaining</div><div class="kpi-value">${m.daysRemaining}</div><div class="kpi-sub">of 91-day protocol</div></div>
     <div class="kpi-card"><div class="kpi-label">Cycle Complete</div><div class="kpi-value">${m.cyclePct}%</div><div class="kpi-sub">of 91-day cycle</div></div>
     <div class="kpi-card ${m.latest?zoneColor(m.latest.protocolZone):''}"><div class="kpi-label">Protocol Zone</div><div class="kpi-value">${m.latest?m.latest.protocolZone||'—':'—'}</div><div class="kpi-sub">latest day</div></div>
@@ -755,7 +755,7 @@ function renderDashboard(person,rows){
   </div>
   <div class="chart-grid" style="margin-top:16px;">
     <div class="chart-card"><div class="chart-title">Time-Slot Averages (all time)</div><div class="chart-wrap" style="height:200px;"><canvas id="${person}-slot-avg" role="img" aria-label="Slot averages">Slot averages</canvas></div></div>
-    <div class="chart-card"><div class="chart-title">Protocol Zone Distribution</div><div class="chart-wrap" style="height:200px;"><canvas id="${person}-zone-donut" role="img" aria-label="Zone distribution">Zone distribution</canvas></div></div>
+    <div class="chart-card"><div class="chart-title">5.4 Protocol Zone Distribution</div><div class="chart-wrap" style="height:200px;"><canvas id="${person}-zone-donut" role="img" aria-label="Zone distribution">Zone distribution</canvas></div></div>
   </div>
 
   <div class="section-title" id="section-hba1c"><span style="text-transform:none;">HbA1c</span> Projection <span class="section-line"></span></div>
@@ -784,7 +784,7 @@ function renderDashboard(person,rows){
     <div class="chart-card"><div class="chart-title">Weight Trend</div><div class="chart-wrap" style="height:220px;"><canvas id="${person}-weight-trend" role="img" aria-label="Weight trend">Weight trend</canvas></div></div>
   </div>
 
-  <div class="section-title" id="section-adherence">Protocol Adherence <span class="section-line"></span></div>
+  <div class="section-title" id="section-adherence">5.4 Protocol Adherence <span class="section-line"></span></div>
   <div style="font-size:15px;color:var(--muted);margin-bottom:14px;margin-top:-8px;">How consistently you are completing all 7 protocol elements each day. Higher adherence directly correlates with better outcomes.</div>
   <div class="kpi-grid">
     <div class="kpi-card ${m.cumAdh!==null?(m.cumAdh>=90?'green':m.cumAdh>=70?'amber':'red'):''}"><div class="kpi-label">Cumul. Adherence</div><div class="kpi-value">${m.cumAdh!==null?m.cumAdh+'%':'—'}</div><div class="kpi-sub">all days average</div></div>
@@ -822,7 +822,7 @@ function renderDashboard(person,rows){
   </div>
   <div style="height:40px;"></div>
 
-  <div class="section-title" id="section-summary">Protocol Summary <span class="section-line"></span></div>
+  <div class="section-title" id="section-summary">5.4 Protocol Summary <span class="section-line"></span></div>
   <div style="font-size:15px;color:var(--muted);margin-bottom:14px;margin-top:-8px;">An automated analysis of your current data across all protocol metrics, updated each time new data is loaded.</div>
   <div style="background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:8px 24px 0;margin-bottom:40px;">
     ${generateSummary(m, person)}
@@ -900,7 +900,7 @@ function generateSummary(m, person) {
   let exText = '';
   if (m.exDelta !== null) {
     if (m.exDelta < -0.1) exText = `Post-meal exercise is delivering a <strong style="color:var(--green)">${Math.abs(m.exDelta).toFixed(2)} mmol/L</strong> average blood sugar drop — keep it up.`;
-    else if (m.exDelta > 0.1) exText = `Post-meal exercise is currently showing a slight rise — this should settle as the protocol beds in.`;
+    else if (m.exDelta > 0.1) exText = `Post-meal exercise is currently showing a slight rise — this should settle as the 5.4 Protocol beds in.`;
   }
   if (m.exRate !== null) {
     const exColor = m.exRate >= 85 ? 'var(--green)' : m.exRate >= 60 ? 'var(--amber)' : 'var(--red)';
@@ -922,7 +922,7 @@ function generateSummary(m, person) {
   // ── DAWN PHENOMENON ──
   let dawnText = '';
   if (m.dawnDelta !== null && m.dawnDelta > 0.5) {
-    dawnText = `Dawn phenomenon is active — average rise of <strong>${m.dawnDelta.toFixed(2)} mmol/L</strong> between 05:00 and 09:00. This is a normal physiological response and typically reduces as the protocol progresses.`;
+    dawnText = `Dawn phenomenon is active — average rise of <strong>${m.dawnDelta.toFixed(2)} mmol/L</strong> between 05:00 and 09:00. This is a normal physiological response and typically reduces as the 5.4 Protocol progresses.`;
   }
 
   // ── BUILD CARDS ──
