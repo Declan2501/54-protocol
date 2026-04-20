@@ -204,7 +204,7 @@
     z-index: 90;
     background: var(--surface);
     border-bottom: 1px solid var(--border);
-    padding: 0 32px 0 0;
+    padding: 0 32px;
     display: flex;
     gap: 4px;
     overflow-x: auto;
@@ -215,7 +215,7 @@
   .section-nav.hidden { display: none; }
 
   .snav-btn {
-    padding: 10px 18px;
+    padding: 10px 18px 10px 40px;
     font-family: 'Calibri', sans-serif;
     font-size: 12px;
     font-weight: 700;
@@ -437,7 +437,7 @@ if (sessionStorage.getItem('54p-auth') === '1') {
 </div>
 
 <div class="section-nav hidden" id="section-nav">
-  <button class="snav-btn" style="margin-left:32px;" onclick="scrollToSection('progress')">Overall Results</button>
+  <button class="snav-btn" onclick="scrollToSection('progress')">Overall Results</button>
   <button class="snav-btn" onclick="scrollToSection('bloodsugar')">Blood Sugar</button>
   <button class="snav-btn" onclick="scrollToSection('hba1c')"><span style="text-transform:none;">HbA1c</span> Projection</button>
   <button class="snav-btn" onclick="scrollToSection('weight')">Weight</button>
