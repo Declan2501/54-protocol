@@ -307,6 +307,11 @@
   .progress-fill { height: 100%; border-radius: 4px; background: linear-gradient(90deg, var(--blue), var(--purple)); }
 
   .no-data { color: var(--dimmed); }
+.filter-bar { display:flex; align-items:center; gap:12px; padding:10px 32px; background:var(--surface); border-bottom:1px solid var(--border); flex-wrap:wrap; }
+.filter-bar label { font-size:12px; font-weight:700; color:var(--muted); letter-spacing:0.05em; text-transform:uppercase; }
+.filter-select { background:var(--surface2); border:1px solid var(--border2); border-radius:6px; color:var(--text); font-family:Calibri,sans-serif; font-size:13px; padding:5px 10px; cursor:pointer; }
+.filter-toggle { display:flex; align-items:center; gap:8px; }
+.filter-toggle input[type=checkbox] { width:16px; height:16px; cursor:pointer; accent-color:#22c97a; }
 
   /* Ensure nothing overflows horizontally */
   body { overflow-x: hidden; }
@@ -440,6 +445,16 @@ if (sessionStorage.getItem('54p-auth') === '1') {
   <button class="snav-btn" onclick="scrollToSection('summary')">Summary</button>
 </div>
 
+<div class="filter-bar" id="filter-bar" style="display:none;">
+  <label>Month:</label>
+  <select class="filter-select" id="month-filter" onchange="filterMonth=this.value;applyFilters();">
+    <option value="all">All Time</option>
+  </select>
+  <div class="filter-toggle">
+    <input type="checkbox" id="weekend-filter" onchange="filterWeekend=this.checked;applyFilters();">
+    <label for="weekend-filter" style="cursor:pointer;text-transform:none;font-size:13px;font-weight:600;">Weekends only</label>
+  </div>
+</div>
 <div class="dashboard" id="dash-Declan"></div>
 <div class="dashboard" id="dash-Emi"></div>
 
@@ -502,6 +517,47 @@ const BS_SLOTS=[{key:'05:00'},{key:'09:00'},{key:'13:00'},{key:'17:00'},{key:'18
 const BS_THRESHOLDS={'05:00':{greenMax:6.2,redMin:7.0},'09:00':{greenMax:7.2,redMin:7.5},'13:00':{greenMax:5.9,redMin:7.0},'17:00':{greenMax:5.3,redMin:7.0},'18:30':{greenMax:7.5,redMin:7.6},'19:30':{greenMax:5.6,redMin:7.0},'22:00':{greenMax:5.8,redMin:7.0}};
 const ADHERENCE_ITEMS=[{key:'water5am',label:'5am Water'},{key:'omega3',label:'Omega 3'},{key:'water2l',label:'Daily Water'},{key:'omad',label:'OMAD'},{key:'exercise',label:'Exercise'},{key:'acv',label:'ACV'},{key:'magnesium',label:'Magnesium'}];
 let allData={},charts={};
+let filterMonth="all",filterWeekend=false;
+
+function getFilteredRows(rows){
+  return rows.filter(r=>{
+    if(!r.date)return false;
+    const d=r.date;
+    const day=d.getDay();
+    const isWeekend=(day===0||day===6);
+    if(filterWeekend&&!isWeekend)return false;
+    if(filterMonth!=="all"&&d.getMonth()!==parseInt(filterMonth))return false;
+    return true;
+  });
+}
+
+function getAvailableMonths(rows){
+  const months=new Set();
+  rows.forEach(r=>{if(r.date)months.add(r.date.getMonth());});
+  return Array.from(months).sort((a,b)=>a-b);
+}
+
+const MONTH_NAMES=["January","February","March","April","May","June","July","August","September","October","November","December"];
+
+function applyFilters(){
+  if(!Object.keys(allData).length)return;
+  const activePerson=document.querySelector(".tab.active")?.dataset?.person||"Declan";
+  renderDashboard(activePerson,allData[activePerson]||[]);
+}
+
+function weekendTickCallback(labels){
+  return function(val,idx){
+    const label=labels[idx];
+    if(!label)return "";
+    const parts=label.split("/");
+    if(parts.length!==3)return "";
+    const d=new Date(parseInt(parts[2]),parseInt(parts[1])-1,parseInt(parts[0]));
+    const day=d.getDay();
+    if(day===6)return "Sat";
+    if(day===0)return "Sun";
+    return "";
+  };
+}
 
 // ── THEME ──
 function getTheme(){return document.documentElement.getAttribute('data-theme');}
@@ -653,9 +709,10 @@ function destroyChart(id){if(charts[id]){charts[id].destroy();delete charts[id];
 function mkLine(id,labels,datasets,opts={}){
   destroyChart(id);const ctx=document.getElementById(id);if(!ctx)return;
   const c=chartColours();
+  const xTicks=opts.weekendTicks?{color:c.ticks,font:{family:'Calibri',size:11},callback:weekendTickCallback(labels),maxRotation:0}:{color:c.ticks,maxTicksLimit:8,font:{family:'Calibri',size:11}};
   charts[id]=new Chart(ctx,{type:'line',data:{labels,datasets},options:{responsive:true,maintainAspectRatio:false,
     plugins:{legend:{display:opts.legend||false,labels:{color:c.legendText,font:{family:'Calibri',size:11},boxWidth:30,boxHeight:0,padding:16,usePointStyle:false}},tooltip:{mode:'index',intersect:false}},
-    scales:{x:{grid:{color:c.grid},ticks:{color:c.ticks,maxTicksLimit:8,font:{family:'Calibri',size:11}}},y:{grid:{color:c.grid},ticks:{color:c.ticks,font:{family:'Calibri',size:11}},...(opts.yScale||{})}}}});
+    scales:{x:{grid:{color:c.grid},ticks:xTicks},y:{grid:{color:c.grid},ticks:{color:c.ticks,font:{family:'Calibri',size:11}},...(opts.yScale||{})}}}});
 }
 function mkDonut(id,labels,data,colors){
   destroyChart(id);const ctx=document.getElementById(id);if(!ctx)return;
@@ -677,7 +734,8 @@ const fmt=(v,dec=1,sfx='')=>v===null||v===undefined?'<span class="no-data">—</
 function zoneColor(z){if(!z)return'';const l=z.toLowerCase();if(l.includes('danger'))return'red';if(l.includes('warning'))return'amber';if(l==='normal')return'green';if(l.includes('diabetic')&&!l.includes('pre'))return'red';if(l.includes('pre'))return'amber';return'blue';}
 
 function renderDashboard(person,rows){
-  const m=calcMetrics(rows,person);
+  const filteredRows=getFilteredRows(rows);
+  const m=calcMetrics(filteredRows,person);
   const isDark=getTheme()==='dark';
   const hex=person==='Declan'?(isDark?'#4a9eff':'#1a6abf'):(isDark?'#f472b6':'#b5368a');
   const tgt=TARGETS[person];
@@ -829,7 +887,7 @@ function renderDashboard(person,rows){
   </div>`;
 
   // ── CHARTS ──
-  mkLine(`${person}-bs-trend`,m.hasData.map(r=>r.dateStr),[{label:'Daily Avg',data:m.hasData.map(r=>r.dailyAvg),borderColor:hex,backgroundColor:hex+'22',borderWidth:2,pointRadius:3,pointBackgroundColor:hex,fill:true,tension:0.3,spanGaps:true}],{yScale:{min:4,suggestedMax:12}});
+  mkLine(`${person}-bs-trend`,m.hasData.map(r=>r.dateStr),[{label:'Daily Avg',data:m.hasData.map(r=>r.dailyAvg),borderColor:hex,backgroundColor:hex+'22',borderWidth:2,pointRadius:3,pointBackgroundColor:hex,fill:true,tension:0.3,spanGaps:true}],{yScale:{min:4,suggestedMax:12},weekendTicks:true});
 
   mkBar(`${person}-slot-avg`,BS_SLOTS.map(s=>s.key),[{data:BS_SLOTS.map(s=>m.slotAvgs[s.key]!==null?+m.slotAvgs[s.key].toFixed(2):null),backgroundColor:BS_SLOTS.map(s=>{const v=m.slotAvgs[s.key];if(v===null)return c.barNull;const cl=bsColorClass(v,s.key);return cl==='green'?'#b6d7a8':cl==='amber'?'#f6b26b':'#ea9999';}),borderRadius:4}],{yScale:{min:4},datalabels:true});
 
@@ -844,9 +902,9 @@ function renderDashboard(person,rows){
   mkLine(`${person}-weight-trend`,m.hasWeight.map(r=>r.dateStr),[
     {label:'Weight (kg)',data:m.hasWeight.map(r=>r.weight),borderColor:hex,backgroundColor:hex+'22',borderWidth:2,pointRadius:3,pointBackgroundColor:hex,fill:true,tension:0.3,spanGaps:true},
     {label:`Target ${tgt.weight}kg`,data:m.hasWeight.map(()=>tgt.weight),borderColor:c.targetLine,borderWidth:1.5,borderDash:[6,4],pointRadius:0,fill:false}
-  ],{legend:true,yScale:{min:tgt.weight-10}});
+  ],{legend:true,yScale:{min:tgt.weight-10},weekendTicks:true});
 
-  mkLine(`${person}-adhere-trend`,m.hasAdhere.map(r=>r.dateStr),[{label:'Adherence %',data:m.hasAdhere.map(r=>r.adherePct),borderColor:'#6b3fa0',backgroundColor:'rgba(107,63,160,0.1)',borderWidth:2,pointRadius:3,pointBackgroundColor:'#6b3fa0',fill:true,tension:0.2,spanGaps:true}],{yScale:{min:0,suggestedMax:110}});
+  mkLine(`${person}-adhere-trend`,m.hasAdhere.map(r=>r.dateStr),[{label:'Adherence %',data:m.hasAdhere.map(r=>r.adherePct),borderColor:'#6b3fa0',backgroundColor:'rgba(107,63,160,0.1)',borderWidth:2,pointRadius:3,pointBackgroundColor:'#6b3fa0',fill:true,tension:0.2,spanGaps:true}],{yScale:{min:0,suggestedMax:110},weekendTicks:true});
 }
 
 function generateSummary(m, person) {
@@ -955,12 +1013,20 @@ function switchTab(person){
   document.querySelector(`.tab[data-person="${person}"]`).classList.add('active');
   document.querySelectorAll('.dashboard').forEach(d=>d.classList.remove('active'));
   document.getElementById(`dash-${person}`).classList.add('active');
+  if(allData[person])renderDashboard(person,allData[person]);
 }
 
 function showDashboard(csvText){
   allData=processData(csvText);
   document.getElementById('tabs').classList.add('visible');
   document.getElementById('section-nav').classList.remove('hidden');
+  document.getElementById('filter-bar').style.display='flex';
+  // Populate month dropdown
+  const allRows=[...(allData.Declan||[]),...(allData.Emi||[])];
+  const months=getAvailableMonths(allRows);
+  const sel=document.getElementById('month-filter');
+  sel.innerHTML='<option value="all">All Time</option>';
+  months.forEach(m=>{const opt=document.createElement('option');opt.value=m;opt.textContent=MONTH_NAMES[m];sel.appendChild(opt);});
   renderDashboard('Declan',allData.Declan||[]);
   renderDashboard('Emi',allData.Emi||[]);
   document.getElementById('dash-Declan').classList.add('active');
