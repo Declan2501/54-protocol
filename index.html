@@ -173,7 +173,6 @@
     top: 82px;
     z-index: 95;
     box-shadow: 0 1px 3px rgba(0,0,0,0.06);
-    isolation: isolate;
   }
   .tabs.visible { display: flex; }
 
@@ -253,7 +252,6 @@
     scroll-margin-top: 180px;
   }
   .section-title:first-child { margin-top: 0; }
-  .dashboard { scroll-padding-top: 220px; }
   .section-line { flex: 1; height: 1px; background: var(--border2); }
 
   /* ── KPI CARDS ── */
@@ -309,7 +307,7 @@
   .progress-fill { height: 100%; border-radius: 4px; background: linear-gradient(90deg, var(--blue), var(--purple)); }
 
   .no-data { color: var(--dimmed); }
-.filter-bar { display:flex; align-items:center; gap:12px; padding:10px 32px; background:var(--surface); border-bottom:1px solid var(--border); flex-wrap:wrap; position:sticky; top:174px; z-index:85; margin-top:-1px; isolation:isolate; }
+.filter-bar { display:flex; align-items:center; gap:12px; padding:10px 32px; background:var(--surface); border-bottom:1px solid var(--border); flex-wrap:wrap; position:sticky; top:174px; z-index:85; isolation:isolate; }
 .filter-bar label { font-size:12px; font-weight:700; color:var(--muted); letter-spacing:0.05em; text-transform:uppercase; }
 .filter-select { background:var(--surface2); border:1px solid var(--border2); border-radius:6px; color:var(--text); font-family:Calibri,sans-serif; font-size:13px; padding:5px 10px; cursor:pointer; }
 .filter-toggle { display:flex; align-items:center; gap:8px; }
@@ -340,7 +338,6 @@
     .header { height: 72px; }
     .tabs { top: 72px; }
     .section-nav { top: 126px; }
-    .filter-bar { top: 166px; }
     .chart-grid { grid-template-columns: 1fr; }
     .bs-grid { grid-template-columns: repeat(4, 1fr); }
     .header, .dashboard { padding-left: 16px; padding-right: 16px; }
@@ -428,7 +425,6 @@ if (sessionStorage.getItem('54p-auth') === '1') {
     <div style="font-weight:400;letter-spacing:0;margin-top:2px;" id="tagline">Track your journey to better metabolic health — one day at a time.</div>
   </div>
   <button class="theme-toggle" id="themeToggle" onclick="toggleTheme()" title="Toggle theme">Light / Dark</button>
-  <button class="theme-toggle" onclick="location.reload()" title="Refresh data" style="right:140px;">&#8635; Refresh</button>
 </div>
 
 
@@ -565,6 +561,17 @@ function weekendTickCallback(labels){
   };
 }
 
+function fixFilterTop(){
+  const header=document.querySelector(".header");
+  const tabs=document.getElementById("tabs");
+  const nav=document.getElementById("section-nav");
+  const filter=document.getElementById("filter-bar");
+  if(!filter||filter.style.display==="none")return;
+  const top=(header?header.offsetHeight:0)+(tabs&&tabs.classList.contains("visible")?tabs.offsetHeight:0)+(nav&&!nav.classList.contains("hidden")?nav.offsetHeight:0);
+  filter.style.top=top+"px";
+}
+window.addEventListener("resize",fixFilterTop);
+
 // ── THEME ──
 function getTheme(){return document.documentElement.getAttribute('data-theme');}
 function toggleTheme(){
@@ -660,8 +667,7 @@ function bsColorClass(val,slot){
 function calcMetrics(rows,person){
   const hasData=rows.filter(r=>r.dailyAvg!==null),hasWeight=rows.filter(r=>r.weight!==null),hasAdhere=rows.filter(r=>r.adhereScore!==null),hasExercise=rows.filter(r=>r.exercise!==''),hasHba1c=rows.filter(r=>r.hba1cProj!==null);
   const today=new Date();
-  const personStart=rows.filter(r=>r.date).length?rows.filter(r=>r.date)[0].date:PROTOCOL_START;
-  const daysOnProtocol=Math.max(1,Math.floor((today-personStart)/86400000)+1);
+  const daysOnProtocol=Math.max(1,Math.floor((today-PROTOCOL_START)/86400000)+1);
   const daysRemaining=Math.max(0,CYCLE_DAYS-daysOnProtocol);
   const cyclePct=Math.min(100,Math.round((daysOnProtocol/CYCLE_DAYS)*100));
   const latest=hasData.length?hasData[hasData.length-1]:null;
@@ -708,7 +714,7 @@ function calcMetrics(rows,person){
   let stdDev=null;if(avgVals.length>1){const mean=avg7(avgVals);stdDev=Math.sqrt(avgVals.map(v=>(v-mean)**2).reduce((a,b)=>a+b,0)/avgVals.length);}
   const allR=rows.flatMap(r=>Object.values(r.bs)).filter(v=>v!==null);
   const bestReading=allR.length?Math.min(...allR):null,worstReading=allR.length?Math.max(...allR):null;
-  return{daysOnProtocol,daysRemaining,cyclePct,personStart,latest,latestWeight,latestHba1c,rolling7bs,rolling7w,rolling7adh,rolling7hba1c,cumAdh,perfectDays,perfStreak,exStreak,exRate,exDone,escalatedDays,greenStreak,nonDiabeticStreak,zoneCounts,whoCounts,hba1cDist,hba1cProjDate,weightProjDate,weeklyWeightRate,totalWeightLost,dailyWeightLoss,slotAvgs,dawnDelta,mealDelta,exDelta,itemRates,mostMissed,avgGreenPct,avgAmberPct,avgRedPct,stdDev,bestReading,worstReading,hasData,hasWeight,hasAdhere,hasHba1c,hasExercise};
+  return{daysOnProtocol,daysRemaining,cyclePct,latest,latestWeight,latestHba1c,rolling7bs,rolling7w,rolling7adh,rolling7hba1c,cumAdh,perfectDays,perfStreak,exStreak,exRate,exDone,escalatedDays,greenStreak,nonDiabeticStreak,zoneCounts,whoCounts,hba1cDist,hba1cProjDate,weightProjDate,weeklyWeightRate,totalWeightLost,dailyWeightLoss,slotAvgs,dawnDelta,mealDelta,exDelta,itemRates,mostMissed,avgGreenPct,avgAmberPct,avgRedPct,stdDev,bestReading,worstReading,hasData,hasWeight,hasAdhere,hasHba1c,hasExercise};
 }
 
 // ── CHART HELPERS ──
@@ -779,7 +785,7 @@ function renderDashboard(person,rows){
   <div class="section-title" style="margin-top:24px;">Current 5.4 Protocol Progress <span class="section-line"></span></div>
   <div style="font-size:16px;color:#b0bdd4;margin-bottom:14px;margin-top:-8px;">Where you are right now in the 91-day cycle.</div>
   <div class="kpi-grid">
-    <div class="kpi-card blue"><div class="kpi-label">Days on 5.4 Protocol</div><div class="kpi-value">${m.daysOnProtocol}</div><div class="kpi-sub">since ${personStart.toLocaleDateString("en-GB",{day:"numeric",month:"short",year:"numeric"})}</div></div>
+    <div class="kpi-card blue"><div class="kpi-label">Days on 5.4 Protocol</div><div class="kpi-value">${m.daysOnProtocol}</div><div class="kpi-sub">since 13 Apr 2026</div></div>
     <div class="kpi-card"><div class="kpi-label">Days Remaining</div><div class="kpi-value">${m.daysRemaining}</div><div class="kpi-sub">of 91-day protocol</div></div>
     <div class="kpi-card"><div class="kpi-label">Cycle Complete</div><div class="kpi-value">${m.cyclePct}%</div><div class="kpi-sub">of 91-day cycle</div></div>
     <div class="kpi-card ${m.latest?zoneColor(m.latest.protocolZone):''}"><div class="kpi-label">Protocol Zone</div><div class="kpi-value">${m.latest?m.latest.protocolZone||'—':'—'}</div><div class="kpi-sub">latest day</div></div>
@@ -1028,7 +1034,6 @@ function showDashboard(csvText){
   document.getElementById('tabs').classList.add('visible');
   document.getElementById('section-nav').classList.remove('hidden');
   document.getElementById('filter-bar').style.display='flex';
-  // Populate month dropdown
   const allRows=[...(allData.Declan||[]),...(allData.Emi||[])];
   const months=getAvailableMonths(allRows);
   const sel=document.getElementById('month-filter');
@@ -1039,18 +1044,6 @@ function showDashboard(csvText){
   document.getElementById('dash-Declan').classList.add('active');
   setTimeout(fixFilterTop,50);
 }
-
-// Fix sticky filter bar position dynamically
-function fixFilterTop(){
-  const header=document.querySelector('.header');
-  const tabs=document.getElementById('tabs');
-  const nav=document.getElementById('section-nav');
-  const filter=document.getElementById('filter-bar');
-  if(!filter||filter.style.display==='none')return;
-  const top=(header?header.offsetHeight:0)+(tabs&&tabs.classList.contains('visible')?tabs.offsetHeight:0)+(nav&&!nav.classList.contains('hidden')?nav.offsetHeight:0);
-  filter.style.top=top+'px';
-}
-window.addEventListener('resize',fixFilterTop);
 
 // Auto-load data.csv on Netlify
 fetch('data.csv')
