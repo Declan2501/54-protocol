@@ -521,8 +521,9 @@ let allData={},charts={};
 let filterMonth="all",filterWeekend=false;
 
 function getFilteredRows(rows){
+  if(!filterWeekend&&filterMonth==="all")return rows;
   return rows.filter(r=>{
-    if(!r.date)return false;
+    if(!r.date)return true;
     const d=r.date;
     const day=d.getDay();
     const isWeekend=(day===0||day===6);
@@ -651,8 +652,8 @@ function processData(csvText){
       adhereScore:parseScore(row[27]),adherePct:parsePct(row[28]),notes:row[29]||'',
     });
   }
-  data.Declan.sort((a,b)=>a.date-b.date);
-  data.Emi.sort((a,b)=>a.date-b.date);
+  data.Declan.sort((a,b)=>(a.date||0)-(b.date||0));
+  data.Emi.sort((a,b)=>(a.date||0)-(b.date||0));
   return data;
 }
 
