@@ -307,8 +307,8 @@
   .progress-fill { height: 100%; border-radius: 4px; background: linear-gradient(90deg, var(--blue), var(--purple)); }
 
   .no-data { color: var(--dimmed); }
-.filter-bar { display:flex; align-items:center; gap:12px; padding:10px 32px; background:#111720; border-bottom:1px solid var(--border); flex-wrap:wrap; position:sticky; top:167px; z-index:85; left:0; right:0; width:100%; box-sizing:border-box; }
-  [data-theme="light"] .filter-bar { background:#ffffff; }
+.filter-bar { display:flex; align-items:center; gap:12px; padding:10px 32px; background:#111720; border-bottom:1px solid var(--border); flex-wrap:wrap; position:sticky; top:167px; z-index:85; }
+[data-theme="light"] .filter-bar { background:#ffffff; }
 .filter-bar label { font-size:12px; font-weight:700; color:var(--muted); letter-spacing:0.05em; text-transform:uppercase; }
 .filter-select { background:var(--surface2); border:1px solid var(--border2); border-radius:6px; color:var(--text); font-family:Calibri,sans-serif; font-size:13px; padding:5px 10px; cursor:pointer; }
 .filter-toggle { display:flex; align-items:center; gap:8px; }
@@ -337,11 +337,9 @@
     .mobile-theme-btn { display: block; margin-left: auto; background: var(--toggle-bg); border: 1px solid var(--toggle-border); border-radius: 8px; padding: 6px 12px; font-family: Calibri,sans-serif; font-size: 11px; font-weight: 600; color: var(--toggle-text); cursor: pointer; align-self: center; }
     .snav-theme { display: block; }
     .header { height: 72px; }
-    .tabs { top: 72px !important; background: #111720 !important; z-index: 95 !important; }
-    [data-theme="light"] .tabs { background: #ffffff !important; }
-    .filter-bar { position: fixed !important; top: 126px !important; left: 0 !important; right: 0 !important; width: 100% !important; background: #111720 !important; z-index: 84 !important; padding: 8px 16px !important; }
-    [data-theme="light"] .filter-bar { background: #ffffff !important; }
-    .dashboard { padding-top: 60px !important; }
+    .tabs { top: 72px; background: #111720; }
+    [data-theme="light"] .tabs { background: #ffffff; }
+    .filter-bar { top: 126px; }
     .section-nav { top: 126px; }
     .chart-grid { grid-template-columns: 1fr; }
     .bs-grid { grid-template-columns: repeat(4, 1fr); }
