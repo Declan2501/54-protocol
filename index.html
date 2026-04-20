@@ -339,7 +339,7 @@
     .header { height: 72px; }
     .tabs { top: 72px; background: #111720; }
     [data-theme="light"] .tabs { background: #ffffff; }
-    .filter-bar { top: 126px; }
+    .filter-bar { top: 126px; display:flex !important; max-width:100vw; padding:8px 16px; }
     .section-nav { top: 126px; }
     .chart-grid { grid-template-columns: 1fr; }
     .bs-grid { grid-template-columns: repeat(4, 1fr); }
@@ -448,7 +448,7 @@ if (sessionStorage.getItem('54p-auth') === '1') {
   <button class="snav-btn" onclick="scrollToSection('summary')">Summary</button>
 </div>
 
-<div class="filter-bar" id="filter-bar" style="display:none;">
+<div class="filter-bar" id="filter-bar" style="display:none;max-width:100%;overflow:hidden;">
   <label>Month:</label>
   <select class="filter-select" id="month-filter" onchange="filterMonth=this.value;applyFilters();">
     <option value="all">All Time</option>
@@ -1026,7 +1026,7 @@ function showDashboard(csvText){
   allData=processData(csvText);
   document.getElementById('tabs').classList.add('visible');
   document.getElementById('section-nav').classList.remove('hidden');
-  document.getElementById('filter-bar').style.display='flex';
+  const fb=document.getElementById('filter-bar'); fb.style.display='flex'; fb.style.setProperty('display','flex','important');
   const allRows=[...(allData.Declan||[]),...(allData.Emi||[])];
   const months=getAvailableMonths(allRows);
   const sel=document.getElementById('month-filter');
