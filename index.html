@@ -173,6 +173,7 @@
     top: 82px;
     z-index: 95;
     box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+    isolation: isolate;
   }
   .tabs.visible { display: flex; }
 
@@ -252,6 +253,7 @@
     scroll-margin-top: 180px;
   }
   .section-title:first-child { margin-top: 0; }
+  .dashboard { scroll-padding-top: 220px; }
   .section-line { flex: 1; height: 1px; background: var(--border2); }
 
   /* ── KPI CARDS ── */
@@ -307,7 +309,7 @@
   .progress-fill { height: 100%; border-radius: 4px; background: linear-gradient(90deg, var(--blue), var(--purple)); }
 
   .no-data { color: var(--dimmed); }
-.filter-bar { display:flex; align-items:center; gap:12px; padding:10px 32px; background:var(--surface); border-bottom:1px solid var(--border); flex-wrap:wrap; position:sticky; top:175px; z-index:85; box-shadow:0 2px 6px rgba(0,0,0,0.08); }
+.filter-bar { display:flex; align-items:center; gap:12px; padding:10px 32px; background:var(--surface); border-bottom:1px solid var(--border); flex-wrap:wrap; position:sticky; top:176px; z-index:85; box-shadow:0 2px 6px rgba(0,0,0,0.08); isolation:isolate; }
 .filter-bar label { font-size:12px; font-weight:700; color:var(--muted); letter-spacing:0.05em; text-transform:uppercase; }
 .filter-select { background:var(--surface2); border:1px solid var(--border2); border-radius:6px; color:var(--text); font-family:Calibri,sans-serif; font-size:13px; padding:5px 10px; cursor:pointer; }
 .filter-toggle { display:flex; align-items:center; gap:8px; }
@@ -338,6 +340,7 @@
     .header { height: 72px; }
     .tabs { top: 72px; }
     .section-nav { top: 126px; }
+    .filter-bar { top: 168px; }
     .chart-grid { grid-template-columns: 1fr; }
     .bs-grid { grid-template-columns: repeat(4, 1fr); }
     .header, .dashboard { padding-left: 16px; padding-right: 16px; }
@@ -446,7 +449,7 @@ if (sessionStorage.getItem('54p-auth') === '1') {
   <button class="snav-btn" onclick="scrollToSection('summary')">Summary</button>
 </div>
 
-<div class="filter-bar" id="filter-bar" style="display:none;position:sticky;top:174px;z-index:85;">
+<div class="filter-bar" id="filter-bar" style="display:none;">
   <label>Month:</label>
   <select class="filter-select" id="month-filter" onchange="filterMonth=this.value;applyFilters();">
     <option value="all">All Time</option>
