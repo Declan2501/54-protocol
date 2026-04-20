@@ -314,6 +314,7 @@
 .filter-select { background:var(--surface2); border:1px solid var(--border2); border-radius:6px; color:var(--text); font-family:Calibri,sans-serif; font-size:13px; padding:5px 10px; cursor:pointer; }
 .filter-toggle { display:flex; align-items:center; gap:8px; }
 .filter-toggle input[type=checkbox] { width:16px; height:16px; cursor:pointer; accent-color:#22c97a; }
+@media (max-width:768px) { .filter-refresh-btn { display:none; } }
 
   /* Ensure nothing overflows horizontally */
   .chart-grid, .kpi-grid, .bs-grid, .streak-grid, .adhere-grid { width: 100%; }
@@ -456,7 +457,7 @@ if (sessionStorage.getItem('54p-auth') === '1') {
     <input type="checkbox" id="weekend-filter" onchange="filterWeekend=this.checked;applyFilters();">
     <label for="weekend-filter" style="cursor:pointer;text-transform:none;font-size:13px;font-weight:600;">Weekends only</label>
   </div>
-  <button onclick="location.reload();" style="margin-left:auto;background:#22c97a;border:none;border-radius:6px;color:#000;font-family:Calibri,sans-serif;font-size:12px;font-weight:700;padding:6px 16px;cursor:pointer;letter-spacing:0.04em;">↻ Refresh</button>
+  <button class="filter-refresh-btn" onclick="location.reload();" style="margin-left:auto;background:#22c97a;border:none;border-radius:6px;color:#000;font-family:Calibri,sans-serif;font-size:12px;font-weight:700;padding:6px 16px;cursor:pointer;letter-spacing:0.04em;">↻ Refresh</button>
 </div>
 <div class="dashboard" id="dash-Declan"></div>
 <div class="dashboard" id="dash-Emi"></div>
