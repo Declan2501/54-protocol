@@ -307,6 +307,7 @@
   .progress-fill { height: 100%; border-radius: 4px; background: linear-gradient(90deg, var(--blue), var(--purple)); }
 
   .no-data { color: var(--dimmed); }
+.filter-bar.filter-hidden { display:none; }
 .filter-bar { display:flex; align-items:center; gap:12px; padding:10px 32px; background:#111720; border-bottom:1px solid var(--border); flex-wrap:wrap; position:sticky; top:167px; z-index:85; }
 [data-theme="light"] .filter-bar { background:#ffffff; }
 .filter-bar label { font-size:12px; font-weight:700; color:var(--muted); letter-spacing:0.05em; text-transform:uppercase; }
@@ -315,8 +316,6 @@
 .filter-toggle input[type=checkbox] { width:16px; height:16px; cursor:pointer; accent-color:#22c97a; }
 
   /* Ensure nothing overflows horizontally */
-  body { overflow-x: hidden; }
-  .dashboard { overflow-x: hidden; }
   .chart-grid, .kpi-grid, .bs-grid, .streak-grid, .adhere-grid { width: 100%; }
 
   @media (max-width: 1100px) {
@@ -339,9 +338,7 @@
     .header { height: 72px; }
     .tabs { top: 72px; background: #111720; }
     [data-theme="light"] .tabs { background: #ffffff; }
-    .filter-bar { position:fixed !important; top: 126px !important; left:0 !important; right:0 !important; display:flex !important; padding:8px 16px !important; background:#111720 !important; z-index:84 !important; }
-    [data-theme="light"] .filter-bar { background:#ffffff !important; }
-    .dashboard.active { padding-top: 55px !important; }
+    .filter-bar { top: 126px; }
     .section-nav { top: 126px; }
     .chart-grid { grid-template-columns: 1fr; }
     .bs-grid { grid-template-columns: repeat(4, 1fr); }
@@ -450,7 +447,7 @@ if (sessionStorage.getItem('54p-auth') === '1') {
   <button class="snav-btn" onclick="scrollToSection('summary')">Summary</button>
 </div>
 
-<div class="filter-bar" id="filter-bar" style="display:none;max-width:100%;overflow:hidden;">
+<div class="filter-bar filter-hidden" id="filter-bar">
   <label>Month:</label>
   <select class="filter-select" id="month-filter" onchange="filterMonth=this.value;applyFilters();">
     <option value="all">All Time</option>
@@ -1028,7 +1025,7 @@ function showDashboard(csvText){
   allData=processData(csvText);
   document.getElementById('tabs').classList.add('visible');
   document.getElementById('section-nav').classList.remove('hidden');
-  const fb=document.getElementById('filter-bar'); fb.style.display='flex'; fb.style.setProperty('display','flex','important');
+  document.getElementById('filter-bar').classList.remove('filter-hidden');
   const allRows=[...(allData.Declan||[]),...(allData.Emi||[])];
   const months=getAvailableMonths(allRows);
   const sel=document.getElementById('month-filter');
