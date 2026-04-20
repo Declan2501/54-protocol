@@ -198,10 +198,14 @@
   .tab[data-person="Emi"]:hover { background: #3a6070; color: #ffffff; }
 
   /* ── SECTION NAV — sticky below tabs ── */
-  .section-nav {
+  .nav-filter-wrap {
     position: sticky;
     top: 134px;
     z-index: 90;
+    display: flex;
+    flex-direction: column;
+  }
+  .section-nav {
     background: var(--surface);
     border-bottom: 1px solid var(--border);
     padding: 0 32px;
@@ -213,6 +217,7 @@
   }
   .section-nav::-webkit-scrollbar { display: none; }
   .section-nav.hidden { display: none; }
+  .section-nav.hidden ~ * { display: none; }
 
   .snav-btn {
     padding: 10px 18px;
@@ -307,7 +312,7 @@
   .progress-fill { height: 100%; border-radius: 4px; background: linear-gradient(90deg, var(--blue), var(--purple)); }
 
   .no-data { color: var(--dimmed); }
-.filter-bar { display:flex; align-items:center; gap:12px; padding:10px 32px; background:var(--surface); border-bottom:1px solid var(--border); flex-wrap:wrap; position:sticky; top:174px; z-index:85; isolation:isolate; }
+.filter-bar { display:flex; align-items:center; gap:12px; padding:10px 32px; background:var(--surface); border-bottom:1px solid var(--border); flex-wrap:wrap; }
 .filter-bar label { font-size:12px; font-weight:700; color:var(--muted); letter-spacing:0.05em; text-transform:uppercase; }
 .filter-select { background:var(--surface2); border:1px solid var(--border2); border-radius:6px; color:var(--text); font-family:Calibri,sans-serif; font-size:13px; padding:5px 10px; cursor:pointer; }
 .filter-toggle { display:flex; align-items:center; gap:8px; }
@@ -434,6 +439,7 @@ if (sessionStorage.getItem('54p-auth') === '1') {
   <button class="mobile-theme-btn" onclick="toggleTheme()">Light / Dark</button>
 </div>
 
+<div class="nav-filter-wrap" id="nav-filter-wrap">
 <div class="section-nav hidden" id="section-nav">
   <button class="snav-btn" onclick="scrollToSection('progress')">Overall Results</button>
   <button class="snav-btn" onclick="scrollToSection('bloodsugar')">Blood Sugar</button>
@@ -455,6 +461,7 @@ if (sessionStorage.getItem('54p-auth') === '1') {
     <label for="weekend-filter" style="cursor:pointer;text-transform:none;font-size:13px;font-weight:600;">Weekends only</label>
   </div>
   <button onclick="location.reload();" style="margin-left:auto;background:#22c97a;border:none;border-radius:6px;color:#000;font-family:Calibri,sans-serif;font-size:12px;font-weight:700;padding:6px 16px;cursor:pointer;letter-spacing:0.04em;">↻ Refresh</button>
+</div>
 </div>
 <div class="dashboard" id="dash-Declan"></div>
 <div class="dashboard" id="dash-Emi"></div>
@@ -562,16 +569,7 @@ function weekendTickCallback(labels){
   };
 }
 
-function fixFilterTop(){
-  const header=document.querySelector(".header");
-  const tabs=document.getElementById("tabs");
-  const nav=document.getElementById("section-nav");
-  const filter=document.getElementById("filter-bar");
-  if(!filter||filter.style.display==="none")return;
-  const top=(header?header.offsetHeight:0)+(tabs&&tabs.classList.contains("visible")?tabs.offsetHeight:0)+(nav&&!nav.classList.contains("hidden")?nav.offsetHeight:0);
-  filter.style.top=top+"px";
-}
-window.addEventListener("resize",fixFilterTop);
+
 
 // ── THEME ──
 function getTheme(){return document.documentElement.getAttribute('data-theme');}
@@ -1043,7 +1041,6 @@ function showDashboard(csvText){
   renderDashboard('Declan',allData.Declan||[]);
   renderDashboard('Emi',allData.Emi||[]);
   document.getElementById('dash-Declan').classList.add('active');
-  setTimeout(fixFilterTop,50);
 }
 
 // Auto-load data.csv on Netlify
