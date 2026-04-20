@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta http-equiv="refresh" content="60">
+<meta http-equiv="refresh" content="300">
 <title>5.4 Protocol Dashboard</title>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
 <style>
@@ -307,7 +307,7 @@
   .progress-fill { height: 100%; border-radius: 4px; background: linear-gradient(90deg, var(--blue), var(--purple)); }
 
   .no-data { color: var(--dimmed); }
-.filter-bar { display:flex; align-items:center; gap:12px; padding:10px 32px; background:var(--surface); border-bottom:1px solid var(--border); flex-wrap:wrap; }
+.filter-bar { display:flex; align-items:center; gap:12px; padding:10px 32px; background:var(--surface); border-bottom:1px solid var(--border); flex-wrap:wrap; position:sticky; top:175px; z-index:85; box-shadow:0 2px 6px rgba(0,0,0,0.08); }
 .filter-bar label { font-size:12px; font-weight:700; color:var(--muted); letter-spacing:0.05em; text-transform:uppercase; }
 .filter-select { background:var(--surface2); border:1px solid var(--border2); border-radius:6px; color:var(--text); font-family:Calibri,sans-serif; font-size:13px; padding:5px 10px; cursor:pointer; }
 .filter-toggle { display:flex; align-items:center; gap:8px; }
@@ -425,6 +425,7 @@ if (sessionStorage.getItem('54p-auth') === '1') {
     <div style="font-weight:400;letter-spacing:0;margin-top:2px;" id="tagline">Track your journey to better metabolic health — one day at a time.</div>
   </div>
   <button class="theme-toggle" id="themeToggle" onclick="toggleTheme()" title="Toggle theme">Light / Dark</button>
+  <button class="theme-toggle" onclick="location.reload()" title="Refresh data" style="right:140px;">&#8635; Refresh</button>
 </div>
 
 
@@ -445,7 +446,7 @@ if (sessionStorage.getItem('54p-auth') === '1') {
   <button class="snav-btn" onclick="scrollToSection('summary')">Summary</button>
 </div>
 
-<div class="filter-bar" id="filter-bar" style="display:none;">
+<div class="filter-bar" id="filter-bar" style="display:none;position:sticky;top:174px;z-index:85;">
   <label>Month:</label>
   <select class="filter-select" id="month-filter" onchange="filterMonth=this.value;applyFilters();">
     <option value="all">All Time</option>
@@ -454,6 +455,7 @@ if (sessionStorage.getItem('54p-auth') === '1') {
     <input type="checkbox" id="weekend-filter" onchange="filterWeekend=this.checked;applyFilters();">
     <label for="weekend-filter" style="cursor:pointer;text-transform:none;font-size:13px;font-weight:600;">Weekends only</label>
   </div>
+  <button onclick="location.reload();" style="margin-left:auto;background:#22c97a;border:none;border-radius:6px;color:#000;font-family:Calibri,sans-serif;font-size:12px;font-weight:700;padding:6px 16px;cursor:pointer;letter-spacing:0.04em;">↻ Refresh</button>
 </div>
 <div class="dashboard" id="dash-Declan"></div>
 <div class="dashboard" id="dash-Emi"></div>
@@ -553,9 +555,10 @@ function weekendTickCallback(labels){
     if(parts.length!==3)return "";
     const d=new Date(parseInt(parts[2]),parseInt(parts[1])-1,parseInt(parts[0]));
     const day=d.getDay();
-    if(day===6)return "Sat";
-    if(day===0)return "Sun";
-    return "";
+    const shortDate=parts[0]+"/"+parts[1];
+    if(day===6)return ["Sat",shortDate];
+    if(day===0)return ["Sun",shortDate];
+    return shortDate;
   };
 }
 
