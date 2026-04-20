@@ -1026,6 +1026,21 @@ function showDashboard(csvText){
   document.getElementById('tabs').classList.add('visible');
   document.getElementById('section-nav').classList.remove('hidden');
   document.getElementById('filter-bar').classList.remove('filter-hidden');
+  // Mobile sticky fix
+  if(window.innerWidth <= 768){
+    var filter = document.getElementById('filter-bar');
+    var tabs = document.getElementById('tabs');
+    var tabsBottom = tabs ? tabs.getBoundingClientRect().bottom : 126;
+    filter.style.position = 'fixed';
+    filter.style.top = tabsBottom + 'px';
+    filter.style.left = '0';
+    filter.style.right = '0';
+    filter.style.zIndex = '84';
+    filter.style.width = '100%';
+    filter.style.background = document.documentElement.getAttribute('data-theme')==='light' ? '#ffffff' : '#111720';
+    // Add padding to dashboard to compensate
+    document.querySelectorAll('.dashboard').forEach(function(d){ d.style.paddingTop='50px'; });
+  }
   const allRows=[...(allData.Declan||[]),...(allData.Emi||[])];
   const months=getAvailableMonths(allRows);
   const sel=document.getElementById('month-filter');
@@ -1035,33 +1050,6 @@ function showDashboard(csvText){
   renderDashboard('Emi',allData.Emi||[]);
   document.getElementById('dash-Declan').classList.add('active');
 }
-
-// Mobile sticky filter bar via scroll
-(function(){
-  var lastFilterTop = null;
-  function stickyFilter(){
-    var filter = document.getElementById('filter-bar');
-    if(!filter || filter.classList.contains('filter-hidden')) return;
-    var tabs = document.getElementById('tabs');
-    var header = document.querySelector('.header');
-    if(!tabs || !header) return;
-    var tabsBottom = tabs.getBoundingClientRect().bottom;
-    var filterRect = filter.getBoundingClientRect();
-    if(window.innerWidth <= 768){
-      if(filterRect.top > tabsBottom + 1 || filterRect.top < tabsBottom - 1){
-        filter.style.position = 'fixed';
-        filter.style.top = tabsBottom + 'px';
-        filter.style.left = '0';
-        filter.style.right = '0';
-        filter.style.zIndex = '84';
-        filter.style.background = document.documentElement.getAttribute('data-theme')==='light' ? '#ffffff' : '#111720';
-      }
-    }
-  }
-  window.addEventListener('scroll', stickyFilter, {passive:true});
-  window.addEventListener('resize', stickyFilter, {passive:true});
-  setTimeout(stickyFilter, 500);
-})();
 
 // Auto-load data.csv on Netlify
 fetch('data.csv')
