@@ -338,7 +338,9 @@
     .header { height: 72px; }
     .tabs { top: 72px; background: #111720; }
     [data-theme="light"] .tabs { background: #ffffff; }
-    .filter-bar { position:sticky; top: 126px; background:#111720 !important; }
+    .filter-bar { position:fixed; top: 126px; left:0; right:0; background:#111720 !important; z-index:84; padding:8px 16px; }
+    [data-theme="light"] .filter-bar { background:#ffffff !important; }
+    #dash-Declan, #dash-Emi { padding-top:50px; }
     .section-nav { top: 126px; }
     .chart-grid { grid-template-columns: 1fr; }
     .bs-grid { grid-template-columns: repeat(4, 1fr); }
