@@ -338,9 +338,7 @@
     .header { height: 72px; }
     .tabs { top: 72px; background: #111720; }
     [data-theme="light"] .tabs { background: #ffffff; }
-    .filter-bar { position:fixed; top: 126px; left:0; right:0; background:#111720 !important; z-index:84; padding:8px 16px; }
-    [data-theme="light"] .filter-bar { background:#ffffff !important; }
-    #dash-Declan, #dash-Emi { padding-top:50px; }
+    .filter-bar { top: 126px; }
     .section-nav { top: 126px; }
     .chart-grid { grid-template-columns: 1fr; }
     .bs-grid { grid-template-columns: repeat(4, 1fr); }
@@ -1037,6 +1035,33 @@ function showDashboard(csvText){
   renderDashboard('Emi',allData.Emi||[]);
   document.getElementById('dash-Declan').classList.add('active');
 }
+
+// Mobile sticky filter bar via scroll
+(function(){
+  var lastFilterTop = null;
+  function stickyFilter(){
+    var filter = document.getElementById('filter-bar');
+    if(!filter || filter.classList.contains('filter-hidden')) return;
+    var tabs = document.getElementById('tabs');
+    var header = document.querySelector('.header');
+    if(!tabs || !header) return;
+    var tabsBottom = tabs.getBoundingClientRect().bottom;
+    var filterRect = filter.getBoundingClientRect();
+    if(window.innerWidth <= 768){
+      if(filterRect.top > tabsBottom + 1 || filterRect.top < tabsBottom - 1){
+        filter.style.position = 'fixed';
+        filter.style.top = tabsBottom + 'px';
+        filter.style.left = '0';
+        filter.style.right = '0';
+        filter.style.zIndex = '84';
+        filter.style.background = document.documentElement.getAttribute('data-theme')==='light' ? '#ffffff' : '#111720';
+      }
+    }
+  }
+  window.addEventListener('scroll', stickyFilter, {passive:true});
+  window.addEventListener('resize', stickyFilter, {passive:true});
+  setTimeout(stickyFilter, 500);
+})();
 
 // Auto-load data.csv on Netlify
 fetch('data.csv')
