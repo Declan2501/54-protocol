@@ -309,7 +309,7 @@
   .progress-fill { height: 100%; border-radius: 4px; background: linear-gradient(90deg, var(--blue), var(--purple)); }
 
   .no-data { color: var(--dimmed); }
-.filter-bar { display:flex; align-items:center; gap:12px; padding:10px 32px; background:var(--surface); border-bottom:1px solid var(--border); flex-wrap:wrap; position:sticky; top:176px; z-index:85; box-shadow:0 2px 6px rgba(0,0,0,0.08); isolation:isolate; }
+.filter-bar { display:flex; align-items:center; gap:12px; padding:10px 32px; background:var(--surface); border-bottom:1px solid var(--border); flex-wrap:wrap; position:sticky; top:174px; z-index:85; margin-top:-1px; isolation:isolate; }
 .filter-bar label { font-size:12px; font-weight:700; color:var(--muted); letter-spacing:0.05em; text-transform:uppercase; }
 .filter-select { background:var(--surface2); border:1px solid var(--border2); border-radius:6px; color:var(--text); font-family:Calibri,sans-serif; font-size:13px; padding:5px 10px; cursor:pointer; }
 .filter-toggle { display:flex; align-items:center; gap:8px; }
@@ -340,7 +340,7 @@
     .header { height: 72px; }
     .tabs { top: 72px; }
     .section-nav { top: 126px; }
-    .filter-bar { top: 168px; }
+    .filter-bar { top: 166px; }
     .chart-grid { grid-template-columns: 1fr; }
     .bs-grid { grid-template-columns: repeat(4, 1fr); }
     .header, .dashboard { padding-left: 16px; padding-right: 16px; }
@@ -903,7 +903,7 @@ function renderDashboard(person,rows){
   mkLine(`${person}-hba1c-trend`,m.hasHba1c.map(r=>r.dateStr),[
     {label:'HbA1c Proj.',data:m.hasHba1c.map(r=>r.hba1cProj),borderColor:hex,backgroundColor:hex+'22',borderWidth:2,pointRadius:3,pointBackgroundColor:hex,fill:true,tension:0.3,spanGaps:true},
     {label:'Target 5.4%',data:m.hasHba1c.map(()=>HBAIC_TARGET),borderColor:c.targetLine,borderWidth:1.5,borderDash:[6,4],pointRadius:0,fill:false}
-  ],{legend:true,yScale:{min:4,suggestedMax:8}});
+  ],{legend:true,yScale:{min:4,suggestedMax:8},weekendTicks:true});
 
   mkLine(`${person}-weight-trend`,m.hasWeight.map(r=>r.dateStr),[
     {label:'Weight (kg)',data:m.hasWeight.map(r=>r.weight),borderColor:hex,backgroundColor:hex+'22',borderWidth:2,pointRadius:3,pointBackgroundColor:hex,fill:true,tension:0.3,spanGaps:true},
