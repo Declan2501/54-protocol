@@ -686,7 +686,7 @@ function renderDashboard(person,rows){
 
   el.innerHTML=`
   <div class="section-title" id="section-progress">5.4 Protocol — Overall Results <span class="section-line"></span></div>
-  <div style="font-size:15px;color:var(--muted);margin-bottom:14px;margin-top:-8px;">Your start and end metrics for the 91-day protocol — the proof of what lifestyle change alone can achieve.</div>
+  <div style="font-size:16px;color:#b0bdd4;margin-bottom:14px;margin-top:-8px;">Your start and end metrics for the 91-day protocol — the proof of what lifestyle change alone can achieve.</div>
   <div class="progress-wrap">
     <div class="progress-label"><span>Day ${m.daysOnProtocol} of ${CYCLE_DAYS}</span><span>${m.cyclePct}% complete — ${m.daysRemaining} days remaining</span></div>
     <div class="progress-bar"><div class="progress-fill" style="width:${m.cyclePct}%"></div></div>
@@ -712,7 +712,7 @@ function renderDashboard(person,rows){
     </div>
   </div>
   <div class="section-title" style="margin-top:24px;">Current 5.4 Protocol Progress <span class="section-line"></span></div>
-  <div style="font-size:15px;color:var(--muted);margin-bottom:14px;margin-top:-8px;">Where you are right now in the 91-day cycle.</div>
+  <div style="font-size:16px;color:#b0bdd4;margin-bottom:14px;margin-top:-8px;">Where you are right now in the 91-day cycle.</div>
   <div class="kpi-grid">
     <div class="kpi-card blue"><div class="kpi-label">Days on 5.4 Protocol</div><div class="kpi-value">${m.daysOnProtocol}</div><div class="kpi-sub">since 13 Apr 2026</div></div>
     <div class="kpi-card"><div class="kpi-label">Days Remaining</div><div class="kpi-value">${m.daysRemaining}</div><div class="kpi-sub">of 91-day protocol</div></div>
@@ -722,7 +722,7 @@ function renderDashboard(person,rows){
   </div>
 
   <div class="section-title" id="section-bloodsugar">Blood Sugar <span class="section-line"></span></div>
-  <div style="font-size:15px;color:var(--muted);margin-bottom:14px;margin-top:-8px;">Your blood glucose readings in mmol/L across all 7 daily time slots. Lower and more consistent readings indicate better metabolic control.</div>
+  <div style="font-size:16px;color:#b0bdd4;margin-bottom:14px;margin-top:-8px;">Your blood glucose readings in mmol/L across all 7 daily time slots. Lower and more consistent readings indicate better metabolic control.</div>
   <div class="kpi-grid">
     <div class="kpi-card"><div class="kpi-label">Daily Avg</div><div class="kpi-value">${m.latest?fmt(m.latest.dailyAvg):'—'}</div><div class="kpi-sub">mmol/L</div></div>
     <div class="kpi-card"><div class="kpi-label">7-Day Avg</div><div class="kpi-value">${fmt(m.rolling7bs)}</div><div class="kpi-sub">mmol/L</div></div>
@@ -736,13 +736,13 @@ function renderDashboard(person,rows){
   </div>
 
   <div class="section-title" style="margin-top:16px;">Latest readings by time slot <span class="section-line"></span></div>
-  <div style="font-size:15px;color:var(--muted);margin-bottom:14px;margin-top:-8px;">Today's readings at each of the 7 test times, alongside your all-time average for that slot.</div>
+  <div style="font-size:16px;color:#b0bdd4;margin-bottom:14px;margin-top:-8px;">Today's readings at each of the 7 test times, alongside your all-time average for that slot.</div>
   <div class="bs-grid">
     ${BS_SLOTS.map(s=>{const val=m.latest?m.latest.bs[s.key]:null;const avg=m.slotAvgs[s.key];const cls=bsColorClass(val,s.key);return`<div class="bs-slot ${cls}"><div class="bs-time">${s.key}</div><div class="bs-val">${val!==null?val.toFixed(1):'—'}</div><div class="bs-avg">avg ${avg!==null?avg.toFixed(1):'—'}</div></div>`;}).join('')}
   </div>
 
   <div class="section-title" style="margin-top:24px;">Blood Sugar Deltas <span class="section-line"></span></div>
-  <div style="font-size:15px;color:var(--muted);margin-bottom:14px;margin-top:-8px;">Average change in mmol/L between specific time points — negative values indicate a drop, which is the desired outcome for the exercise effect.</div>
+  <div style="font-size:16px;color:#b0bdd4;margin-bottom:14px;margin-top:-8px;">Average change in mmol/L between specific time points — negative values indicate a drop, which is the desired outcome for the exercise effect.</div>
   <div class="kpi-grid">
     <div class="kpi-card"><div class="kpi-label">Dawn Phenomenon</div><div class="kpi-value">${m.dawnDelta!==null?(m.dawnDelta>=0?'+':'')+m.dawnDelta.toFixed(2):'—'}</div><div class="kpi-sub">avg 05:00→09:00</div></div>
     <div class="kpi-card"><div class="kpi-label">Meal Impact</div><div class="kpi-value">${m.mealDelta!==null?(m.mealDelta>=0?'+':'')+m.mealDelta.toFixed(2):'—'}</div><div class="kpi-sub">avg 17:00→19:30</div></div>
@@ -759,7 +759,7 @@ function renderDashboard(person,rows){
   </div>
 
   <div class="section-title" id="section-hba1c"><span style="text-transform:none;">HbA1c</span> Projection <span class="section-line"></span></div>
-  <div style="font-size:15px;color:var(--muted);margin-bottom:14px;margin-top:-8px;">HbA1c reflects your average blood sugar over the past 90 days. The projection is calculated from your cumulative daily average using the standard formula.</div>
+  <div style="font-size:16px;color:#b0bdd4;margin-bottom:14px;margin-top:-8px;">HbA1c reflects your average blood sugar over the past 90 days. The projection is calculated from your cumulative daily average using the standard formula.</div>
   <div class="kpi-grid">
     <div class="kpi-card"><div class="kpi-label"><span style="text-transform:none;">HbA1c</span> Start</div><div class="kpi-value">${tgt.startHba1c}%</div><div class="kpi-sub">baseline</div></div>
     <div class="kpi-card ${m.latestHba1c?(m.latestHba1c.hba1cProj<=HBAIC_TARGET?'green':m.latestHba1c.hba1cProj<=6.0?'amber':'red'):''}"><div class="kpi-label">Current Proj.</div><div class="kpi-value">${m.latestHba1c?fmt(m.latestHba1c.hba1cProj)+'%':'—'}</div><div class="kpi-sub">target ≤${HBAIC_TARGET}%</div></div>
@@ -770,7 +770,7 @@ function renderDashboard(person,rows){
   </div>
 
   <div class="section-title" id="section-weight">Weight <span class="section-line"></span></div>
-  <div style="font-size:15px;color:var(--muted);margin-bottom:14px;margin-top:-8px;">Tracks your weight loss progress against your target. Early losses are typically water and glycogen — fat loss becomes the primary driver from week 2 onwards.</div>
+  <div style="font-size:16px;color:#b0bdd4;margin-bottom:14px;margin-top:-8px;">Tracks your weight loss progress against your target. Early losses are typically water and glycogen — fat loss becomes the primary driver from week 2 onwards.</div>
   <div class="kpi-grid">
     <div class="kpi-card"><div class="kpi-label">Current Weight</div><div class="kpi-value">${m.latestWeight?fmt(m.latestWeight.weight)+'kg':'—'}</div><div class="kpi-sub">target ${tgt.weight}kg</div></div>
     <div class="kpi-card"><div class="kpi-label">Start Weight</div><div class="kpi-value">${tgt.startWeight}kg</div><div class="kpi-sub">baseline</div></div>
@@ -785,7 +785,7 @@ function renderDashboard(person,rows){
   </div>
 
   <div class="section-title" id="section-adherence">5.4 Protocol Adherence <span class="section-line"></span></div>
-  <div style="font-size:15px;color:var(--muted);margin-bottom:14px;margin-top:-8px;">How consistently you are completing all 7 protocol elements each day. Higher adherence directly correlates with better outcomes.</div>
+  <div style="font-size:16px;color:#b0bdd4;margin-bottom:14px;margin-top:-8px;">How consistently you are completing all 7 protocol elements each day. Higher adherence directly correlates with better outcomes.</div>
   <div class="kpi-grid">
     <div class="kpi-card ${m.cumAdh!==null?(m.cumAdh>=90?'green':m.cumAdh>=70?'amber':'red'):''}"><div class="kpi-label">Cumul. Adherence</div><div class="kpi-value">${m.cumAdh!==null?m.cumAdh+'%':'—'}</div><div class="kpi-sub">all days average</div></div>
     <div class="kpi-card"><div class="kpi-label">7-Day Adherence</div><div class="kpi-value">${m.rolling7adh!==null?Math.round(m.rolling7adh)+'%':'—'}</div><div class="kpi-sub">rolling week</div></div>
@@ -795,7 +795,7 @@ function renderDashboard(person,rows){
   </div>
 
   <div class="section-title" style="margin-top:16px;">Per-item compliance <span class="section-line"></span></div>
-  <div style="font-size:15px;color:var(--muted);margin-bottom:14px;margin-top:-8px;">Completion rate for each individual protocol element across all logged days.</div>
+  <div style="font-size:16px;color:#b0bdd4;margin-bottom:14px;margin-top:-8px;">Completion rate for each individual protocol element across all logged days.</div>
   <div class="adhere-grid">
     ${ADHERENCE_ITEMS.map(item=>{const rate=m.itemRates[item.key];const col=rate===null?'var(--adhere-null)':rate>=90?'var(--adhere-green)':rate>=70?'var(--adhere-amber)':'var(--adhere-red)';return`<div class="adhere-item"><div class="adhere-name">${item.label}</div><div class="adhere-pct" style="color:${col}">${rate!==null?rate+'%':'—'}</div><div class="adhere-bar"><div class="adhere-fill" style="width:${rate||0}%;background:${col}"></div></div></div>`;}).join('')}
   </div>
@@ -804,7 +804,7 @@ function renderDashboard(person,rows){
   </div>
 
   <div class="section-title" id="section-exercise">Exercise <span class="section-line"></span></div>
-  <div style="font-size:15px;color:var(--muted);margin-bottom:14px;margin-top:-8px;">Post-OMAD resistance exercise helps lower blood sugar by driving glucose into muscle cells. Escalated rep days occur when blood sugar exceeds 7.5 mmol/L.</div>
+  <div style="font-size:16px;color:#b0bdd4;margin-bottom:14px;margin-top:-8px;">Post-OMAD resistance exercise helps lower blood sugar by driving glucose into muscle cells. Escalated rep days occur when blood sugar exceeds 7.5 mmol/L.</div>
   <div class="kpi-grid">
     <div class="kpi-card ${m.exRate!==null?(m.exRate>=85?'green':m.exRate>=60?'amber':'red'):''}"><div class="kpi-label">Completion Rate</div><div class="kpi-value">${m.exRate!==null?m.exRate+'%':'—'}</div><div class="kpi-sub">${m.exDone} sessions done</div></div>
     <div class="kpi-card"><div class="kpi-label">Exercise Streak</div><div class="kpi-value">${m.exStreak}</div><div class="kpi-sub">consecutive days</div></div>
@@ -812,7 +812,7 @@ function renderDashboard(person,rows){
   </div>
 
   <div class="section-title" id="section-streaks">Streaks &amp; Milestones <span class="section-line"></span></div>
-  <div style="font-size:15px;color:var(--muted);margin-bottom:14px;margin-top:-8px;">Consecutive day streaks and cumulative milestones — a motivational view of consistency over time.</div>
+  <div style="font-size:16px;color:#b0bdd4;margin-bottom:14px;margin-top:-8px;">Consecutive day streaks and cumulative milestones — a motivational view of consistency over time.</div>
   <div class="streak-grid">
     <div class="streak-card"><div class="streak-icon">🔥</div><div><div class="streak-label">Perfect Day Streak</div><div class="streak-val">${m.perfStreak} days</div></div></div>
     <div class="streak-card"><div class="streak-icon">💪</div><div><div class="streak-label">Exercise Streak</div><div class="streak-val">${m.exStreak} days</div></div></div>
@@ -823,7 +823,7 @@ function renderDashboard(person,rows){
   <div style="height:40px;"></div>
 
   <div class="section-title" id="section-summary">5.4 Protocol Summary <span class="section-line"></span></div>
-  <div style="font-size:15px;color:var(--muted);margin-bottom:14px;margin-top:-8px;">An automated analysis of your current data across all protocol metrics, updated each time new data is loaded.</div>
+  <div style="font-size:16px;color:#b0bdd4;margin-bottom:14px;margin-top:-8px;">An automated analysis of your current data across all protocol metrics, updated each time new data is loaded.</div>
   <div style="background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:8px 24px 0;margin-bottom:40px;">
     ${generateSummary(m, person)}
   </div>`;
