@@ -660,7 +660,7 @@ function bsColorClass(val,slot){
 function calcMetrics(rows,person){
   const hasData=rows.filter(r=>r.dailyAvg!==null),hasWeight=rows.filter(r=>r.weight!==null),hasAdhere=rows.filter(r=>r.adhereScore!==null),hasExercise=rows.filter(r=>r.exercise!==''),hasHba1c=rows.filter(r=>r.hba1cProj!==null);
   const today=new Date();
-  const personStart=rows.length&&rows[0].date?rows[0].date:PROTOCOL_START;
+  const personStart=rows.filter(r=>r.date).length?rows.filter(r=>r.date)[0].date:PROTOCOL_START;
   const daysOnProtocol=Math.max(1,Math.floor((today-personStart)/86400000)+1);
   const daysRemaining=Math.max(0,CYCLE_DAYS-daysOnProtocol);
   const cyclePct=Math.min(100,Math.round((daysOnProtocol/CYCLE_DAYS)*100));
