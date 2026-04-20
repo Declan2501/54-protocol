@@ -1036,7 +1036,21 @@ function showDashboard(csvText){
   renderDashboard('Declan',allData.Declan||[]);
   renderDashboard('Emi',allData.Emi||[]);
   document.getElementById('dash-Declan').classList.add('active');
+  setTimeout(positionFilterBar, 100);
 }
+
+// Dynamically position filter bar below tabs on mobile
+function positionFilterBar() {
+  const header = document.querySelector('.header');
+  const tabs = document.getElementById('tabs');
+  const filter = document.getElementById('filter-bar');
+  if (!filter || filter.style.display === 'none') return;
+  const headerH = header ? header.getBoundingClientRect().height : 0;
+  const tabsH = tabs ? tabs.getBoundingClientRect().height : 0;
+  filter.style.top = (headerH + tabsH) + 'px';
+}
+window.addEventListener('resize', positionFilterBar);
+window.addEventListener('scroll', positionFilterBar, {passive: true});
 
 // Auto-load data.csv on Netlify
 fetch('data.csv')
