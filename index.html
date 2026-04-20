@@ -174,6 +174,7 @@
     top: 82px;
     z-index: 95;
     box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+    will-change: transform;
   }
   .tabs.visible { display: flex; }
 
@@ -340,7 +341,7 @@
     .header { height: 72px; }
     .tabs { top: 72px; }
     .section-nav { top: 126px; }
-    .filter-bar { top: 168px !important; }
+    .filter-bar { top: 168px; }
     .chart-grid { grid-template-columns: 1fr; }
     .bs-grid { grid-template-columns: repeat(4, 1fr); }
     .header, .dashboard { padding-left: 16px; padding-right: 16px; }
@@ -564,8 +565,6 @@ function weekendTickCallback(labels){
     return shortDate;
   };
 }
-
-
 
 // ── THEME ──
 function getTheme(){return document.documentElement.getAttribute('data-theme');}
