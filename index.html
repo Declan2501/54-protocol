@@ -678,7 +678,7 @@ function calcMetrics(rows,person){
   const perfStreak=streak(hasAdhere,r=>r.adhereScore&&r.adhereScore.num===r.adhereScore.den);
   const exStreak=streak(hasExercise,r=>r.exercise.toLowerCase()==='yes');
   const nonDiabeticStreak=streak(rows.filter(r=>r.whoZone!==''),r=>r.whoZone.toLowerCase()!=='diabetic');
-  const greenStreak=streak(hasData,r=>{const rdgs=BS_SLOTS.map(s=>({v:r.bs[s.key],k:s.key})).filter(x=>x.v!==null);return rdgs.length>0&&rdgs.every(x=>bsColorClass(x.v,x.k)==='green');});
+  const greenStreak=streak(hasData,r=>{const rdgs=BS_SLOTS.map(s=>({v:r.bs[s.key],k:s.key})).filter(x=>x.v!==null);return rdgs.length===BS_SLOTS.length&&rdgs.every(x=>bsColorClass(x.v,x.k)==='green');});
   const exDone=hasExercise.filter(r=>r.exercise.toLowerCase()==='yes').length;
   const exRate=hasExercise.length?Math.round((exDone/hasExercise.length)*100):null;
   const zoneCounts={},whoCounts={};
