@@ -906,6 +906,26 @@ function renderDashboard(person,rows){
   </div>
   <div style="height:40px;"></div>
 
+  <div class="section-title" id="section-bloodtests">Blood Test Record <span class="section-line"></span></div>
+  <div style="font-size:16px;color:#b0bdd4;margin-bottom:14px;margin-top:-8px;">A full record of every blood glucose reading, colour coded against your personal targets.</div>
+  <div style="display:flex;align-items:center;gap:12px;margin-bottom:16px;flex-wrap:wrap;">
+    <label style="font-size:12px;font-weight:700;color:var(--muted);letter-spacing:0.05em;text-transform:uppercase;">Month:</label>
+    <select class="bt-month-filter" id="${person}-bt-month" onchange="renderBTTable('${person}')">
+      <option value="all">All Time</option>
+      ${getMonthOptions(person)}
+    </select>
+    <button class="bt-toggle-btn" id="${person}-bt-toggle" onclick="toggleBTTable('${person}')">Hide Table</button>
+  </div>
+  <div id="${person}-bt-wrap" class="bt-table-wrap">
+    <table class="bt-table">
+      <thead><tr>
+        <th>Date</th><th>05:00</th><th>09:00</th><th>13:00</th><th>17:00</th><th>18:30</th><th>19:30</th><th>22:00</th><th>Daily Avg</th><th>Protocol Zone</th><th>WHO Zone</th>
+      </tr></thead>
+      <tbody id="${person}-bt-body"></tbody>
+    </table>
+  </div>
+  <div style="height:24px;"></div>
+
   <div class="section-title" id="section-summary">5.4 Protocol Summary <span class="section-line"></span></div>
   <div style="font-size:16px;color:#b0bdd4;margin-bottom:14px;margin-top:-8px;">An automated analysis of your current data across all protocol metrics, updated each time new data is loaded.</div>
   <div style="background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:8px 24px 0;margin-bottom:40px;">
