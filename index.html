@@ -309,6 +309,22 @@
   .progress-fill { height: 100%; border-radius: 4px; background: linear-gradient(90deg, var(--blue), var(--purple)); }
 
   .no-data { color: var(--dimmed); }
+.bt-table-wrap { overflow-x: auto; margin-bottom: 8px; }
+.bt-table { width: 100%; border-collapse: collapse; font-family: Calibri, sans-serif; font-size: 13px; }
+.bt-table th { background: var(--surface2); color: var(--muted); font-size: 11px; font-weight: 700; letter-spacing: 0.05em; text-transform: uppercase; padding: 8px 12px; text-align: center; border-bottom: 2px solid var(--border2); white-space: nowrap; }
+.bt-table th:first-child { text-align: left; }
+.bt-table td { padding: 7px 12px; text-align: center; border-bottom: 1px solid var(--border); color: var(--text); font-weight: 600; }
+.bt-table td:first-child { text-align: left; font-weight: 700; color: var(--muted); white-space: nowrap; }
+.bt-table tr:hover td { background: var(--surface2); }
+.bt-table td.green { color: var(--green); }
+.bt-table td.amber { color: var(--amber); }
+.bt-table td.red { color: var(--red); }
+.bt-table td.empty { color: var(--dimmed); }
+.bt-table td.zone-danger { color: var(--red); }
+.bt-table td.zone-warning { color: var(--amber); }
+.bt-table td.zone-normal { color: var(--green); }
+.bt-month-filter { background: var(--surface2); border: 1px solid var(--border2); border-radius: 6px; color: var(--text); font-family: Calibri, sans-serif; font-size: 13px; padding: 5px 10px; cursor: pointer; margin-right: 12px; }
+.bt-toggle-btn { background: var(--surface2); border: 1px solid var(--border2); border-radius: 6px; color: var(--text); font-family: Calibri, sans-serif; font-size: 12px; font-weight: 700; padding: 5px 14px; cursor: pointer; }
 .filter-bar.filter-hidden { display:none; }
 .filter-bar { display:flex; align-items:center; gap:12px; padding:10px 32px; background:#111720; border-bottom:1px solid var(--border); flex-wrap:wrap; position:sticky; top:167px; z-index:85; }
 [data-theme="light"] .filter-bar { background:#ffffff; }
@@ -449,6 +465,7 @@ if (sessionStorage.getItem('54p-auth') === '1') {
   <button class="snav-btn" onclick="scrollToSection('exercise')">Exercise</button>
   <button class="snav-btn" onclick="scrollToSection('streaks')">Streaks</button>
   <button class="snav-btn" onclick="scrollToSection('summary')">Summary</button>
+  <button class="snav-btn" onclick="scrollToSection('bloodtests')">Blood Tests</button>
 </div>
 
 <div class="filter-bar filter-hidden" id="filter-bar">
@@ -914,6 +931,7 @@ function renderDashboard(person,rows){
   ],{legend:true,yScale:{min:tgt.weight-10},weekendTicks:true});
 
   mkLine(`${person}-adhere-trend`,m.hasAdhere.map(r=>r.dateStr),[{label:'Adherence %',data:m.hasAdhere.map(r=>r.adherePct),borderColor:'#6b3fa0',backgroundColor:'rgba(107,63,160,0.1)',borderWidth:2,pointRadius:3,pointBackgroundColor:'#6b3fa0',fill:true,tension:0.2,spanGaps:true}],{yScale:{min:0,suggestedMax:110},weekendTicks:true});
+  setTimeout(()=>renderBTTable(person),100);
 }
 
 function generateSummary(m, person) {
@@ -1013,6 +1031,47 @@ function generateSummary(m, person) {
       </div>
     </div>
   `).join('');
+}
+
+function getMonthOptions(person){
+  const rows = allData[person]||[];
+  const months = new Set();
+  rows.forEach(r=>{if(r.date)months.add(r.date.getMonth());});
+  return Array.from(months).sort((a,b)=>a-b).map(m=>`<option value="${m}">${MONTH_NAMES[m]}</option>`).join('');
+}
+
+function toggleBTTable(person){
+  const wrap = document.getElementById(person+'-bt-wrap');
+  const btn = document.getElementById(person+'-bt-toggle');
+  if(wrap.style.display==='none'){wrap.style.display='';btn.textContent='Hide Table';}
+  else{wrap.style.display='none';btn.textContent='Show Table';}
+}
+
+function renderBTTable(person){
+  const sel = document.getElementById(person+'-bt-month');
+  const month = sel ? sel.value : 'all';
+  const rows = (allData[person]||[]).filter(r=>{
+    if(!r.date) return false;
+    if(month!=='all' && r.date.getMonth()!==parseInt(month)) return false;
+    return true;
+  }).slice().reverse();
+  
+  const tbody = document.getElementById(person+'-bt-body');
+  if(!tbody) return;
+  
+  tbody.innerHTML = rows.map(r=>{
+    const slots = ['05:00','09:00','13:00','17:00','18:30','19:30','22:00'];
+    const cells = slots.map(s=>{
+      const v = r.bs[s];
+      if(v===null||v===undefined) return '<td class="empty">—</td>';
+      const cls = bsColorClass(v,s);
+      return `<td class="${cls}">${v.toFixed(1)}</td>`;
+    }).join('');
+    const avgCell = r.dailyAvg!==null?`<td>${r.dailyAvg.toFixed(1)}</td>`:'<td class="empty">—</td>';
+    const zoneClass = r.protocolZone?(r.protocolZone.toLowerCase().includes('danger')?'zone-danger':r.protocolZone.toLowerCase().includes('warning')?'zone-warning':'zone-normal'):'';
+    const whoClass = r.whoZone?(r.whoZone.toLowerCase().includes('diabetic')&&!r.whoZone.toLowerCase().includes('pre')?'zone-danger':r.whoZone.toLowerCase().includes('pre')?'zone-warning':'zone-normal'):'';
+    return `<tr><td>${r.dateStr}</td>${cells}${avgCell}<td class="${zoneClass}">${r.protocolZone||'—'}</td><td class="${whoClass}">${r.whoZone||'—'}</td></tr>`;
+  }).join('');
 }
 
 function scrollToSection(id){const el=document.getElementById('section-'+id);if(el)el.scrollIntoView({behavior:'smooth',block:'start'});}
