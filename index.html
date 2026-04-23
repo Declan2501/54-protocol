@@ -925,7 +925,7 @@ function renderDashboard(person,rows){
   <div id="${person}-bt-wrap" class="bt-table-wrap">
     <table class="bt-table">
       <thead><tr>
-        <th>Date</th><th>05:00</th><th>09:00</th><th>13:00</th><th>17:00</th><th>18:30</th><th>19:30</th><th>22:00</th><th>Daily Avg</th><th>Protocol Zone</th><th>WHO Zone</th>
+        <th>Date</th><th>05:00</th><th>09:00</th><th>13:00</th><th>17:00</th><th>18:30</th><th>19:30</th><th>22:00</th><th>Daily Avg</th><th>Protocol Zone</th><th>WHO Zone</th><th>Notes</th>
       </tr></thead>
       <tbody id="${person}-bt-body"></tbody>
     </table>
@@ -1090,7 +1090,8 @@ function renderBTTable(person){
     const avgCell = r.dailyAvg!==null?`<td>${r.dailyAvg.toFixed(1)}</td>`:'<td class="empty">—</td>';
     const zoneClass = r.protocolZone?(r.protocolZone.toLowerCase().includes('danger')?'zone-danger':r.protocolZone.toLowerCase().includes('warning')?'zone-warning':'zone-normal'):'';
     const whoClass = r.whoZone?(r.whoZone.toLowerCase().includes('diabetic')&&!r.whoZone.toLowerCase().includes('pre')?'zone-danger':r.whoZone.toLowerCase().includes('pre')?'zone-warning':'zone-normal'):'';
-    return `<tr><td>${r.dateStr}</td>${cells}${avgCell}<td class="${zoneClass}">${r.protocolZone||'—'}</td><td class="${whoClass}">${r.whoZone||'—'}</td></tr>`;
+    const notesCell = r.notes ? `<td style="text-align:left;color:var(--muted);font-size:12px;">${r.notes}</td>` : '<td class="empty">—</td>';
+    return `<tr><td>${r.dateStr}</td>${cells}${avgCell}<td class="${zoneClass}">${r.protocolZone||'—'}</td><td class="${whoClass}">${r.whoZone||'—'}</td>${notesCell}</tr>`;
   }).join('');
 }
 
