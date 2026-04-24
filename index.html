@@ -766,10 +766,10 @@ function whoZoneColor(z){
   const l=z.toLowerCase();
   if(l.includes('diabetic')&&!l.includes('pre'))return'var(--red)';
   if(l.includes('pre'))return'var(--amber)';
-  if(l==='high normal')return'#6aa84f';
-  if(l==='mid normal')return'#93c47d';
-  if(l==='low normal')return'#d9ead3';
-  if(l==='normal')return'#93c47d';
+  if(l.includes('high end'))return'#6aa84f';
+  if(l.includes('mid'))return'#93c47d';
+  if(l.includes('low end'))return'#d9ead3';
+  if(l.includes('normal'))return'#93c47d';
   return'var(--blue)';
 }
 
