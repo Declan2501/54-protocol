@@ -447,7 +447,7 @@ if (sessionStorage.getItem('54p-auth') === '1') {
   <div class="logo">5.4 Protocol
     <div style="font-weight:400;letter-spacing:0;margin-top:2px;" id="tagline">Track your journey to better metabolic health — one day at a time.</div>
   </div>
-  <a href="https://docs.google.com/spreadsheets/d/1P9opd3DKDLObXEkGpkEdTqaI1AxgF7dRuSF9HoxdzlQ/edit" target="_blank" class="spreadsheet-link" style="position:absolute;right:160px;background:var(--toggle-bg);border:1px solid var(--toggle-border);border-radius:8px;padding:6px 14px;font-family:Calibri,sans-serif;font-size:12px;font-weight:600;color:var(--toggle-text);text-decoration:none;letter-spacing:0.03em;">📊 5.4 Protocol Tracker</a>
+  <a href="https://docs.google.com/spreadsheets/d/1P9opd3DKDLObXEkGpkEdTqaI1AxgF7dRuSF9HoxdzlQ/edit" target="_blank" class="spreadsheet-link" style="position:absolute;right:160px;background:var(--toggle-bg);border:1px solid var(--toggle-border);border-radius:8px;padding:6px 14px;font-family:Calibri,sans-serif;font-size:12px;font-weight:600;color:var(--toggle-text);text-decoration:none;letter-spacing:0.03em;">📊 Spreadsheet</a>
   <button class="theme-toggle" id="themeToggle" onclick="toggleTheme()" title="Toggle theme">Light / Dark</button>
 </div>
 
@@ -467,7 +467,7 @@ if (sessionStorage.getItem('54p-auth') === '1') {
   <button class="snav-btn" onclick="scrollToSection('exercise')">Exercise</button>
   <button class="snav-btn" onclick="scrollToSection('streaks')">Streaks</button>
   <button class="snav-btn" onclick="scrollToSection('summary')">Summary</button>
-  <button class="snav-btn" onclick="scrollToSection('bloodtests')">Blood Test Records</button>
+  <button class="snav-btn" onclick="scrollToSection('bloodtests')">Blood Tests</button>
 </div>
 
 <div class="filter-bar filter-hidden" id="filter-bar">
@@ -761,6 +761,18 @@ function mkBar(id,labels,datasets,opts={}){
 const fmt=(v,dec=1,sfx='')=>v===null||v===undefined?'<span class="no-data">—</span>':parseFloat(v).toFixed(dec)+sfx;
 function zoneColor(z){if(!z)return'';const l=z.toLowerCase();if(l.includes('danger'))return'red';if(l.includes('warning'))return'amber';if(l==='normal')return'green';if(l.includes('diabetic')&&!l.includes('pre'))return'red';if(l.includes('pre'))return'amber';return'blue';}
 
+function whoZoneColor(z){
+  if(!z)return'';
+  const l=z.toLowerCase();
+  if(l.includes('diabetic')&&!l.includes('pre'))return'var(--red)';
+  if(l.includes('pre'))return'var(--amber)';
+  if(l==='high normal')return'#6aa84f';
+  if(l==='mid normal')return'#93c47d';
+  if(l==='low normal')return'#d9ead3';
+  if(l==='normal')return'#93c47d';
+  return'var(--blue)';
+}
+
 function renderDashboard(person,rows){
   const filteredRows=getFilteredRows(rows);
   const m=calcMetrics(filteredRows,person);
@@ -804,7 +816,7 @@ function renderDashboard(person,rows){
     <div class="kpi-card"><div class="kpi-label">Days Remaining</div><div class="kpi-value">${m.daysRemaining}</div><div class="kpi-sub">of 91-day protocol</div></div>
     <div class="kpi-card"><div class="kpi-label">Cycle Complete</div><div class="kpi-value">${m.cyclePct}%</div><div class="kpi-sub">of 91-day cycle</div></div>
     <div class="kpi-card ${m.latest?zoneColor(m.latest.protocolZone):''}"><div class="kpi-label">Protocol Zone</div><div class="kpi-value">${m.latest?m.latest.protocolZone||'—':'—'}</div><div class="kpi-sub">latest day</div></div>
-    <div class="kpi-card ${m.latest?zoneColor(m.latest.whoZone):''}"><div class="kpi-label">WHO Zone</div><div class="kpi-value">${m.latest?m.latest.whoZone||'—':'—'}</div><div class="kpi-sub">latest day</div></div>
+    <div class="kpi-card" style="${m.latest&&m.latest.whoZone?'border-color:'+whoZoneColor(m.latest.whoZone)+';background:'+whoZoneColor(m.latest.whoZone)+'22':''}""><div class="kpi-label">WHO Zone</div><div class="kpi-value" style="${m.latest&&m.latest.whoZone?'color:'+whoZoneColor(m.latest.whoZone):''}">${m.latest?m.latest.whoZone||'—':'—'}</div><div class="kpi-sub">latest day</div></div>
   </div>
 
   <div class="section-title" id="section-bloodsugar">Blood Sugar <span class="section-line"></span></div>
@@ -1091,9 +1103,10 @@ function renderBTTable(person){
     }).join('');
     const avgCell = r.dailyAvg!==null?`<td>${r.dailyAvg.toFixed(1)}</td>`:'<td class="empty">—</td>';
     const zoneClass = r.protocolZone?(r.protocolZone.toLowerCase().includes('danger')?'zone-danger':r.protocolZone.toLowerCase().includes('warning')?'zone-warning':'zone-normal'):'';
-    const whoClass = r.whoZone?(r.whoZone.toLowerCase().includes('diabetic')&&!r.whoZone.toLowerCase().includes('pre')?'zone-danger':r.whoZone.toLowerCase().includes('pre')?'zone-warning':'zone-normal'):'';
+    const whoColor = whoZoneColor(r.whoZone||'');
+    const whoStyle = whoColor ? 'style="color:'+whoColor+'"' : '';
     const notesCell = r.notes ? `<td style="text-align:left;color:var(--muted);font-size:12px;">${r.notes}</td>` : '<td class="empty">—</td>';
-    return `<tr><td>${r.dateStr}</td>${cells}${avgCell}<td class="${zoneClass}">${r.protocolZone||'—'}</td><td class="${whoClass}">${r.whoZone||'—'}</td>${notesCell}</tr>`;
+    return `<tr><td>${r.dateStr}</td>${cells}${avgCell}<td class="${zoneClass}">${r.protocolZone||'—'}</td><td ${whoStyle}>${r.whoZone||'—'}</td>${notesCell}</tr>`;
   }).join('');
 }
 
