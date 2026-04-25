@@ -7,274 +7,78 @@
 <title>5.4 Protocol Dashboard</title>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
 <style>
-  /* ── DARK THEME ── */
   [data-theme="dark"]  #tagline { color: #b0bdd4; font-size: 16px; }
   [data-theme="light"] #tagline { color: #3a4560; font-size: 16px; }
   [data-theme="light"] .dashboard-subtitle { color: #4a5568; }
   [data-theme="dark"] {
-    --bg: #0a0e14;
-    --surface: #111720;
-    --surface2: #181f2e;
-    --border: rgba(255,255,255,0.07);
-    --border2: rgba(255,255,255,0.13);
-    --text: #e8edf5;
-    --muted: #6b7a96;
-    --dimmed: #3a4560;
-    --green: #22c97a;
-    --green-bg: rgba(34,201,122,0.1);
-    --green-border: rgba(34,201,122,0.25);
-    --amber: #f5a623;
-    --amber-bg: rgba(245,166,35,0.1);
-    --amber-border: rgba(245,166,35,0.25);
-    --red: #f04444;
-    --red-bg: rgba(240,68,68,0.1);
-    --red-border: rgba(240,68,68,0.25);
-    --blue: #4a9eff;
-    --blue-bg: rgba(74,158,255,0.1);
-    --blue-border: rgba(74,158,255,0.25);
-    --purple: #a78bfa;
-    --purple-bg: rgba(167,139,250,0.1);
-    --purple-border: rgba(167,139,250,0.25);
-    --section-heading: #ffffff;
-    --snav-text: #ffffff;
-    --snav-hover-bg: #181f2e;
-    --adhere-null: #3a4560;
-    --adhere-green: #22c97a;
-    --adhere-amber: #f5a623;
-    --adhere-red: #f04444;
-    --bar-null: #3a4560;
-    --target-line: #22c97a;
-    --toggle-bg: #181f2e;
-    --toggle-border: rgba(255,255,255,0.13);
-    --toggle-text: #e8edf5;
-    --upload-ok-text: #e8edf5;
+    --bg: #0a0e14; --surface: #111720; --surface2: #181f2e;
+    --border: rgba(255,255,255,0.07); --border2: rgba(255,255,255,0.13);
+    --text: #e8edf5; --muted: #6b7a96; --dimmed: #3a4560;
+    --green: #22c97a; --green-bg: rgba(34,201,122,0.1); --green-border: rgba(34,201,122,0.25);
+    --amber: #f5a623; --amber-bg: rgba(245,166,35,0.1); --amber-border: rgba(245,166,35,0.25);
+    --red: #f04444; --red-bg: rgba(240,68,68,0.1); --red-border: rgba(240,68,68,0.25);
+    --blue: #4a9eff; --blue-bg: rgba(74,158,255,0.1); --blue-border: rgba(74,158,255,0.25);
+    --purple: #a78bfa; --purple-bg: rgba(167,139,250,0.1); --purple-border: rgba(167,139,250,0.25);
+    --section-heading: #ffffff; --snav-text: #ffffff; --snav-hover-bg: #181f2e;
+    --adhere-null: #3a4560; --adhere-green: #22c97a; --adhere-amber: #f5a623; --adhere-red: #f04444;
+    --bar-null: #3a4560; --target-line: #22c97a;
+    --toggle-bg: #181f2e; --toggle-border: rgba(255,255,255,0.13); --toggle-text: #e8edf5;
   }
- 
-  /* ── LIGHT THEME ── */
   [data-theme="light"] {
-    --bg: #f4f6f9;
-    --surface: #ffffff;
-    --surface2: #f0f2f5;
-    --border: rgba(0,0,0,0.08);
-    --border2: rgba(0,0,0,0.15);
-    --text: #1a2030;
-    --muted: #6b7590;
-    --dimmed: #b0b8cc;
-    --green: #0f9b58;
-    --green-bg: #eaf7f1;
-    --green-border: rgba(15,155,88,0.25);
-    --amber: #c47d00;
-    --amber-bg: #fff8e6;
-    --amber-border: rgba(196,125,0,0.25);
-    --red: #c0392b;
-    --red-bg: #fdecea;
-    --red-border: rgba(192,57,43,0.25);
-    --blue: #1a6abf;
-    --blue-bg: #e8f1fb;
-    --blue-border: rgba(26,106,191,0.25);
-    --purple: #6b3fa0;
-    --purple-bg: #f2edfb;
-    --purple-border: rgba(107,63,160,0.25);
-    --section-heading: #1a2030;
-    --snav-text: #1a2030;
-    --snav-hover-bg: #f0f2f5;
-    --adhere-null: #b0b8cc;
-    --adhere-green: #0f9b58;
-    --adhere-amber: #c47d00;
-    --adhere-red: #c0392b;
-    --bar-null: #dde2ea;
-    --target-line: #0f9b58;
-    --toggle-bg: #ffffff;
-    --toggle-border: rgba(0,0,0,0.15);
-    --toggle-text: #1a2030;
-    --upload-ok-text: #1a2030;
+    --bg: #f4f6f9; --surface: #ffffff; --surface2: #f0f2f5;
+    --border: rgba(0,0,0,0.08); --border2: rgba(0,0,0,0.15);
+    --text: #1a2030; --muted: #6b7590; --dimmed: #b0b8cc;
+    --green: #0f9b58; --green-bg: #eaf7f1; --green-border: rgba(15,155,88,0.25);
+    --amber: #c47d00; --amber-bg: #fff8e6; --amber-border: rgba(196,125,0,0.25);
+    --red: #c0392b; --red-bg: #fdecea; --red-border: rgba(192,57,43,0.25);
+    --blue: #1a6abf; --blue-bg: #e8f1fb; --blue-border: rgba(26,106,191,0.25);
+    --purple: #6b3fa0; --purple-bg: #f2edfb; --purple-border: rgba(107,63,160,0.25);
+    --section-heading: #1a2030; --snav-text: #1a2030; --snav-hover-bg: #f0f2f5;
+    --adhere-null: #b0b8cc; --adhere-green: #0f9b58; --adhere-amber: #c47d00; --adhere-red: #c0392b;
+    --bar-null: #dde2ea; --target-line: #0f9b58;
+    --toggle-bg: #ffffff; --toggle-border: rgba(0,0,0,0.15); --toggle-text: #1a2030;
   }
- 
   * { box-sizing: border-box; margin: 0; padding: 0; }
   [data-theme="light"] .dashboard div[style*="color:#b0bdd4"] { color: #3a4560 !important; }
- 
-  body {
-    background: var(--bg);
-    color: var(--text);
-    font-family: 'Calibri', 'Calibri Regular', sans-serif;
-    font-size: 14px;
-    line-height: 1.6;
-    min-height: 100vh;
-    transition: background 0.2s, color 0.2s;
-  }
- 
-  /* ── HEADER ── */
-  .header {
-    background: var(--surface);
-    border-bottom: 1px solid var(--border);
-    padding: 0 32px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    height: 82px;
-    position: sticky;
-    top: 0;
-    z-index: 100;
-    box-shadow: 0 1px 4px rgba(0,0,0,0.08);
-  }
- 
-  .logo {
-    font-family: 'Calibri', sans-serif;
-    font-weight: 700;
-    font-size: 28px;
-    color: var(--text);
-    letter-spacing: -0.01em;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    line-height: 1.2;
-  }
- 
-  .target-badge {
-    font-family: 'Calibri', sans-serif;
-    font-size: 12px;
-    font-weight: 600;
-    color: var(--green);
-    background: var(--green-bg);
-    border: 1px solid var(--green-border);
-    padding: 5px 12px;
-    border-radius: 20px;
-    position: absolute;
-    right: 80px;
-  }
- 
-  /* ── THEME TOGGLE ── */
-  .theme-toggle {
-    position: absolute;
-    right: 32px;
-    background: var(--toggle-bg);
-    border: 1px solid var(--toggle-border);
-    border-radius: 8px;
-    padding: 6px 14px;
-    cursor: pointer;
-    font-family: 'Calibri', sans-serif;
-    font-size: 12px;
-    font-weight: 600;
-    color: var(--toggle-text);
-    transition: all 0.2s;
-    letter-spacing: 0.03em;
-  }
+  body { background: var(--bg); color: var(--text); font-family: 'Calibri','Calibri Regular',sans-serif; font-size: 14px; line-height: 1.6; min-height: 100vh; transition: background 0.2s,color 0.2s; }
+  .header { background: var(--surface); border-bottom: 1px solid var(--border); padding: 0 32px; display: flex; align-items: center; justify-content: center; height: 82px; position: sticky; top: 0; z-index: 100; box-shadow: 0 1px 4px rgba(0,0,0,0.08); }
+  .logo { font-family: 'Calibri',sans-serif; font-weight: 700; font-size: 28px; color: var(--text); letter-spacing: -0.01em; display: flex; flex-direction: column; align-items: center; line-height: 1.2; }
+  .theme-toggle { position: absolute; right: 32px; background: var(--toggle-bg); border: 1px solid var(--toggle-border); border-radius: 8px; padding: 6px 14px; cursor: pointer; font-family: 'Calibri',sans-serif; font-size: 12px; font-weight: 600; color: var(--toggle-text); transition: all 0.2s; letter-spacing: 0.03em; }
   .theme-toggle:hover { opacity: 0.75; }
- 
-  /* ── TABS ── */
-  .tabs {
-    display: none;
-    padding: 0 32px;
-    border-bottom: 2px solid var(--border);
-    background: var(--surface);
-    gap: 12px;
-    position: sticky;
-    top: 82px;
-    z-index: 95;
-    box-shadow: 0 1px 3px rgba(0,0,0,0.06);
-  }
+  .tabs { display: none; padding: 0 32px; border-bottom: 2px solid var(--border); background: var(--surface); gap: 12px; position: sticky; top: 82px; z-index: 95; box-shadow: 0 1px 3px rgba(0,0,0,0.06); }
   .tabs.visible { display: flex; }
- 
-  .tab {
-    padding: 9px 40px;
-    font-family: 'Calibri', sans-serif;
-    font-size: 20px;
-    font-weight: 700;
-    cursor: pointer;
-    border-bottom: 4px solid transparent;
-    border-radius: 4px 4px 0 0;
-    transition: all 0.2s;
-    display: flex;
-    align-items: center;
-    margin-bottom: -2px;
-    letter-spacing: 0.01em;
-    color: #ffffff;
-  }
-  .tab { background: #2a2a3a; color: #6b7a96; }
+  .tab { padding: 9px 40px; font-family: 'Calibri',sans-serif; font-size: 20px; font-weight: 700; cursor: pointer; border-bottom: 4px solid transparent; border-radius: 4px 4px 0 0; transition: all 0.2s; display: flex; align-items: center; margin-bottom: -2px; letter-spacing: 0.01em; background: #2a2a3a; color: #6b7a96; }
   .tab[data-person="Declan"].active { background: #6b5fa5; color: #ffffff; border-bottom-color: #6b5fa5; }
   .tab[data-person="Declan"]:hover { background: #4a4468; color: #ffffff; }
   .tab[data-person="Emi"].active { background: #4a7a8a; color: #ffffff; border-bottom-color: #4a7a8a; }
   .tab[data-person="Emi"]:hover { background: #3a6070; color: #ffffff; }
- 
-  /* ── SECTION NAV ── */
-  .section-nav {
-    position: sticky;
-    top: 134px;
-    z-index: 90;
-    background: var(--surface);
-    border-bottom: 1px solid var(--border);
-    padding: 0 32px;
-    display: flex;
-    gap: 4px;
-    overflow-x: auto;
-    scrollbar-width: none;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
-  }
+  .section-nav { position: sticky; top: 134px; z-index: 90; background: var(--surface); border-bottom: 1px solid var(--border); padding: 0 32px; display: flex; gap: 4px; overflow-x: auto; scrollbar-width: none; box-shadow: 0 2px 8px rgba(0,0,0,0.08); }
   .section-nav::-webkit-scrollbar { display: none; }
   .section-nav.hidden { display: none; }
- 
-  .snav-btn {
-    padding: 10px 18px;
-    font-family: 'Calibri', sans-serif;
-    font-size: 12px;
-    font-weight: 700;
-    letter-spacing: 0.06em;
-    text-transform: uppercase;
-    color: var(--snav-text);
-    cursor: pointer;
-    border: none;
-    background: transparent;
-    border-bottom: 2px solid transparent;
-    white-space: nowrap;
-    transition: all 0.15s;
-    margin-bottom: -1px;
-  }
+  .snav-btn { padding: 10px 18px; font-family: 'Calibri',sans-serif; font-size: 12px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: var(--snav-text); cursor: pointer; border: none; background: transparent; border-bottom: 2px solid transparent; white-space: nowrap; transition: all 0.15s; margin-bottom: -1px; }
   .snav-btn:hover { background: var(--snav-hover-bg); }
- 
-  /* ── DASHBOARD ── */
   .dashboard { display: none; padding: 28px 32px; }
   .dashboard.active { display: block; }
- 
-  /* ── SECTION TITLES ── */
-  .section-title {
-    font-family: 'Calibri', sans-serif;
-    font-size: 17px;
-    font-weight: 700;
-    letter-spacing: 0.05em;
-    text-transform: uppercase;
-    color: var(--section-heading);
-    margin-bottom: 16px;
-    margin-top: 40px;
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    scroll-margin-top: 215px;
-  }
+  .section-title { font-family: 'Calibri',sans-serif; font-size: 17px; font-weight: 700; letter-spacing: 0.05em; text-transform: uppercase; color: var(--section-heading); margin-bottom: 16px; margin-top: 40px; display: flex; align-items: center; gap: 12px; scroll-margin-top: 215px; }
   .section-title:first-child { margin-top: 0; }
   .section-line { flex: 1; height: 1px; background: var(--border2); }
- 
-  /* ── KPI CARDS ── */
-  .kpi-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(155px, 1fr)); gap: 12px; margin-bottom: 8px; }
+  .kpi-grid { display: grid; grid-template-columns: repeat(auto-fill,minmax(155px,1fr)); gap: 12px; margin-bottom: 8px; }
   .kpi-card { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 16px; transition: box-shadow 0.2s; }
   .kpi-card:hover { box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
   .kpi-label { font-size: 13px; color: var(--muted); margin-bottom: 8px; font-weight: 600; letter-spacing: 0.02em; text-transform: uppercase; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
   .kpi-value { font-size: 24px; font-weight: 700; color: var(--text); line-height: 1.1; }
   .kpi-sub { font-size: 11px; color: var(--muted); margin-top: 4px; }
-  .kpi-card.green  { border-color: var(--green-border);  background: var(--green-bg);  } .kpi-card.green  .kpi-value { color: var(--green); }
-  .kpi-card.amber  { border-color: var(--amber-border);  background: var(--amber-bg);  } .kpi-card.amber  .kpi-value { color: var(--amber); }
-  .kpi-card.red    { border-color: var(--red-border);    background: var(--red-bg);    } .kpi-card.red    .kpi-value { color: var(--red); }
-  .kpi-card.blue   { border-color: var(--blue-border);   background: var(--blue-bg);   } .kpi-card.blue   .kpi-value { color: var(--blue); }
-  .kpi-card.purple { border-color: var(--purple-border); background: var(--purple-bg); } .kpi-card.purple .kpi-value { color: var(--purple); }
- 
-  /* ── CHARTS ── */
+  .kpi-card.green { border-color: var(--green-border); background: var(--green-bg); } .kpi-card.green .kpi-value { color: var(--green); }
+  .kpi-card.amber { border-color: var(--amber-border); background: var(--amber-bg); } .kpi-card.amber .kpi-value { color: var(--amber); }
+  .kpi-card.red   { border-color: var(--red-border);   background: var(--red-bg);   } .kpi-card.red   .kpi-value { color: var(--red); }
+  .kpi-card.blue  { border-color: var(--blue-border);  background: var(--blue-bg);  } .kpi-card.blue  .kpi-value { color: var(--blue); }
+  .kpi-card.purple{ border-color: var(--purple-border);background: var(--purple-bg);} .kpi-card.purple .kpi-value { color: var(--purple); }
   .chart-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 8px; min-width: 0; }
   .chart-grid.single { grid-template-columns: 1fr; }
   .chart-card { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 20px; min-width: 0; overflow: hidden; }
   .chart-title { font-size: 13px; font-weight: 700; color: var(--muted); letter-spacing: 0.05em; text-transform: uppercase; margin-bottom: 16px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
   .chart-wrap { position: relative; width: 100%; }
- 
-  /* ── BLOOD SUGAR SLOTS ── */
-  .bs-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 8px; margin-bottom: 8px; }
+  .bs-grid { display: grid; grid-template-columns: repeat(7,1fr); gap: 8px; margin-bottom: 8px; }
   .bs-slot { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 12px 8px; text-align: center; }
   .bs-time { font-size: 16px; color: var(--muted); margin-bottom: 6px; font-weight: 600; }
   .bs-val  { font-size: 26px; font-weight: 700; color: var(--text); line-height: 1.1; }
@@ -283,45 +87,33 @@
   .bs-slot.amber { border-color: var(--amber-border); background: var(--amber-bg); } .bs-slot.amber .bs-val { color: var(--amber); }
   .bs-slot.red   { border-color: var(--red-border);   background: var(--red-bg);   } .bs-slot.red   .bs-val { color: var(--red); }
   .bs-slot.empty .bs-val { color: var(--dimmed); }
- 
-  /* ── ADHERENCE ── */
-  .adhere-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 10px; }
+  .adhere-grid { display: grid; grid-template-columns: repeat(auto-fill,minmax(140px,1fr)); gap: 10px; }
   .adhere-item { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 14px; display: flex; flex-direction: column; gap: 8px; }
   .adhere-name { font-size: 11px; color: var(--muted); font-weight: 700; text-transform: uppercase; letter-spacing: 0.04em; }
   .adhere-pct  { font-size: 22px; font-weight: 700; }
   .adhere-bar  { height: 4px; background: var(--surface2); border-radius: 2px; overflow: hidden; }
   .adhere-fill { height: 100%; border-radius: 2px; transition: width 0.6s ease; }
- 
-  /* ── STREAKS ── */
-  .streak-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(185px, 1fr)); gap: 12px; }
+  .streak-grid { display: grid; grid-template-columns: repeat(auto-fill,minmax(185px,1fr)); gap: 12px; }
   .streak-card { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 16px 18px; display: flex; align-items: center; gap: 14px; }
   .streak-icon { font-size: 22px; width: 42px; height: 42px; display: flex; align-items: center; justify-content: center; border-radius: 10px; background: var(--surface2); flex-shrink: 0; }
   .streak-label { font-size: 11px; color: var(--muted); font-weight: 600; text-transform: uppercase; letter-spacing: 0.03em; margin-bottom: 2px; }
   .streak-val   { font-size: 20px; font-weight: 700; color: var(--text); }
- 
-  /* ── PROGRESS ── */
   .progress-wrap { margin-bottom: 16px; }
   .progress-label { display: flex; justify-content: space-between; font-size: 12px; color: var(--muted); margin-bottom: 6px; font-weight: 600; }
   .progress-bar  { height: 8px; background: var(--surface2); border-radius: 4px; overflow: hidden; border: 1px solid var(--border); }
-  .progress-fill { height: 100%; border-radius: 4px; background: linear-gradient(90deg, var(--blue), var(--purple)); }
- 
+  .progress-fill { height: 100%; border-radius: 4px; background: linear-gradient(90deg,var(--blue),var(--purple)); }
   .no-data { color: var(--dimmed); }
   .bt-table-wrap { overflow-x: auto; margin-bottom: 8px; }
-  .bt-table { width: 100%; border-collapse: collapse; font-family: Calibri, sans-serif; font-size: 13px; }
+  .bt-table { width: 100%; border-collapse: collapse; font-family: Calibri,sans-serif; font-size: 13px; }
   .bt-table th { background: var(--surface2); color: var(--muted); font-size: 11px; font-weight: 700; letter-spacing: 0.05em; text-transform: uppercase; padding: 8px 12px; text-align: center; border-bottom: 2px solid var(--border2); white-space: nowrap; }
   .bt-table th:first-child { text-align: left; }
   .bt-table td { padding: 7px 12px; text-align: center; border-bottom: 1px solid var(--border); color: var(--text); font-weight: 600; }
   .bt-table td:first-child { text-align: left; font-weight: 700; color: var(--muted); white-space: nowrap; }
   .bt-table tr:hover td { background: var(--surface2); }
-  .bt-table td.green { color: var(--green); }
-  .bt-table td.amber { color: var(--amber); }
-  .bt-table td.red { color: var(--red); }
-  .bt-table td.empty { color: var(--dimmed); }
-  .bt-table td.zone-danger { color: var(--red); }
-  .bt-table td.zone-warning { color: var(--amber); }
-  .bt-table td.zone-normal { color: var(--green); }
-  .bt-month-filter { background: var(--surface2); border: 1px solid var(--border2); border-radius: 6px; color: var(--text); font-family: Calibri, sans-serif; font-size: 13px; padding: 5px 10px; cursor: pointer; margin-right: 12px; }
-  .bt-toggle-btn { background: var(--surface2); border: 1px solid var(--border2); border-radius: 6px; color: var(--text); font-family: Calibri, sans-serif; font-size: 12px; font-weight: 700; padding: 5px 14px; cursor: pointer; }
+  .bt-table td.green { color: var(--green); } .bt-table td.amber { color: var(--amber); } .bt-table td.red { color: var(--red); }
+  .bt-table td.empty { color: var(--dimmed); } .bt-table td.zone-danger { color: var(--red); } .bt-table td.zone-warning { color: var(--amber); } .bt-table td.zone-normal { color: var(--green); }
+  .bt-month-filter { background: var(--surface2); border: 1px solid var(--border2); border-radius: 6px; color: var(--text); font-family: Calibri,sans-serif; font-size: 13px; padding: 5px 10px; cursor: pointer; margin-right: 12px; }
+  .bt-toggle-btn { background: var(--surface2); border: 1px solid var(--border2); border-radius: 6px; color: var(--text); font-family: Calibri,sans-serif; font-size: 12px; font-weight: 700; padding: 5px 14px; cursor: pointer; }
   .filter-bar.filter-hidden { display:none; }
   .filter-bar { display:flex; align-items:center; gap:12px; padding:10px 32px; background:#111720; border-bottom:1px solid var(--border); flex-wrap:wrap; position:sticky; top:167px; z-index:85; }
   [data-theme="light"] .filter-bar { background:#ffffff; }
@@ -330,57 +122,37 @@
   .filter-select { background:var(--surface2); border:1px solid var(--border2); border-radius:6px; color:var(--text); font-family:Calibri,sans-serif; font-size:13px; padding:5px 10px; cursor:pointer; }
   .filter-toggle { display:flex; align-items:center; gap:8px; }
   .filter-toggle input[type=checkbox] { width:16px; height:16px; cursor:pointer; accent-color:#22c97a; }
- 
-  .chart-grid, .kpi-grid, .bs-grid, .streak-grid, .adhere-grid { width: 100%; }
- 
-  @media (max-width: 1100px) {
-    .chart-grid { grid-template-columns: 1fr; }
-    .kpi-grid { grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)); }
-  }
-  @media (max-width: 900px) {
-    .bs-grid { grid-template-columns: repeat(4, 1fr); }
-    .streak-grid { grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); }
-  }
-  .mobile-theme-btn { display: none; }
-  @media (max-width: 768px) {
-    .header-logo { display: none; }
-    .theme-toggle { display: none; }
-    #tagline { font-size: 11px !important; }
-    .mobile-theme-btn { display: block; margin-left: auto; background: var(--toggle-bg); border: 1px solid var(--toggle-border); border-radius: 8px; padding: 6px 12px; font-family: Calibri,sans-serif; font-size: 11px; font-weight: 600; color: var(--toggle-text); cursor: pointer; align-self: center; }
-    .header { height: 72px; }
-    .tabs { top: 72px; background:#111720; }
+  .chart-grid,.kpi-grid,.bs-grid,.streak-grid,.adhere-grid { width:100%; }
+  @media (max-width:1100px) { .chart-grid { grid-template-columns:1fr; } .kpi-grid { grid-template-columns:repeat(auto-fill,minmax(130px,1fr)); } }
+  @media (max-width:900px) { .bs-grid { grid-template-columns:repeat(4,1fr); } .streak-grid { grid-template-columns:repeat(auto-fill,minmax(160px,1fr)); } }
+  .mobile-theme-btn { display:none; }
+  @media (max-width:768px) {
+    .header-logo,.theme-toggle { display:none; }
+    #tagline { font-size:11px !important; }
+    .mobile-theme-btn { display:block; margin-left:auto; background:var(--toggle-bg); border:1px solid var(--toggle-border); border-radius:8px; padding:6px 12px; font-family:Calibri,sans-serif; font-size:11px; font-weight:600; color:var(--toggle-text); cursor:pointer; align-self:center; }
+    .header { height:72px; } .tabs { top:72px; background:#111720; }
     [data-theme="light"] .tabs { background:#ffffff; }
-    .filter-bar { top: 0; }
-    .filter-refresh-btn { display:none; }
-    .section-nav { top: 126px; }
-    .chart-grid { grid-template-columns: 1fr; }
-    .bs-grid { grid-template-columns: repeat(4, 1fr); }
-    .header, .dashboard { padding-left: 16px; padding-right: 16px; }
-    .tabs, .section-nav { padding: 0 16px; }
-    .target-badge { display: none; }
-    .spreadsheet-link { display: none; }
-    .tab { padding: 9px 20px; font-size: 16px; }
+    .filter-bar { top:0; } .filter-refresh-btn { display:none; } .section-nav { top:126px; }
+    .chart-grid { grid-template-columns:1fr; } .bs-grid { grid-template-columns:repeat(4,1fr); }
+    .header,.dashboard { padding-left:16px; padding-right:16px; }
+    .tabs,.section-nav { padding:0 16px; }
+    .target-badge,.spreadsheet-link { display:none; }
+    .tab { padding:9px 20px; font-size:16px; }
   }
-  @media (max-width: 480px) {
-    .bs-grid { grid-template-columns: repeat(3, 1fr); }
-    .kpi-grid { grid-template-columns: repeat(2, 1fr); }
-    .tab { padding: 8px 14px; font-size: 14px; }
-  }
+  @media (max-width:480px) { .bs-grid { grid-template-columns:repeat(3,1fr); } .kpi-grid { grid-template-columns:repeat(2,1fr); } .tab { padding:8px 14px; font-size:14px; } }
   @media print {
-    * { background: #ffffff !important; color: #000000 !important; }
-    .header { position: relative; top: auto; box-shadow: none; border-bottom: 1px solid #ccc !important; }
-    .tabs { position: relative; top: auto; box-shadow: none; }
-    .section-nav { display: none !important; }
-    .theme-toggle { display: none !important; }
-    .dashboard { display: block !important; padding: 16px; }
-    .dashboard:not(.active) { display: none !important; }
-    .kpi-card, .chart-card, .bs-slot, .streak-card, .adhere-item, .kpi-grid, .bs-grid, .section-title { page-break-inside: avoid; break-inside: avoid; }
-    .section-title { page-break-after: avoid; break-after: avoid; }
+    * { background:#ffffff !important; color:#000000 !important; }
+    .header,.tabs { position:relative; top:auto; box-shadow:none; }
+    .section-nav,.theme-toggle { display:none !important; }
+    .dashboard { display:block !important; padding:16px; }
+    .dashboard:not(.active) { display:none !important; }
+    .kpi-card,.chart-card,.bs-slot,.streak-card,.adhere-item,.kpi-grid,.bs-grid,.section-title { page-break-inside:avoid; break-inside:avoid; }
+    .section-title { page-break-after:avoid; break-after:avoid; }
   }
 </style>
 </head>
 <body>
- 
+
 <div id="password-screen" style="position:fixed;top:0;left:0;width:100%;height:100%;background:var(--bg);display:flex;align-items:center;justify-content:center;z-index:9999;">
   <div style="background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:48px 40px;text-align:center;width:340px;">
     <svg viewBox="0 0 76 64" width="76" height="64" style="margin-bottom:20px;" xmlns="http://www.w3.org/2000/svg">
@@ -393,33 +165,19 @@
     <div style="font-size:13px;color:var(--muted);margin-bottom:28px;">Enter your access password</div>
     <input type="password" id="pwd-input" placeholder="Password" onkeydown="if(event.key==='Enter')checkPassword()"
       style="width:100%;padding:12px 16px;border-radius:8px;border:1px solid var(--border2);background:var(--surface2);color:var(--text);font-family:Calibri,sans-serif;font-size:15px;margin-bottom:12px;outline:none;"/>
-    <button onclick="checkPassword()"
-      style="width:100%;padding:12px;background:#9B1C1C;color:#fff;border:none;border-radius:8px;font-family:Calibri,sans-serif;font-size:15px;font-weight:600;cursor:pointer;">
-      Enter Dashboard
-    </button>
+    <button onclick="checkPassword()" style="width:100%;padding:12px;background:#9B1C1C;color:#fff;border:none;border-radius:8px;font-family:Calibri,sans-serif;font-size:15px;font-weight:600;cursor:pointer;">Enter Dashboard</button>
     <div id="pwd-error" style="color:#f04444;font-size:13px;margin-top:10px;display:none;">Incorrect password. Please try again.</div>
   </div>
 </div>
- 
 <script>
-function checkPassword() {
-  const input = document.getElementById('pwd-input').value;
-  if (input === '54stats') {
-    document.getElementById('password-screen').style.display = 'none';
-    sessionStorage.setItem('54p-auth', '1');
-  } else {
-    document.getElementById('pwd-error').style.display = 'block';
-    document.getElementById('pwd-input').value = '';
-    document.getElementById('pwd-input').focus();
-  }
+function checkPassword(){
+  const input=document.getElementById('pwd-input').value;
+  if(input==='54stats'){document.getElementById('password-screen').style.display='none';sessionStorage.setItem('54p-auth','1');}
+  else{document.getElementById('pwd-error').style.display='block';document.getElementById('pwd-input').value='';document.getElementById('pwd-input').focus();}
 }
-if (sessionStorage.getItem('54p-auth') === '1') {
-  document.addEventListener('DOMContentLoaded', function() {
-    document.getElementById('password-screen').style.display = 'none';
-  });
-}
+if(sessionStorage.getItem('54p-auth')==='1'){document.addEventListener('DOMContentLoaded',function(){document.getElementById('password-screen').style.display='none';});}
 </script>
- 
+
 <div class="header">
   <svg class="header-logo" viewBox="0 0 76 64" width="76" height="64" style="position:absolute;left:32px;" xmlns="http://www.w3.org/2000/svg">
     <rect x="2" y="2" width="72" height="60" rx="10" fill="#9B1C1C"/>
@@ -431,15 +189,15 @@ if (sessionStorage.getItem('54p-auth') === '1') {
     <div style="font-weight:400;letter-spacing:0;margin-top:2px;" id="tagline">Track your journey to better metabolic health — one day at a time.</div>
   </div>
   <a href="https://docs.google.com/spreadsheets/d/1P9opd3DKDLObXEkGpkEdTqaI1AxgF7dRuSF9HoxdzlQ/edit" target="_blank" class="spreadsheet-link" style="position:absolute;right:160px;background:var(--toggle-bg);border:1px solid var(--toggle-border);border-radius:8px;padding:6px 14px;font-family:Calibri,sans-serif;font-size:12px;font-weight:600;color:var(--toggle-text);text-decoration:none;letter-spacing:0.03em;">📊 Spreadsheet</a>
-  <button class="theme-toggle" id="themeToggle" onclick="toggleTheme()" title="Toggle theme">Light / Dark</button>
+  <button class="theme-toggle" onclick="toggleTheme()">Light / Dark</button>
 </div>
- 
+
 <div class="tabs" id="tabs">
   <div class="tab active" data-person="Declan" onclick="switchTab('Declan')">Declan</div>
   <div class="tab" data-person="Emi" onclick="switchTab('Emi')">Emi</div>
   <button class="mobile-theme-btn" onclick="toggleTheme()">Light / Dark</button>
 </div>
- 
+
 <div class="section-nav hidden" id="section-nav">
   <button class="snav-btn" onclick="scrollToSection('progress')">Overall Results</button>
   <button class="snav-btn" onclick="scrollToSection('bloodsugar')">Blood Sugar</button>
@@ -451,7 +209,7 @@ if (sessionStorage.getItem('54p-auth') === '1') {
   <button class="snav-btn" onclick="scrollToSection('summary')">Summary</button>
   <button class="snav-btn" onclick="scrollToSection('bloodtests')">Blood Tests</button>
 </div>
- 
+
 <div class="filter-bar filter-hidden" id="filter-bar">
   <label>Month:</label>
   <select class="filter-select" id="month-filter" onchange="filterMonth=this.value;applyFilters();">
@@ -463,53 +221,39 @@ if (sessionStorage.getItem('54p-auth') === '1') {
   </div>
   <button class="filter-refresh-btn" onclick="location.reload();" style="margin-left:auto;background:#22c97a;border:none;border-radius:6px;color:#000;font-family:Calibri,sans-serif;font-size:12px;font-weight:700;padding:6px 16px;cursor:pointer;letter-spacing:0.04em;">↻ Refresh</button>
 </div>
- 
+
 <div class="dashboard" id="dash-Declan"></div>
 <div class="dashboard" id="dash-Emi"></div>
- 
+
 <script>
-const PROTOCOL_START=new Date('2026-04-13'),PROTOCOL_END=new Date('2026-08-31'),CYCLE_DAYS=91,HBAIC_TARGET=5.4;
- 
-const barLabelPlugin = {
-  id: 'barLabels',
-  afterDatasetsDraw(chart) {
-    const ctx = chart.ctx;
-    const c = chartColours();
-    if (chart.config.options.barLabels) {
-      chart.data.datasets.forEach((dataset, i) => {
-        const meta = chart.getDatasetMeta(i);
-        meta.data.forEach((bar, idx) => {
-          const val = dataset.data[idx];
-          if (val === null || val === undefined) return;
-          ctx.save();
-          ctx.font = 'bold 12px Calibri, sans-serif';
-          ctx.fillStyle = c.ticks;
-          ctx.textAlign = 'center';
-          ctx.textBaseline = 'bottom';
-          ctx.fillText(val.toFixed(1), bar.x, bar.y - 4);
-          ctx.restore();
+const PROTOCOL_START=new Date('2026-04-13'),CYCLE_DAYS=91,HBAIC_TARGET=5.4;
+
+const barLabelPlugin={
+  id:'barLabels',
+  afterDatasetsDraw(chart){
+    const ctx=chart.ctx;const c=chartColours();
+    if(chart.config.options.barLabels){
+      chart.data.datasets.forEach((dataset,i)=>{
+        const meta=chart.getDatasetMeta(i);
+        meta.data.forEach((bar,idx)=>{
+          const val=dataset.data[idx];if(val===null||val===undefined)return;
+          ctx.save();ctx.font='bold 12px Calibri,sans-serif';ctx.fillStyle=c.ticks;ctx.textAlign='center';ctx.textBaseline='bottom';
+          ctx.fillText(val.toFixed(1),bar.x,bar.y-4);ctx.restore();
         });
       });
     }
-    if (chart.config.type === 'doughnut' && chart.config.options.donutLabels) {
-      const total = chart.data.datasets[0].data.reduce((a, b) => a + b, 0);
-      chart.data.datasets.forEach((dataset, i) => {
-        const meta = chart.getDatasetMeta(i);
-        meta.data.forEach((arc, idx) => {
-          const val = dataset.data[idx];
-          if (!val) return;
-          const pct = Math.round((val / total) * 100);
-          const angle = (arc.startAngle + arc.endAngle) / 2;
-          const r = (arc.innerRadius + arc.outerRadius) / 2;
-          const x = arc.x + Math.cos(angle) * r;
-          const y = arc.y + Math.sin(angle) * r;
-          ctx.save();
-          ctx.font = 'bold 12px Calibri, sans-serif';
-          ctx.fillStyle = '#000000';
-          ctx.textAlign = 'center';
-          ctx.textBaseline = 'middle';
-          if (pct >= 8) ctx.fillText(pct + '%', x, y);
-          ctx.restore();
+    if(chart.config.type==='doughnut'&&chart.config.options.donutLabels){
+      const total=chart.data.datasets[0].data.reduce((a,b)=>a+b,0);
+      chart.data.datasets.forEach((dataset,i)=>{
+        const meta=chart.getDatasetMeta(i);
+        meta.data.forEach((arc,idx)=>{
+          const val=dataset.data[idx];if(!val)return;
+          const pct=Math.round((val/total)*100);
+          const angle=(arc.startAngle+arc.endAngle)/2;
+          const r=(arc.innerRadius+arc.outerRadius)/2;
+          const x=arc.x+Math.cos(angle)*r;const y=arc.y+Math.sin(angle)*r;
+          ctx.save();ctx.font='bold 12px Calibri,sans-serif';ctx.fillStyle='#000000';ctx.textAlign='center';ctx.textBaseline='middle';
+          if(pct>=8)ctx.fillText(pct+'%',x,y);ctx.restore();
         });
       });
     }
@@ -520,88 +264,38 @@ Chart.register(barLabelPlugin);
 const TARGETS={Declan:{weight:72,startHba1c:6.8,startWeight:82.8},Emi:{weight:89,startHba1c:6.4,startWeight:100.0}};
 const BS_SLOTS=[{key:'05:00'},{key:'09:00'},{key:'13:00'},{key:'17:00'},{key:'18:30'},{key:'19:30'},{key:'22:00'}];
 
-// ── CORRECTED THRESHOLDS matching spreadsheet colour coding ──
 const BS_THRESHOLDS={
-  '05:00':{greenMax:5.5,redMin:7.8},
-  '09:00':{greenMax:5.5,redMin:8.5},
-  '13:00':{greenMax:5.5,redMin:7.8},
-  '17:00':{greenMax:5.0,redMin:7.8},
-  '18:30':{greenMax:6.5,redMin:8.5},
-  '19:30':{greenMax:5.5,redMin:8.0},
-  '22:00':{greenMax:5.5,redMin:7.8}
+  '05:00':{greenMax:6.5,redMin:7.8},
+  '09:00':{greenMax:7.5,redMin:8.5},
+  '13:00':{greenMax:6.5,redMin:7.8},
+  '17:00':{greenMax:6.0,redMin:7.5},
+  '18:30':{greenMax:7.5,redMin:8.5},
+  '19:30':{greenMax:6.5,redMin:8.0},
+  '22:00':{greenMax:6.5,redMin:7.8}
 };
 
 const ADHERENCE_ITEMS=[{key:'water5am',label:'5am Water'},{key:'omega3',label:'Omega 3'},{key:'water2l',label:'Daily Water'},{key:'omad',label:'OMAD'},{key:'exercise',label:'Exercise'},{key:'acv',label:'ACV'},{key:'magnesium',label:'Magnesium'}];
-let allData={},charts={};
-let filterMonth="all",filterWeekend=false;
- 
+let allData={},charts={},filterMonth='all',filterWeekend=false;
+
 function getFilteredRows(rows){
-  if(!filterWeekend&&filterMonth==="all")return rows;
+  if(!filterWeekend&&filterMonth==='all')return rows;
   return rows.filter(r=>{
     if(!r.date)return true;
-    const d=r.date;
-    const day=d.getDay();
-    const isWeekend=(day===0||day===6);
+    const day=r.date.getDay(),isWeekend=(day===0||day===6);
     if(filterWeekend&&!isWeekend)return false;
-    if(filterMonth!=="all"&&d.getMonth()!==parseInt(filterMonth))return false;
+    if(filterMonth!=='all'&&r.date.getMonth()!==parseInt(filterMonth))return false;
     return true;
   });
 }
- 
-function getAvailableMonths(rows){
-  const months=new Set();
-  rows.forEach(r=>{if(r.date)months.add(r.date.getMonth());});
-  return Array.from(months).sort((a,b)=>a-b);
-}
- 
-const MONTH_NAMES=["January","February","March","April","May","June","July","August","September","October","November","December"];
- 
-function applyFilters(){
-  if(!Object.keys(allData).length)return;
-  const activePerson=document.querySelector(".tab.active")?.dataset?.person||"Declan";
-  renderDashboard(activePerson,allData[activePerson]||[]);
-}
- 
-function weekendTickCallback(labels){
-  return function(val,idx){
-    const label=labels[idx];
-    if(!label)return "";
-    const parts=label.split("/");
-    if(parts.length!==3)return "";
-    const d=new Date(parseInt(parts[2]),parseInt(parts[1])-1,parseInt(parts[0]));
-    const day=d.getDay();
-    const shortDate=parts[0]+"/"+parts[1];
-    if(day===6)return ["Sat",shortDate];
-    if(day===0)return ["Sun",shortDate];
-    return shortDate;
-  };
-}
- 
+function getAvailableMonths(rows){const m=new Set();rows.forEach(r=>{if(r.date)m.add(r.date.getMonth());});return Array.from(m).sort((a,b)=>a-b);}
+const MONTH_NAMES=['January','February','March','April','May','June','July','August','September','October','November','December'];
+function applyFilters(){if(!Object.keys(allData).length)return;const p=document.querySelector('.tab.active')?.dataset?.person||'Declan';renderDashboard(p,allData[p]||[]);}
+function weekendTickCallback(labels){return function(val,idx){const label=labels[idx];if(!label)return'';const parts=label.split('/');if(parts.length!==3)return'';const d=new Date(parseInt(parts[2]),parseInt(parts[1])-1,parseInt(parts[0]));const day=d.getDay();const sd=parts[0]+'/'+parts[1];if(day===6)return['Sat',sd];if(day===0)return['Sun',sd];return sd;};}
 function getTheme(){return document.documentElement.getAttribute('data-theme');}
-function toggleTheme(){
-  const t=getTheme()==='dark'?'light':'dark';
-  document.documentElement.setAttribute('data-theme',t);
-  localStorage.setItem('54p-theme',t);
-  if(Object.keys(allData).length){renderDashboard('Declan',allData.Declan||[]);renderDashboard('Emi',allData.Emi||[]);}
-}
-(function(){
-  const saved=localStorage.getItem('54p-theme')||'dark';
-  document.documentElement.setAttribute('data-theme',saved);
-})();
- 
-function chartColours(){
-  const d=getTheme()==='dark';
-  return{
-    grid:d?'rgba(255,255,255,0.06)':'rgba(0,0,0,0.06)',
-    ticks:d?'#6b7a96':'#6b7590',
-    barNull:d?'#3a4560':'#dde2ea',
-    targetLine:d?'#22c97a':'#0f9b58',
-    adhereLine:'#6b3fa0',
-    donutBorder:d?'#111720':'#ffffff',
-    legendText:d?'#6b7a96':'#6b7590',
-  };
-}
- 
+function toggleTheme(){const t=getTheme()==='dark'?'light':'dark';document.documentElement.setAttribute('data-theme',t);localStorage.setItem('54p-theme',t);if(Object.keys(allData).length){renderDashboard('Declan',allData.Declan||[]);renderDashboard('Emi',allData.Emi||[]);}}
+(function(){document.documentElement.setAttribute('data-theme',localStorage.getItem('54p-theme')||'dark');})();
+function chartColours(){const d=getTheme()==='dark';return{grid:d?'rgba(255,255,255,0.06)':'rgba(0,0,0,0.06)',ticks:d?'#6b7a96':'#6b7590',barNull:d?'#3a4560':'#dde2ea',targetLine:d?'#22c97a':'#0f9b58',donutBorder:d?'#111720':'#ffffff',legendText:d?'#6b7a96':'#6b7590'};}
+
 function parseCSV(text){
   const rows=[];let cur='',inQ=false,row=[];
   for(let i=0;i<text.length;i++){
@@ -618,27 +312,22 @@ const parseNum=v=>{if(!v||v==='-')return null;const n=parseFloat(v.replace(/[^\d
 const parsePct=v=>{if(!v)return null;const n=parseFloat(v.replace('%',''));return isNaN(n)?null:n;};
 const parseScore=v=>{if(!v)return null;const p=v.split('/');if(p.length===2){const n=parseInt(p[0]),d=parseInt(p[1]);return(!isNaN(n)&&!isNaN(d))?{num:n,den:d}:null;}return null;};
 const parseDate=v=>{if(!v)return null;const p=v.split('/');return p.length===3?new Date(parseInt(p[2]),parseInt(p[1])-1,parseInt(p[0])):null;};
- 
+
 function processData(csvText){
   const rows=parseCSV(csvText),data={Declan:[],Emi:[]};
   if(rows.length>1){
     const r=rows[1];
-    const safeNum=(v)=>{const n=parseFloat((v||'').toString().replace(/[^0-9.]/g,''));return isNaN(n)?null:n;};
-    const safePct=(v)=>{const n=safeNum(v);if(n===null)return null;return n<1?Math.round(n*1000)/10:n;};
-    TARGETS.Declan.startWeight=safeNum(r[11])||TARGETS.Declan.startWeight;
-    TARGETS.Declan.endWeight=safeNum(r[13]);
-    TARGETS.Declan.startHba1c=safePct(r[15])||TARGETS.Declan.startHba1c;
-    TARGETS.Declan.endHba1c=safePct(r[17]);
-    TARGETS.Emi.startWeight=safeNum(r[21])||TARGETS.Emi.startWeight;
-    TARGETS.Emi.endWeight=safeNum(r[23]);
-    TARGETS.Emi.startHba1c=safePct(r[25])||TARGETS.Emi.startHba1c;
-    TARGETS.Emi.endHba1c=safePct(r[27]);
+    const safeNum=v=>{const n=parseFloat((v||'').toString().replace(/[^0-9.]/g,''));return isNaN(n)?null:n;};
+    const safePct=v=>{const n=safeNum(v);if(n===null)return null;return n<1?Math.round(n*1000)/10:n;};
+    TARGETS.Declan.startWeight=safeNum(r[11])||TARGETS.Declan.startWeight;TARGETS.Declan.endWeight=safeNum(r[13]);
+    TARGETS.Declan.startHba1c=safePct(r[15])||TARGETS.Declan.startHba1c;TARGETS.Declan.endHba1c=safePct(r[17]);
+    TARGETS.Emi.startWeight=safeNum(r[21])||TARGETS.Emi.startWeight;TARGETS.Emi.endWeight=safeNum(r[23]);
+    TARGETS.Emi.startHba1c=safePct(r[25])||TARGETS.Emi.startHba1c;TARGETS.Emi.endHba1c=safePct(r[27]);
   }
   for(let i=0;i<rows.length;i++){
     const row=rows[i];
     if(!row[0]||!row[0].match(/^\d{2}\/\d{2}\/\d{4}$/))continue;
-    const person=row[1];
-    if(person!=='Declan'&&person!=='Emi')continue;
+    const person=row[1];if(person!=='Declan'&&person!=='Emi')continue;
     data[person].push({
       date:parseDate(row[0]),dateStr:row[0],person,
       bs:{'05:00':parseNum(row[2]),'09:00':parseNum(row[3]),'13:00':parseNum(row[4]),'17:00':parseNum(row[5]),'18:30':parseNum(row[6]),'19:30':parseNum(row[7]),'22:00':parseNum(row[8])},
@@ -651,19 +340,18 @@ function processData(csvText){
       adhereScore:parseScore(row[27]),adherePct:parsePct(row[28]),notes:row[29]||'',
     });
   }
-  data.Declan.sort((a,b)=>(a.date||0)-(b.date||0));
-  data.Emi.sort((a,b)=>(a.date||0)-(b.date||0));
+  data.Declan.sort((a,b)=>(a.date||0)-(b.date||0));data.Emi.sort((a,b)=>(a.date||0)-(b.date||0));
   return data;
 }
- 
+
 function bsColorClass(val,slot){
-  if(val===null)return'empty';
+  if(val===null||val===undefined)return'empty';
   const t=BS_THRESHOLDS[slot];if(!t)return'';
   if(val<=t.greenMax)return'green';
   if(val<t.redMin)return'amber';
   return'red';
 }
- 
+
 function calcMetrics(rows,person){
   const hasData=rows.filter(r=>r.dailyAvg!==null),hasWeight=rows.filter(r=>r.weight!==null),hasAdhere=rows.filter(r=>r.adhereScore!==null),hasExercise=rows.filter(r=>r.exercise!==''),hasHba1c=rows.filter(r=>r.hba1cProj!==null);
   const today=new Date();
@@ -706,9 +394,19 @@ function calcMetrics(rows,person){
   let mostMissed=null,lowestRate=100;
   Object.entries(itemRates).forEach(([k,v])=>{if(v!==null&&v<lowestRate){lowestRate=v;mostMissed=k;}});
 
-  // ── CORRECTED: count all individual readings across all days ──
+  // Count green/amber/red across ALL individual readings
   let _allG=0,_allA=0,_allRed=0,_allTotal=0;
-  hasData.forEach(r=>{BS_SLOTS.forEach(s=>{const v=r.bs[s.key];if(v===null||v===undefined)return;const cl=bsColorClass(v,s.key);if(cl==='green')_allG++;else if(cl==='red')_allRed++;else _allA++;_allTotal++;});});
+  hasData.forEach(r=>{
+    BS_SLOTS.forEach(s=>{
+      const v=r.bs[s.key];
+      if(v===null||v===undefined)return;
+      const cl=bsColorClass(v,s.key);
+      if(cl==='green')_allG++;
+      else if(cl==='red')_allRed++;
+      else _allA++;
+      _allTotal++;
+    });
+  });
   const avgGreenPct=_allTotal?Math.round(_allG/_allTotal*100):null;
   const avgAmberPct=_allTotal?Math.round(_allA/_allTotal*100):null;
   const avgRedPct=_allTotal?Math.round(_allRed/_allTotal*100):null;
@@ -720,46 +418,29 @@ function calcMetrics(rows,person){
   const bestReading=allR.length?Math.min(...allR):null,worstReading=allR.length?Math.max(...allR):null;
   return{daysOnProtocol,daysRemaining,cyclePct,latest,latestWeight,latestHba1c,rolling7bs,rolling7w,rolling7adh,rolling7hba1c,cumAdh,perfectDays,perfStreak,exStreak,exRate,exDone,escalatedDays,greenStreak,nonDiabeticStreak,zoneCounts,whoCounts,hba1cDist,hba1cProjDate,weightProjDate,weeklyWeightRate,totalWeightLost,dailyWeightLoss,slotAvgs,dawnDelta,mealDelta,exDelta,itemRates,mostMissed,avgGreenPct,avgAmberPct,avgRedPct,stdDev,bestReading,worstReading,hasData,hasWeight,hasAdhere,hasHba1c,hasExercise};
 }
- 
+
 function destroyChart(id){if(charts[id]){charts[id].destroy();delete charts[id];}}
 function mkLine(id,labels,datasets,opts={}){
   destroyChart(id);const ctx=document.getElementById(id);if(!ctx)return;
   const c=chartColours();
   const xTicks=opts.weekendTicks?{color:c.ticks,font:{family:'Calibri',size:11},callback:weekendTickCallback(labels),maxRotation:0}:{color:c.ticks,maxTicksLimit:8,font:{family:'Calibri',size:11}};
-  charts[id]=new Chart(ctx,{type:'line',data:{labels,datasets},options:{responsive:true,maintainAspectRatio:false,
-    plugins:{legend:{display:opts.legend||false,labels:{color:c.legendText,font:{family:'Calibri',size:11},boxWidth:30,boxHeight:0,padding:16,usePointStyle:false}},tooltip:{mode:'index',intersect:false}},
-    scales:{x:{grid:{color:c.grid},ticks:xTicks},y:{grid:{color:c.grid},ticks:{color:c.ticks,font:{family:'Calibri',size:11}},...(opts.yScale||{})}}}});
+  charts[id]=new Chart(ctx,{type:'line',data:{labels,datasets},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:opts.legend||false,labels:{color:c.legendText,font:{family:'Calibri',size:11},boxWidth:30,boxHeight:0,padding:16}},tooltip:{mode:'index',intersect:false}},scales:{x:{grid:{color:c.grid},ticks:xTicks},y:{grid:{color:c.grid},ticks:{color:c.ticks,font:{family:'Calibri',size:11}},...(opts.yScale||{})}}}});
 }
 function mkDonut(id,labels,data,colors){
   destroyChart(id);const ctx=document.getElementById(id);if(!ctx)return;
   const c=chartColours();
-  charts[id]=new Chart(ctx,{type:'doughnut',data:{labels,datasets:[{data,backgroundColor:colors,borderWidth:2,borderColor:c.donutBorder,hoverOffset:4}]},
-    options:{responsive:true,maintainAspectRatio:false,cutout:'45%',donutLabels:true,plugins:{legend:{display:true,position:'bottom',labels:{color:c.legendText,font:{family:'Calibri',size:11},boxWidth:10,padding:14}}}}});
+  charts[id]=new Chart(ctx,{type:'doughnut',data:{labels,datasets:[{data,backgroundColor:colors,borderWidth:2,borderColor:c.donutBorder,hoverOffset:4}]},options:{responsive:true,maintainAspectRatio:false,cutout:'45%',donutLabels:true,plugins:{legend:{display:true,position:'bottom',labels:{color:c.legendText,font:{family:'Calibri',size:11},boxWidth:10,padding:14}}}}});
 }
 function mkBar(id,labels,datasets,opts={}){
   destroyChart(id);const ctx=document.getElementById(id);if(!ctx)return;
   const c=chartColours();
-  charts[id]=new Chart(ctx,{type:'bar',data:{labels,datasets},options:{responsive:true,maintainAspectRatio:false,
-    layout:{padding:{top: opts.datalabels ? 28 : 4}},
-    barLabels: opts.datalabels || false,
-    plugins:{legend:{display:false},tooltip:{mode:'index',intersect:false}},
-    scales:{x:{grid:{display:false},ticks:{color:c.ticks,font:{family:'Calibri',size:11}}},y:{grid:{color:c.grid},ticks:{color:c.ticks,font:{family:'Calibri',size:11}},...(opts.yScale||{})}}}});
+  charts[id]=new Chart(ctx,{type:'bar',data:{labels,datasets},options:{responsive:true,maintainAspectRatio:false,layout:{padding:{top:opts.datalabels?28:4}},barLabels:opts.datalabels||false,plugins:{legend:{display:false},tooltip:{mode:'index',intersect:false}},scales:{x:{grid:{display:false},ticks:{color:c.ticks,font:{family:'Calibri',size:11}}},y:{grid:{color:c.grid},ticks:{color:c.ticks,font:{family:'Calibri',size:11}},...(opts.yScale||{})}}}});
 }
- 
+
 const fmt=(v,dec=1,sfx='')=>v===null||v===undefined?'<span class="no-data">—</span>':parseFloat(v).toFixed(dec)+sfx;
 function zoneColor(z){if(!z)return'';const l=z.toLowerCase();if(l.includes('danger'))return'red';if(l.includes('warning'))return'amber';if(l==='normal')return'green';if(l.includes('diabetic')&&!l.includes('pre'))return'red';if(l.includes('pre'))return'amber';return'blue';}
-function whoZoneColor(z){
-  if(!z)return'';
-  const l=z.toLowerCase();
-  if(l.includes('diabetic')&&!l.includes('pre'))return'var(--red)';
-  if(l.includes('pre'))return'var(--amber)';
-  if(l.includes('high end'))return'#6aa84f';
-  if(l.includes('mid'))return'#93c47d';
-  if(l.includes('low end'))return'#d9ead3';
-  if(l.includes('normal'))return'#93c47d';
-  return'var(--blue)';
-}
- 
+function whoZoneColor(z){if(!z)return'';const l=z.toLowerCase();if(l.includes('diabetic')&&!l.includes('pre'))return'var(--red)';if(l.includes('pre'))return'var(--amber)';if(l.includes('high end'))return'#6aa84f';if(l.includes('mid'))return'#93c47d';if(l.includes('low end'))return'#d9ead3';if(l.includes('normal'))return'#93c47d';return'var(--blue)';}
+
 function renderDashboard(person,rows){
   const filteredRows=getFilteredRows(rows);
   const m=calcMetrics(filteredRows,person);
@@ -767,8 +448,8 @@ function renderDashboard(person,rows){
   const hex=person==='Declan'?(isDark?'#4a9eff':'#1a6abf'):(isDark?'#f472b6':'#b5368a');
   const tgt=TARGETS[person];
   const c=chartColours();
-  const el=document.getElementById(`dash-${person}`);
- 
+  const el=document.getElementById('dash-'+person);
+
   el.innerHTML=`
   <div class="section-title" id="section-progress">5.4 Protocol — Overall Results <span class="section-line"></span></div>
   <div style="font-size:16px;color:#b0bdd4;margin-bottom:14px;margin-top:-8px;">Your start and end metrics for the 91-day protocol — the proof of what lifestyle change alone can achieve.</div>
@@ -803,13 +484,13 @@ function renderDashboard(person,rows){
     <div class="kpi-card"><div class="kpi-label">Days Remaining</div><div class="kpi-value">${m.daysRemaining}</div><div class="kpi-sub">of 91-day protocol</div></div>
     <div class="kpi-card"><div class="kpi-label">Cycle Complete</div><div class="kpi-value">${m.cyclePct}%</div><div class="kpi-sub">of 91-day cycle</div></div>
     <div class="kpi-card ${m.latest?zoneColor(m.latest.protocolZone):''}"><div class="kpi-label">Protocol Zone</div><div class="kpi-value">${m.latest?m.latest.protocolZone||'—':'—'}</div><div class="kpi-sub">latest day</div></div>
-    <div class="kpi-card" style="${m.latest&&m.latest.whoZone?'border-color:'+whoZoneColor(m.latest.whoZone)+';background:'+whoZoneColor(m.latest.whoZone)+'22':''}""><div class="kpi-label">WHO Zone</div><div class="kpi-value" style="${m.latest&&m.latest.whoZone?'color:'+whoZoneColor(m.latest.whoZone):''}">${m.latest?m.latest.whoZone||'—':'—'}</div><div class="kpi-sub">latest day</div></div>
+    <div class="kpi-card" style="${m.latest&&m.latest.whoZone?'border-color:'+whoZoneColor(m.latest.whoZone)+';background:'+whoZoneColor(m.latest.whoZone)+'22':''}"><div class="kpi-label">WHO Zone</div><div class="kpi-value" style="${m.latest&&m.latest.whoZone?'color:'+whoZoneColor(m.latest.whoZone):''}">${m.latest?m.latest.whoZone||'—':'—'}</div><div class="kpi-sub">latest day</div></div>
   </div>
- 
+
   <div class="section-title" id="section-bloodsugar">Blood Sugar <span class="section-line"></span></div>
   <div style="font-size:16px;color:#b0bdd4;margin-bottom:14px;margin-top:-8px;">Your blood glucose readings in mmol/L across all 7 daily time slots. Lower and more consistent readings indicate better metabolic control.</div>
   <div class="kpi-grid">
-    <div class="kpi-card"><div class="kpi-label">Daily Avg</div><div class="kpi-value">${m.latest?fmt(m.latest.dailyAvg):'—'}</div><div class="kpi-sub">mmol/L</div></div>
+    <div class="kpi-card"><div class="kpi-label">Daily Avg</div><div class="kpi-value">${m.latest?fmt(m.latest.dailyAvg):'—'}</div><div class="kpi-sub">mmol/L today</div></div>
     <div class="kpi-card"><div class="kpi-label">7-Day Avg</div><div class="kpi-value">${fmt(m.rolling7bs)}</div><div class="kpi-sub">mmol/L</div></div>
     <div class="kpi-card"><div class="kpi-label">Cumulative Avg</div><div class="kpi-value">${m.latest?fmt(m.latest.cumAvg):'—'}</div><div class="kpi-sub">mmol/L all days</div></div>
     <div class="kpi-card green"><div class="kpi-label">Best Reading</div><div class="kpi-value">${fmt(m.bestReading)}</div><div class="kpi-sub">mmol/L all time</div></div>
@@ -819,13 +500,13 @@ function renderDashboard(person,rows){
     <div class="kpi-card amber"><div class="kpi-label">Amber %</div><div class="kpi-value">${m.avgAmberPct!==null?m.avgAmberPct+'%':'—'}</div><div class="kpi-sub">caution readings</div></div>
     <div class="kpi-card red"><div class="kpi-label">Red %</div><div class="kpi-value">${m.avgRedPct!==null?m.avgRedPct+'%':'—'}</div><div class="kpi-sub">out of range</div></div>
   </div>
- 
+
   <div class="section-title" style="margin-top:16px;">Latest readings by time slot <span class="section-line"></span></div>
   <div style="font-size:16px;color:#b0bdd4;margin-bottom:14px;margin-top:-8px;">Today's readings at each of the 7 test times, alongside your all-time average for that slot.</div>
   <div class="bs-grid">
-    ${BS_SLOTS.map(s=>{const val=m.latest?m.latest.bs[s.key]:null;const avg=m.slotAvgs[s.key];const cls=bsColorClass(val,s.key);return`<div class="bs-slot ${cls}"><div class="bs-time">${s.key}</div><div class="bs-val">${val!==null?val.toFixed(1):'—'}</div><div class="bs-avg">avg ${avg!==null?avg.toFixed(1):'—'}</div></div>`;}).join('')}
+    ${BS_SLOTS.map(s=>{const val=m.latest?m.latest.bs[s.key]:null;const avg=m.slotAvgs[s.key];const cls=bsColorClass(val,s.key);return'<div class="bs-slot '+cls+'"><div class="bs-time">'+s.key+'</div><div class="bs-val">'+(val!==null?val.toFixed(1):'—')+'</div><div class="bs-avg">avg '+(avg!==null?avg.toFixed(1):'—')+'</div></div>';}).join('')}
   </div>
- 
+
   <div class="section-title" style="margin-top:24px;">Blood Sugar Deltas <span class="section-line"></span></div>
   <div style="font-size:16px;color:#b0bdd4;margin-bottom:14px;margin-top:-8px;">Average change in mmol/L between specific time points — negative values indicate a drop, which is the desired outcome for the exercise effect.</div>
   <div class="kpi-grid">
@@ -834,15 +515,15 @@ function renderDashboard(person,rows){
     <div class="kpi-card"><div class="kpi-label">Exercise Effect</div><div class="kpi-value">${m.exDelta!==null?(m.exDelta>=0?'+':'')+m.exDelta.toFixed(2):'—'}</div><div class="kpi-sub">avg 18:30→19:30</div></div>
     <div class="kpi-card"><div class="kpi-label">Tests Today</div><div class="kpi-value">${m.latest?m.latest.bloodTestCount||'—':'—'}</div><div class="kpi-sub">${m.latest&&m.latest.bloodTestPct!==null?m.latest.bloodTestPct+'% target hit':'of expected'}</div></div>
   </div>
- 
+
   <div class="chart-grid single" style="margin-top:16px;">
-    <div class="chart-card"><div class="chart-title">Daily Average Blood Sugar Trend</div><div class="chart-wrap" style="height:220px;"><canvas id="${person}-bs-trend" role="img" aria-label="Blood sugar trend"></canvas></div></div>
+    <div class="chart-card"><div class="chart-title">Daily Average Blood Sugar Trend</div><div class="chart-wrap" style="height:220px;"><canvas id="${person}-bs-trend"></canvas></div></div>
   </div>
   <div class="chart-grid" style="margin-top:16px;">
-    <div class="chart-card"><div class="chart-title">Time-Slot Averages (all time)</div><div class="chart-wrap" style="height:200px;"><canvas id="${person}-slot-avg" role="img" aria-label="Slot averages"></canvas></div></div>
-    <div class="chart-card"><div class="chart-title">5.4 Protocol Zone Distribution</div><div class="chart-wrap" style="height:200px;"><canvas id="${person}-zone-donut" role="img" aria-label="Zone distribution"></canvas></div></div>
+    <div class="chart-card"><div class="chart-title">Time-Slot Averages (all time)</div><div class="chart-wrap" style="height:200px;"><canvas id="${person}-slot-avg"></canvas></div></div>
+    <div class="chart-card"><div class="chart-title">5.4 Protocol Zone Distribution</div><div class="chart-wrap" style="height:200px;"><canvas id="${person}-zone-donut"></canvas></div></div>
   </div>
- 
+
   <div class="section-title" id="section-hba1c"><span style="text-transform:none;">HbA1c</span> Projection <span class="section-line"></span></div>
   <div style="font-size:16px;color:#b0bdd4;margin-bottom:14px;margin-top:-8px;">HbA1c reflects your average blood sugar over the past 90 days. The projection is calculated from your cumulative daily average using the standard formula.</div>
   <div class="kpi-grid">
@@ -851,9 +532,9 @@ function renderDashboard(person,rows){
     <div class="kpi-card ${m.hba1cDist!==null?(m.hba1cDist<=0?'green':m.hba1cDist<=0.5?'amber':'red'):''}"><div class="kpi-label">To Target</div><div class="kpi-value">${m.hba1cDist!==null?(m.hba1cDist>0?'+':'')+m.hba1cDist+'%':'—'}</div><div class="kpi-sub">from 5.4%</div></div>
   </div>
   <div class="chart-grid single" style="margin-top:16px;">
-    <div class="chart-card"><div class="chart-title"><span style="text-transform:none;">HbA1c</span> Projection Trend</div><div class="chart-wrap" style="height:220px;"><canvas id="${person}-hba1c-trend" role="img" aria-label="HbA1c trend"></canvas></div></div>
+    <div class="chart-card"><div class="chart-title"><span style="text-transform:none;">HbA1c</span> Projection Trend</div><div class="chart-wrap" style="height:220px;"><canvas id="${person}-hba1c-trend"></canvas></div></div>
   </div>
- 
+
   <div class="section-title" id="section-weight">Weight <span class="section-line"></span></div>
   <div style="font-size:16px;color:#b0bdd4;margin-bottom:14px;margin-top:-8px;">Tracks your weight loss progress against your target. Early losses are typically water and glycogen — fat loss becomes the primary driver from week 2 onwards.</div>
   <div class="kpi-grid">
@@ -866,9 +547,9 @@ function renderDashboard(person,rows){
     <div class="kpi-card green"><div class="kpi-label">Daily Avg Loss</div><div class="kpi-value">${m.dailyWeightLoss!==null?fmt(m.dailyWeightLoss,2)+'kg':'—'}</div><div class="kpi-sub">per day since start</div></div>
   </div>
   <div class="chart-grid single" style="margin-top:16px;">
-    <div class="chart-card"><div class="chart-title">Weight Trend</div><div class="chart-wrap" style="height:220px;"><canvas id="${person}-weight-trend" role="img" aria-label="Weight trend"></canvas></div></div>
+    <div class="chart-card"><div class="chart-title">Weight Trend</div><div class="chart-wrap" style="height:220px;"><canvas id="${person}-weight-trend"></canvas></div></div>
   </div>
- 
+
   <div class="section-title" id="section-adherence">5.4 Protocol Adherence <span class="section-line"></span></div>
   <div style="font-size:16px;color:#b0bdd4;margin-bottom:14px;margin-top:-8px;">How consistently you are completing all 7 protocol elements each day. Higher adherence directly correlates with better outcomes.</div>
   <div class="kpi-grid">
@@ -878,16 +559,15 @@ function renderDashboard(person,rows){
     <div class="kpi-card"><div class="kpi-label">Latest Score</div><div class="kpi-value">${m.hasAdhere.length&&m.hasAdhere[m.hasAdhere.length-1].adhereScore?m.hasAdhere[m.hasAdhere.length-1].adhereScore.num+'/'+m.hasAdhere[m.hasAdhere.length-1].adhereScore.den:'—'}</div><div class="kpi-sub">most recent day</div></div>
     <div class="kpi-card ${m.mostMissed?'amber':''}"><div class="kpi-label">Most Missed</div><div class="kpi-value" style="font-size:16px;">${m.mostMissed?ADHERENCE_ITEMS.find(i=>i.key===m.mostMissed)?.label||'—':'—'}</div><div class="kpi-sub">${m.mostMissed&&m.itemRates[m.mostMissed]!==null?m.itemRates[m.mostMissed]+'% compliance':''}</div></div>
   </div>
- 
   <div class="section-title" style="margin-top:16px;">Per-item compliance <span class="section-line"></span></div>
   <div style="font-size:16px;color:#b0bdd4;margin-bottom:14px;margin-top:-8px;">Completion rate for each individual protocol element across all logged days.</div>
   <div class="adhere-grid">
-    ${ADHERENCE_ITEMS.map(item=>{const rate=m.itemRates[item.key];const col=rate===null?'var(--adhere-null)':rate>=90?'var(--adhere-green)':rate>=70?'var(--adhere-amber)':'var(--adhere-red)';return`<div class="adhere-item"><div class="adhere-name">${item.label}</div><div class="adhere-pct" style="color:${col}">${rate!==null?rate+'%':'—'}</div><div class="adhere-bar"><div class="adhere-fill" style="width:${rate||0}%;background:${col}"></div></div></div>`;}).join('')}
+    ${ADHERENCE_ITEMS.map(item=>{const rate=m.itemRates[item.key];const col=rate===null?'var(--adhere-null)':rate>=90?'var(--adhere-green)':rate>=70?'var(--adhere-amber)':'var(--adhere-red)';return'<div class="adhere-item"><div class="adhere-name">'+item.label+'</div><div class="adhere-pct" style="color:'+col+'">'+(rate!==null?rate+'%':'—')+'</div><div class="adhere-bar"><div class="adhere-fill" style="width:'+(rate||0)+'%;background:'+col+'"></div></div></div>';}).join('')}
   </div>
   <div class="chart-grid single" style="margin-top:16px;">
-    <div class="chart-card"><div class="chart-title">Daily Adherence % Over Time</div><div class="chart-wrap" style="height:180px;"><canvas id="${person}-adhere-trend" role="img" aria-label="Adherence trend"></canvas></div></div>
+    <div class="chart-card"><div class="chart-title">Daily Adherence % Over Time</div><div class="chart-wrap" style="height:180px;"><canvas id="${person}-adhere-trend"></canvas></div></div>
   </div>
- 
+
   <div class="section-title" id="section-exercise">Exercise <span class="section-line"></span></div>
   <div style="font-size:16px;color:#b0bdd4;margin-bottom:14px;margin-top:-8px;">Post-OMAD resistance exercise helps lower blood sugar by driving glucose into muscle cells. Escalated rep days occur when blood sugar exceeds 7.5 mmol/L.</div>
   <div class="kpi-grid">
@@ -895,7 +575,7 @@ function renderDashboard(person,rows){
     <div class="kpi-card"><div class="kpi-label">Exercise Streak</div><div class="kpi-value">${m.exStreak}</div><div class="kpi-sub">consecutive days</div></div>
     <div class="kpi-card amber"><div class="kpi-label">Escalated Days</div><div class="kpi-value">${m.escalatedDays}</div><div class="kpi-sub">high sugar trigger (&gt;7.5)</div></div>
   </div>
- 
+
   <div class="section-title" id="section-streaks">Streaks &amp; Milestones <span class="section-line"></span></div>
   <div style="font-size:16px;color:#b0bdd4;margin-bottom:14px;margin-top:-8px;">Consecutive day streaks and cumulative milestones — a motivational view of consistency over time.</div>
   <div class="streak-grid">
@@ -906,13 +586,13 @@ function renderDashboard(person,rows){
     <div class="streak-card"><div class="streak-icon">🏆</div><div><div class="streak-label">Non-Diabetic Streak</div><div class="streak-val">${m.nonDiabeticStreak} days</div></div></div>
   </div>
   <div style="height:40px;"></div>
- 
+
   <div class="section-title" id="section-summary">5.4 Protocol Summary <span class="section-line"></span></div>
   <div style="font-size:16px;color:#b0bdd4;margin-bottom:14px;margin-top:-8px;">An automated analysis of your current data across all protocol metrics, updated each time new data is loaded.</div>
   <div style="background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:8px 24px 0;margin-bottom:40px;">
-    ${generateSummary(m, person)}
+    ${generateSummary(m,person)}
   </div>
- 
+
   <div class="section-title" id="section-bloodtests">Blood Test Record <span class="section-line"></span></div>
   <div style="font-size:16px;color:#b0bdd4;margin-bottom:14px;margin-top:-8px;">A full record of every blood glucose reading, colour coded against your personal targets.</div>
   <div style="display:flex;align-items:center;gap:12px;margin-bottom:16px;flex-wrap:wrap;">
@@ -925,171 +605,87 @@ function renderDashboard(person,rows){
   </div>
   <div id="${person}-bt-wrap" class="bt-table-wrap">
     <table class="bt-table">
-      <thead><tr>
-        <th>Date</th><th>05:00</th><th>09:00</th><th>13:00</th><th>17:00</th><th>18:30</th><th>19:30</th><th>22:00</th><th>Daily Avg</th><th>Protocol Zone</th><th>WHO Zone</th><th>Notes</th>
-      </tr></thead>
+      <thead><tr><th>Date</th><th>05:00</th><th>09:00</th><th>13:00</th><th>17:00</th><th>18:30</th><th>19:30</th><th>22:00</th><th>Daily Avg</th><th>Protocol Zone</th><th>WHO Zone</th><th>Notes</th></tr></thead>
       <tbody id="${person}-bt-body"></tbody>
     </table>
   </div>
   <div style="height:40px;"></div>`;
- 
-  mkLine(`${person}-bs-trend`,m.hasData.map(r=>r.dateStr),[{label:'Daily Avg',data:m.hasData.map(r=>r.dailyAvg),borderColor:hex,backgroundColor:hex+'22',borderWidth:2,pointRadius:3,pointBackgroundColor:hex,fill:true,tension:0.3,spanGaps:true}],{yScale:{min:4,suggestedMax:12},weekendTicks:true});
-  mkBar(`${person}-slot-avg`,BS_SLOTS.map(s=>s.key),[{data:BS_SLOTS.map(s=>m.slotAvgs[s.key]!==null?+m.slotAvgs[s.key].toFixed(2):null),backgroundColor:BS_SLOTS.map(s=>{const v=m.slotAvgs[s.key];if(v===null)return c.barNull;const cl=bsColorClass(v,s.key);return cl==='green'?'#b6d7a8':cl==='amber'?'#f6b26b':'#ea9999';}),borderRadius:4}],{yScale:{min:4},datalabels:true});
+
+  mkLine(person+'-bs-trend',m.hasData.map(r=>r.dateStr),[{label:'Daily Avg',data:m.hasData.map(r=>r.dailyAvg),borderColor:hex,backgroundColor:hex+'22',borderWidth:2,pointRadius:3,pointBackgroundColor:hex,fill:true,tension:0.3,spanGaps:true}],{yScale:{min:4,suggestedMax:12},weekendTicks:true});
+  mkBar(person+'-slot-avg',BS_SLOTS.map(s=>s.key),[{data:BS_SLOTS.map(s=>m.slotAvgs[s.key]!==null?+m.slotAvgs[s.key].toFixed(2):null),backgroundColor:BS_SLOTS.map(s=>{const v=m.slotAvgs[s.key];if(v===null)return c.barNull;const cl=bsColorClass(v,s.key);return cl==='green'?'#b6d7a8':cl==='amber'?'#f6b26b':'#ea9999';}),borderRadius:4}],{yScale:{min:4},datalabels:true});
   const zKeys=Object.keys(m.zoneCounts);
-  if(zKeys.length) mkDonut(`${person}-zone-donut`,zKeys,zKeys.map(k=>m.zoneCounts[k]),zKeys.map(k=>{const l=k.toLowerCase();return l.includes('danger')?'#ea9999':l.includes('warning')?'#f6b26b':'#b6d7a8';}));
-  mkLine(`${person}-hba1c-trend`,m.hasHba1c.map(r=>r.dateStr),[
+  if(zKeys.length)mkDonut(person+'-zone-donut',zKeys,zKeys.map(k=>m.zoneCounts[k]),zKeys.map(k=>{const l=k.toLowerCase();return l.includes('danger')?'#ea9999':l.includes('warning')?'#f6b26b':'#b6d7a8';}));
+  mkLine(person+'-hba1c-trend',m.hasHba1c.map(r=>r.dateStr),[
     {label:'HbA1c Proj.',data:m.hasHba1c.map(r=>r.hba1cProj),borderColor:hex,backgroundColor:hex+'22',borderWidth:2,pointRadius:3,pointBackgroundColor:hex,fill:true,tension:0.3,spanGaps:true},
     {label:'Target 5.4%',data:m.hasHba1c.map(()=>HBAIC_TARGET),borderColor:c.targetLine,borderWidth:1.5,borderDash:[6,4],pointRadius:0,fill:false}
   ],{legend:true,yScale:{min:4,suggestedMax:8},weekendTicks:true});
-  mkLine(`${person}-weight-trend`,m.hasWeight.map(r=>r.dateStr),[
+  mkLine(person+'-weight-trend',m.hasWeight.map(r=>r.dateStr),[
     {label:'Weight (kg)',data:m.hasWeight.map(r=>r.weight),borderColor:hex,backgroundColor:hex+'22',borderWidth:2,pointRadius:3,pointBackgroundColor:hex,fill:true,tension:0.3,spanGaps:true},
-    {label:`Target ${tgt.weight}kg`,data:m.hasWeight.map(()=>tgt.weight),borderColor:c.targetLine,borderWidth:1.5,borderDash:[6,4],pointRadius:0,fill:false}
+    {label:'Target '+tgt.weight+'kg',data:m.hasWeight.map(()=>tgt.weight),borderColor:c.targetLine,borderWidth:1.5,borderDash:[6,4],pointRadius:0,fill:false}
   ],{legend:true,yScale:{min:tgt.weight-10},weekendTicks:true});
-  mkLine(`${person}-adhere-trend`,m.hasAdhere.map(r=>r.dateStr),[{label:'Adherence %',data:m.hasAdhere.map(r=>r.adherePct),borderColor:'#6b3fa0',backgroundColor:'rgba(107,63,160,0.1)',borderWidth:2,pointRadius:3,pointBackgroundColor:'#6b3fa0',fill:true,tension:0.2,spanGaps:true}],{yScale:{min:0,suggestedMax:110},weekendTicks:true});
+  mkLine(person+'-adhere-trend',m.hasAdhere.map(r=>r.dateStr),[{label:'Adherence %',data:m.hasAdhere.map(r=>r.adherePct),borderColor:'#6b3fa0',backgroundColor:'rgba(107,63,160,0.1)',borderWidth:2,pointRadius:3,pointBackgroundColor:'#6b3fa0',fill:true,tension:0.2,spanGaps:true}],{yScale:{min:0,suggestedMax:110},weekendTicks:true});
   setTimeout(()=>renderBTTable(person),100);
 }
- 
-function generateSummary(m, person) {
-  const s = [];
-  const daysIn = m.daysOnProtocol;
-  let progressText = '';
-  if (daysIn <= 7) progressText = `Early stages — day <strong>${daysIn}</strong> of <strong>91</strong>.`;
-  else if (daysIn <= 30) progressText = `Day <strong>${daysIn}</strong> of <strong>91</strong> — building momentum.`;
-  else if (daysIn <= 60) progressText = `Day <strong>${daysIn}</strong> of <strong>91</strong> — well underway.`;
-  else progressText = `Day <strong>${daysIn}</strong> of <strong>91</strong> — the final stretch.`;
-  let bsText = '';
-  if (m.latest && m.latest.dailyAvg !== null) {
-    const avg = m.latest.dailyAvg;
-    const zone = m.latest.protocolZone ? m.latest.protocolZone.toLowerCase() : '';
-    const zoneColor = zone.includes('danger') ? 'var(--red)' : zone.includes('warning') ? 'var(--amber)' : 'var(--green)';
-    const zoneLabel = m.latest.protocolZone || 'Unknown';
-    bsText = `Latest daily average <strong style="color:${zoneColor}">${avg.toFixed(1)} mmol/L</strong> — <span style="color:${zoneColor}">${zoneLabel}</span> zone.`;
-    if (m.rolling7bs !== null) {
-      const diff = avg - m.rolling7bs;
-      if (diff < -0.3) bsText += ` Trending <strong style="color:var(--green)">downward</strong> over 7 days.`;
-      else if (diff > 0.3) bsText += ` Trending <strong style="color:var(--amber)">upward</strong> vs 7-day average — monitor closely.`;
-      else bsText += ` Stable over the past 7 days.`;
-    }
+
+function generateSummary(m,person){
+  const daysIn=m.daysOnProtocol;
+  let progressText='';
+  if(daysIn<=7)progressText='Early stages — day <strong>'+daysIn+'</strong> of <strong>91</strong>.';
+  else if(daysIn<=30)progressText='Day <strong>'+daysIn+'</strong> of <strong>91</strong> — building momentum.';
+  else if(daysIn<=60)progressText='Day <strong>'+daysIn+'</strong> of <strong>91</strong> — well underway.';
+  else progressText='Day <strong>'+daysIn+'</strong> of <strong>91</strong> — the final stretch.';
+  let bsText='';
+  if(m.latest&&m.latest.dailyAvg!==null){
+    const avg=m.latest.dailyAvg,zone=m.latest.protocolZone?m.latest.protocolZone.toLowerCase():'';
+    const zc=zone.includes('danger')?'var(--red)':zone.includes('warning')?'var(--amber)':'var(--green)';
+    bsText='Latest daily average <strong style="color:'+zc+'">'+avg.toFixed(1)+' mmol/L</strong> — <span style="color:'+zc+'">'+( m.latest.protocolZone||'Unknown')+'</span> zone.';
+    if(m.rolling7bs!==null){const diff=avg-m.rolling7bs;if(diff<-0.3)bsText+=' Trending <strong style="color:var(--green)">downward</strong> over 7 days.';else if(diff>0.3)bsText+=' Trending <strong style="color:var(--amber)">upward</strong> vs 7-day average — monitor closely.';else bsText+=' Stable over the past 7 days.';}
   }
-  let hba1cText = '';
-  if (m.latestHba1c) {
-    const hba1c = m.latestHba1c.hba1cProj;
-    const dist = m.hba1cDist;
-    const hColor = hba1c <= 5.4 ? 'var(--green)' : hba1c <= 6.0 ? 'var(--amber)' : 'var(--red)';
-    hba1cText = `Projected <span style="color:var(--muted)">HbA1c</span> <strong style="color:${hColor}">${hba1c.toFixed(1)}%</strong>`;
-    if (hba1c <= 5.4) hba1cText += ` — <strong style="color:var(--green)">target reached.</strong>`;
-    else if (dist !== null) hba1cText += ` — <strong>${dist.toFixed(2)}%</strong> above the 5.4% target.`;
-  }
-  let weightText = '';
-  if (m.totalWeightLost !== null && m.totalWeightLost > 0) {
-    weightText = `<strong style="color:var(--green)">${m.totalWeightLost.toFixed(1)}kg</strong> lost since day one.`;
-    if (m.latestWeight && m.latestWeight.weightFromTarget) weightText += ` <strong>${Math.abs(m.latestWeight.weightFromTarget).toFixed(1)}kg</strong> to target.`;
-  }
-  let exText = '';
-  if (m.exDelta !== null) {
-    if (m.exDelta < -0.1) exText = `Post-meal exercise is delivering a <strong style="color:var(--green)">${Math.abs(m.exDelta).toFixed(2)} mmol/L</strong> average blood sugar drop — keep it up.`;
-    else if (m.exDelta > 0.1) exText = `Post-meal exercise is currently showing a slight rise — this should settle as the 5.4 Protocol beds in.`;
-  }
-  if (m.exRate !== null) {
-    const exColor = m.exRate >= 85 ? 'var(--green)' : m.exRate >= 60 ? 'var(--amber)' : 'var(--red)';
-    exText += (exText ? ` Exercise completion rate: <strong style="color:${exColor}">${m.exRate}%</strong>.` : `Exercise completion rate: <strong style="color:${exColor}">${m.exRate}%</strong>.`);
-  }
-  let adhText = '';
-  if (m.cumAdh !== null) {
-    const adhColor = m.cumAdh >= 90 ? 'var(--green)' : m.cumAdh >= 70 ? 'var(--amber)' : 'var(--red)';
-    adhText = `Overall adherence <strong style="color:${adhColor}">${m.cumAdh}%</strong>.`;
-    if (m.mostMissed) {
-      const item = ADHERENCE_ITEMS.find(i => i.key === m.mostMissed);
-      if (item) adhText += ` Most missed: <strong>${item.label}</strong> — consistency here could accelerate results.`;
-    }
-    if (m.perfStreak >= 3) adhText += ` Current perfect day streak: <strong style="color:var(--green)">${m.perfStreak} days</strong>.`;
-  }
-  let dawnText = '';
-  if (m.dawnDelta !== null && m.dawnDelta > 0.5) {
-    dawnText = `Dawn phenomenon is active — average rise of <strong>${m.dawnDelta.toFixed(2)} mmol/L</strong> between 05:00 and 09:00. This is a normal physiological response and typically reduces as the 5.4 Protocol progresses.`;
-  }
-  const cards = [
-    { icon: '📅', label: 'Progress',    text: progressText },
-    { icon: '🩸', label: 'Blood Sugar', text: bsText },
-    { icon: '📊', label: 'HbA1c',       text: hba1cText },
-    { icon: '⚖️', label: 'Weight',      text: weightText },
-    { icon: '💪', label: 'Exercise',    text: exText },
-    { icon: '✅', label: 'Adherence',   text: adhText },
-  ].filter(c => c.text);
-  if (dawnText) cards.push({ icon: '🌅', label: 'Dawn Phenomenon', text: dawnText });
-  return cards.map(c => `
-    <div style="display:flex;gap:16px;align-items:flex-start;padding:16px 0;border-bottom:1px solid var(--border);">
-      <div style="width:36px;height:36px;border-radius:8px;background:var(--surface2);display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0;">${c.icon}</div>
-      <div>
-        <div style="font-size:11px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:var(--muted);margin-bottom:4px;">${c.label}</div>
-        <div style="font-size:14px;line-height:1.7;color:var(--text);">${c.text}</div>
-      </div>
-    </div>
-  `).join('');
+  let hba1cText='';
+  if(m.latestHba1c){const hba1c=m.latestHba1c.hba1cProj,dist=m.hba1cDist;const hc=hba1c<=5.4?'var(--green)':hba1c<=6.0?'var(--amber)':'var(--red)';hba1cText='Projected <span style="color:var(--muted)">HbA1c</span> <strong style="color:'+hc+'">'+hba1c.toFixed(1)+'%</strong>';if(hba1c<=5.4)hba1cText+=' — <strong style="color:var(--green)">target reached.</strong>';else if(dist!==null)hba1cText+=' — <strong>'+dist.toFixed(2)+'%</strong> above the 5.4% target.';}
+  let weightText='';
+  if(m.totalWeightLost!==null&&m.totalWeightLost>0){weightText='<strong style="color:var(--green)">'+m.totalWeightLost.toFixed(1)+'kg</strong> lost since day one.';if(m.latestWeight&&m.latestWeight.weightFromTarget)weightText+=' <strong>'+Math.abs(m.latestWeight.weightFromTarget).toFixed(1)+'kg</strong> to target.';}
+  let exText='';
+  if(m.exDelta!==null){if(m.exDelta<-0.1)exText='Post-meal exercise is delivering a <strong style="color:var(--green)">'+Math.abs(m.exDelta).toFixed(2)+' mmol/L</strong> average blood sugar drop — keep it up.';else if(m.exDelta>0.1)exText='Post-meal exercise is currently showing a slight rise — this should settle as the 5.4 Protocol beds in.';}
+  if(m.exRate!==null){const ec=m.exRate>=85?'var(--green)':m.exRate>=60?'var(--amber)':'var(--red)';exText+=(exText?' Exercise completion rate: ':'Exercise completion rate: ')+'<strong style="color:'+ec+'">'+m.exRate+'%</strong>.';}
+  let adhText='';
+  if(m.cumAdh!==null){const ac=m.cumAdh>=90?'var(--green)':m.cumAdh>=70?'var(--amber)':'var(--red)';adhText='Overall adherence <strong style="color:'+ac+'">'+m.cumAdh+'%</strong>.';if(m.mostMissed){const item=ADHERENCE_ITEMS.find(i=>i.key===m.mostMissed);if(item)adhText+=' Most missed: <strong>'+item.label+'</strong> — consistency here could accelerate results.';}if(m.perfStreak>=3)adhText+=' Current perfect day streak: <strong style="color:var(--green)">'+m.perfStreak+' days</strong>.';}
+  let dawnText='';
+  if(m.dawnDelta!==null&&m.dawnDelta>0.5)dawnText='Dawn phenomenon is active — average rise of <strong>'+m.dawnDelta.toFixed(2)+' mmol/L</strong> between 05:00 and 09:00. This is a normal physiological response and typically reduces as the 5.4 Protocol progresses.';
+  const cards=[{icon:'📅',label:'Progress',text:progressText},{icon:'🩸',label:'Blood Sugar',text:bsText},{icon:'📊',label:'HbA1c',text:hba1cText},{icon:'⚖️',label:'Weight',text:weightText},{icon:'💪',label:'Exercise',text:exText},{icon:'✅',label:'Adherence',text:adhText}].filter(c=>c.text);
+  if(dawnText)cards.push({icon:'🌅',label:'Dawn Phenomenon',text:dawnText});
+  return cards.map(c=>'<div style="display:flex;gap:16px;align-items:flex-start;padding:16px 0;border-bottom:1px solid var(--border);"><div style="width:36px;height:36px;border-radius:8px;background:var(--surface2);display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0;">'+c.icon+'</div><div><div style="font-size:11px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:var(--muted);margin-bottom:4px;">'+c.label+'</div><div style="font-size:14px;line-height:1.7;color:var(--text);">'+c.text+'</div></div></div>').join('');
 }
- 
-function getMonthOptions(person){
-  const rows = allData[person]||[];
-  const months = new Set();
-  rows.forEach(r=>{if(r.date)months.add(r.date.getMonth());});
-  return Array.from(months).sort((a,b)=>a-b).map(m=>`<option value="${m}">${MONTH_NAMES[m]}</option>`).join('');
-}
- 
-function toggleBTTable(person){
-  const wrap = document.getElementById(person+'-bt-wrap');
-  const btn = document.getElementById(person+'-bt-toggle');
-  if(wrap.style.display==='none'){wrap.style.display='';btn.textContent='Hide Table';}
-  else{wrap.style.display='none';btn.textContent='Show Table';}
-}
- 
+
+function getMonthOptions(person){const rows=allData[person]||[];const months=new Set();rows.forEach(r=>{if(r.date)months.add(r.date.getMonth());});return Array.from(months).sort((a,b)=>a-b).map(m=>'<option value="'+m+'">'+MONTH_NAMES[m]+'</option>').join('');}
+function toggleBTTable(person){const wrap=document.getElementById(person+'-bt-wrap');const btn=document.getElementById(person+'-bt-toggle');if(wrap.style.display==='none'){wrap.style.display='';btn.textContent='Hide Table';}else{wrap.style.display='none';btn.textContent='Show Table';}}
 function renderBTTable(person){
-  const sel = document.getElementById(person+'-bt-month');
-  const month = sel ? sel.value : 'all';
-  const rows = (allData[person]||[]).filter(r=>{
-    if(!r.date) return false;
-    if(month!=='all' && r.date.getMonth()!==parseInt(month)) return false;
-    return true;
-  });
-  const tbody = document.getElementById(person+'-bt-body');
-  if(!tbody) return;
-  tbody.innerHTML = rows.map(r=>{
-    const slots = ['05:00','09:00','13:00','17:00','18:30','19:30','22:00'];
-    const cells = slots.map(s=>{
-      const v = r.bs[s];
-      if(v===null||v===undefined) return '<td class="empty">—</td>';
-      const cls = bsColorClass(v,s);
-      return `<td class="${cls}">${v.toFixed(1)}</td>`;
-    }).join('');
-    const avgCell = r.dailyAvg!==null?`<td>${r.dailyAvg.toFixed(1)}</td>`:'<td class="empty">—</td>';
-    const zoneClass = r.protocolZone?(r.protocolZone.toLowerCase().includes('danger')?'zone-danger':r.protocolZone.toLowerCase().includes('warning')?'zone-warning':'zone-normal'):'';
-    const whoColor = whoZoneColor(r.whoZone||'');
-    const whoStyle = whoColor ? 'style="color:'+whoColor+'"' : '';
-    const notesCell = r.notes ? `<td style="text-align:left;color:var(--muted);font-size:12px;">${r.notes}</td>` : '<td class="empty">—</td>';
-    return `<tr><td>${r.dateStr}</td>${cells}${avgCell}<td class="${zoneClass}">${r.protocolZone||'—'}</td><td ${whoStyle}>${r.whoZone||'—'}</td>${notesCell}</tr>`;
+  const sel=document.getElementById(person+'-bt-month');const month=sel?sel.value:'all';
+  const rows=(allData[person]||[]).filter(r=>{if(!r.date)return false;if(month!=='all'&&r.date.getMonth()!==parseInt(month))return false;return true;});
+  const tbody=document.getElementById(person+'-bt-body');if(!tbody)return;
+  tbody.innerHTML=rows.map(r=>{
+    const slots=['05:00','09:00','13:00','17:00','18:30','19:30','22:00'];
+    const cells=slots.map(s=>{const v=r.bs[s];if(v===null||v===undefined)return'<td class="empty">—</td>';return'<td class="'+bsColorClass(v,s)+'">'+v.toFixed(1)+'</td>';}).join('');
+    const avgCell=r.dailyAvg!==null?'<td>'+r.dailyAvg.toFixed(1)+'</td>':'<td class="empty">—</td>';
+    const zc=r.protocolZone?(r.protocolZone.toLowerCase().includes('danger')?'zone-danger':r.protocolZone.toLowerCase().includes('warning')?'zone-warning':'zone-normal'):'';
+    const wc=whoZoneColor(r.whoZone||'');const ws=wc?'style="color:'+wc+'"':'';
+    const nc=r.notes?'<td style="text-align:left;color:var(--muted);font-size:12px;">'+r.notes+'</td>':'<td class="empty">—</td>';
+    return'<tr><td>'+r.dateStr+'</td>'+cells+avgCell+'<td class="'+zc+'">'+(r.protocolZone||'—')+'</td><td '+ws+'>'+(r.whoZone||'—')+'</td>'+nc+'</tr>';
   }).join('');
 }
- 
 function scrollToSection(id){const el=document.getElementById('section-'+id);if(el)el.scrollIntoView({behavior:'smooth',block:'start'});}
- 
 function switchTab(person){
   document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
-  document.querySelector(`.tab[data-person="${person}"]`).classList.add('active');
+  document.querySelector('.tab[data-person="'+person+'"]').classList.add('active');
   document.querySelectorAll('.dashboard').forEach(d=>d.classList.remove('active'));
-  document.getElementById(`dash-${person}`).classList.add('active');
+  document.getElementById('dash-'+person).classList.add('active');
   if(allData[person])renderDashboard(person,allData[person]);
 }
- 
 function showDashboard(csvText){
   allData=processData(csvText);
   document.getElementById('tabs').classList.add('visible');
   document.getElementById('section-nav').classList.remove('hidden');
   document.getElementById('filter-bar').classList.remove('filter-hidden');
-  if(window.innerWidth <= 768){
-    requestAnimationFrame(function(){
-      var tabs = document.getElementById('tabs');
-      if(tabs) document.getElementById('filter-bar').style.top = tabs.getBoundingClientRect().bottom + 'px';
-    });
-  }
   const allRows=[...(allData.Declan||[]),...(allData.Emi||[])];
   const months=getAvailableMonths(allRows);
   const sel=document.getElementById('month-filter');
@@ -1099,7 +695,6 @@ function showDashboard(csvText){
   renderDashboard('Emi',allData.Emi||[]);
   document.getElementById('dash-Declan').classList.add('active');
 }
- 
 fetch('data.csv')
   .then(r=>{if(!r.ok)throw new Error('no file');return r.text();})
   .then(text=>{showDashboard(text);})
