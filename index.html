@@ -354,7 +354,7 @@ function calcMetrics(rows,person){
   const hasData=rows.filter(r=>r.dailyAvg!==null),hasWeight=rows.filter(r=>r.weight!==null),hasAdhere=rows.filter(r=>r.adhereScore!==null),hasExercise=rows.filter(r=>r.exercise!==''),hasHba1c=rows.filter(r=>r.hba1cProj!==null);
   const today=new Date();
   const daysOnProtocol=Math.max(1,Math.floor((today-PROTOCOL_START)/86400000)+1);
-  const daysRemaining=Math.max(0,CYCLE_DAYS-daysOnProtocol);
+  const daysRemaining=Math.max(0,CYCLE_DAYS-daysOnProtocol+1);
   const cyclePct=Math.min(100,Math.round((daysOnProtocol/CYCLE_DAYS)*100));
   const latest=hasData.length?hasData[hasData.length-1]:null;
   const latestWeight=hasWeight.length?hasWeight[hasWeight.length-1]:null;
