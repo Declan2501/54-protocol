@@ -497,7 +497,7 @@ function renderDashboard(person,rows){
   </div>
  
   <div class="section-title" style="margin-top:16px;">Latest readings by time slot <span class="section-line"></span></div>
-  <div style="font-size:16px;color:#b0bdd4;margin-bottom:14px;margin-top:-8px;">Today's readings at each of the 7 test times, alongside your all-time average for that slot.</div>
+  <div style="font-size:16px;color:#b0bdd4;margin-bottom:14px;margin-top:-8px;">Today's readings at each of the 3 test times, alongside your all-time average for that slot.</div>
   <div class="bs-grid">
     ${BS_SLOTS.map(s=>{const val=m.latest?m.latest.bs[s.key]:null;const avg=m.slotAvgs[s.key];const cls=bsColorClass(val,s.key);return'<div class="bs-slot '+cls+'"><div class="bs-time">'+s.key+'</div><div class="bs-val">'+(val!==null?val.toFixed(1):'—')+'</div><div class="bs-avg">avg '+(avg!==null?avg.toFixed(1):'—')+'</div></div>';}).join('')}
   </div>
