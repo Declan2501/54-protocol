@@ -226,7 +226,7 @@ if(sessionStorage.getItem('54p-auth')==='1'){document.addEventListener('DOMConte
 <div class="dashboard" id="dash-Emi"></div>
  
 <script>
-let PROTOCOL_START=new Date('2026-06-08'),CYCLE_DAYS=90,HBAIC_TARGET=5.4;
+let PROTOCOL_START=null,CYCLE_DAYS=90,HBAIC_TARGET=5.4;
  
 const barLabelPlugin={
   id:'barLabels',
@@ -354,8 +354,8 @@ function bsColorClass(val,slot){
 function calcMetrics(rows,person){
   const hasData=rows.filter(r=>r.dailyAvg!==null),hasWeight=rows.filter(r=>r.weight!==null),hasAdhere=rows.filter(r=>r.adhereScore!==null),hasExercise=rows.filter(r=>r.exercise!==''),hasHba1c=rows.filter(r=>r.hba1cProj!==null);
   const today=new Date();
-  const daysElapsed=Math.floor((today-PROTOCOL_START)/86400000)+1;const protocolStarted=daysElapsed>=1;const daysOnProtocol=protocolStarted?daysElapsed:0;
-  const daysRemaining=protocolStarted?Math.max(0,CYCLE_DAYS-daysOnProtocol):CYCLE_DAYS;
+  const daysElapsed=PROTOCOL_START?Math.floor((today-PROTOCOL_START)/86400000)+1:-1;const protocolStarted=PROTOCOL_START&&daysElapsed>=1;const daysOnProtocol=protocolStarted?daysElapsed:0;
+  const daysRemaining=protocolStarted?Math.max(0,CYCLE_DAYS-daysOnProtocol):PROTOCOL_START?CYCLE_DAYS:null;
   const cyclePct=protocolStarted?Math.min(100,Math.round((daysOnProtocol/CYCLE_DAYS)*100)):0;
   const latest=hasData.length?hasData[hasData.length-1]:null;
   const latestWeight=hasWeight.length?hasWeight[hasWeight.length-1]:null;
@@ -454,7 +454,7 @@ function renderDashboard(person,rows){
   <div class="section-title" id="section-progress">5.4 Protocol — Overall Results <span class="section-line"></span></div>
   <div style="font-size:16px;color:#b0bdd4;margin-bottom:14px;margin-top:-8px;">Your start and end metrics for the 90-day protocol — the proof of what lifestyle change alone can achieve.</div>
   <div class="progress-wrap">
-    <div class="progress-label"><span>${m.daysOnProtocol>0?'Day '+m.daysOnProtocol+' of '+CYCLE_DAYS:'Protocol starts '+PROTOCOL_START.toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'numeric'})}</span><span>${m.daysOnProtocol>0?m.cyclePct+'% complete — '+m.daysRemaining+' days remaining':m.daysRemaining+' days to go'}</span></div>
+    <div class="progress-label"><span>${m.daysOnProtocol>0?'Day '+m.daysOnProtocol+' of '+CYCLE_DAYS:PROTOCOL_START?'Protocol starts '+PROTOCOL_START.toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'numeric'}):'No start date set'}</span><span>${m.daysOnProtocol>0?m.cyclePct+'% complete — '+m.daysRemaining+' days remaining':m.daysRemaining!==null?m.daysRemaining+' days to go':''}</span></div>
     <div class="progress-bar"><div class="progress-fill" style="width:${m.cyclePct}%"></div></div>
   </div>
   <div style="display:flex;gap:12px;margin-bottom:24px;flex-wrap:wrap;">
@@ -477,9 +477,10 @@ function renderDashboard(person,rows){
       <div style="font-size:11px;color:var(--muted);margin-top:4px;">Start → Day 90</div>
     </div>
   </div>
-  <div class="section-title" style="margin-top:24px;${m.daysOnProtocol===0?'display:none':''}" >Current 5.4 Protocol Progress <span class="section-line"></span></div>
-  <div style="font-size:16px;color:#b0bdd4;margin-bottom:14px;margin-top:-8px;${m.daysOnProtocol===0?'display:none':''}">Where you are right now in the 90-day cycle.</div>
-  <div class="kpi-grid" style="${m.daysOnProtocol===0?'display:none':''}">
+  <div id="progress-section" style="${m.daysOnProtocol>0?'':'display:none'}">
+  <div class="section-title" style="margin-top:24px;">Current 5.4 Protocol Progress <span class="section-line"></span></div>
+  <div style="font-size:16px;color:#b0bdd4;margin-bottom:14px;margin-top:-8px;">Where you are right now in the 90-day cycle.</div>
+  <div class="kpi-grid">
     <div class="kpi-card blue"><div class="kpi-label">Days on 5.4 Protocol</div><div class="kpi-value">${m.daysOnProtocol}</div><div class="kpi-sub">since 8 Jun 2026</div></div>
     <div class="kpi-card"><div class="kpi-label">Days Remaining</div><div class="kpi-value">${m.daysRemaining}</div><div class="kpi-sub">of 90-day protocol</div></div>
     <div class="kpi-card"><div class="kpi-label">Cycle Complete</div><div class="kpi-value">${m.cyclePct}%</div><div class="kpi-sub">of 90-day cycle</div></div>
@@ -487,6 +488,7 @@ function renderDashboard(person,rows){
     <div class="kpi-card" style="${m.latest&&m.latest.whoZone?'border-color:'+whoZoneColor(m.latest.whoZone)+';background:'+whoZoneColor(m.latest.whoZone)+'22':''}"><div class="kpi-label">WHO Zone</div><div class="kpi-value" style="${m.latest&&m.latest.whoZone?'color:'+whoZoneColor(m.latest.whoZone):''}">${m.latest?m.latest.whoZone||'—':'—'}</div><div class="kpi-sub">latest day</div></div>
   </div>
  
+  </div>
   <div class="section-title" id="section-bloodsugar">Blood Sugar <span class="section-line"></span></div>
   <div style="font-size:16px;color:#b0bdd4;margin-bottom:14px;margin-top:-8px;">Your blood glucose readings in mmol/L across 3 daily time slots. Lower and more consistent readings indicate better metabolic control.</div>
   <div class="kpi-grid">
@@ -502,7 +504,7 @@ function renderDashboard(person,rows){
   </div>
  
   <div class="section-title" style="margin-top:16px;">Latest readings by time slot <span class="section-line"></span></div>
-  <div style="font-size:16px;color:#b0bdd4;margin-bottom:14px;margin-top:-8px;">Today's readings at each of the 3 test times, alongside your all-time average for that slot.</div>
+  <div style="font-size:16px;color:#b0bdd4;margin-bottom:14px;margin-top:-8px;">Today's readings at each of the 7 test times, alongside your all-time average for that slot.</div>
   <div class="bs-grid">
     ${BS_SLOTS.map(s=>{const val=m.latest?m.latest.bs[s.key]:null;const avg=m.slotAvgs[s.key];const cls=bsColorClass(val,s.key);return'<div class="bs-slot '+cls+'"><div class="bs-time">'+s.key+'</div><div class="bs-val">'+(val!==null?val.toFixed(1):'—')+'</div><div class="bs-avg">avg '+(avg!==null?avg.toFixed(1):'—')+'</div></div>';}).join('')}
   </div>
