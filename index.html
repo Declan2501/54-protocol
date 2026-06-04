@@ -226,7 +226,7 @@ if(sessionStorage.getItem('54p-auth')==='1'){document.addEventListener('DOMConte
 <div class="dashboard" id="dash-Emi"></div>
  
 <script>
-const PROTOCOL_START=new Date('2026-06-08'),CYCLE_DAYS=90,HBAIC_TARGET=5.4;
+let PROTOCOL_START=new Date('2026-06-08'),CYCLE_DAYS=90,HBAIC_TARGET=5.4;
  
 const barLabelPlugin={
   id:'barLabels',
@@ -309,6 +309,11 @@ const parseDate=v=>{if(!v)return null;const p=v.split('/');return p.length===3?n
  
 function processData(csvText){
   const rows=parseCSV(csvText),data={Declan:[],Emi:[]};
+  // Read start date from row 2 col 1
+  if(rows.length>2&&rows[2][1]){
+    const dp=rows[2][1].trim().split('/');
+    if(dp.length===3){const d=new Date(parseInt(dp[2]),parseInt(dp[1])-1,parseInt(dp[0]));if(!isNaN(d))PROTOCOL_START=d;}
+  }
   if(rows.length>1){
     const r=rows[1];
     const safeNum=v=>{const n=parseFloat((v||'').toString().replace(/[^0-9.]/g,''));return isNaN(n)?null:n;};
