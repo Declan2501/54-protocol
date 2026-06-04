@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta http-equiv="refresh" content="300">
+<meta http-equiv="refresh" content="60">
 <title>5.4 Protocol Dashboard</title>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
 <style>
@@ -483,10 +483,10 @@ function renderDashboard(person,rows){
   </div>
  
   <div class="section-title" id="section-bloodsugar">Blood Sugar <span class="section-line"></span></div>
-  <div style="font-size:16px;color:#b0bdd4;margin-bottom:14px;margin-top:-8px;">Your blood glucose readings in mmol/L across all 7 daily time slots. Lower and more consistent readings indicate better metabolic control.</div>
+  <div style="font-size:16px;color:#b0bdd4;margin-bottom:14px;margin-top:-8px;">Your blood glucose readings in mmol/L across 3 daily time slots. Lower and more consistent readings indicate better metabolic control.</div>
   <div class="kpi-grid">
     <div class="kpi-card"><div class="kpi-label">Daily Avg</div><div class="kpi-value">${m.latest?fmt(m.latest.dailyAvg):'—'}</div><div class="kpi-sub">mmol/L today</div></div>
-    <div class="kpi-card"><div class="kpi-label">7-Day Avg</div><div class="kpi-value">${fmt(m.rolling7bs)}</div><div class="kpi-sub">mmol/L</div></div>
+    
     <div class="kpi-card"><div class="kpi-label">Cumulative Avg</div><div class="kpi-value">${m.latest?fmt(m.latest.cumAvg):'—'}</div><div class="kpi-sub">mmol/L all days</div></div>
     <div class="kpi-card green"><div class="kpi-label">Best Reading</div><div class="kpi-value">${fmt(m.bestReading)}</div><div class="kpi-sub">mmol/L all time</div></div>
     <div class="kpi-card red"><div class="kpi-label">Worst Reading</div><div class="kpi-value">${fmt(m.worstReading)}</div><div class="kpi-sub">mmol/L all time</div></div>
@@ -497,7 +497,7 @@ function renderDashboard(person,rows){
   </div>
  
   <div class="section-title" style="margin-top:16px;">Latest readings by time slot <span class="section-line"></span></div>
-  <div style="font-size:16px;color:#b0bdd4;margin-bottom:14px;margin-top:-8px;">Today's readings at each of the 3 test times, alongside your all-time average for that slot.</div>
+  <div style="font-size:16px;color:#b0bdd4;margin-bottom:14px;margin-top:-8px;">Today's readings at each of the 7 test times, alongside your all-time average for that slot.</div>
   <div class="bs-grid">
     ${BS_SLOTS.map(s=>{const val=m.latest?m.latest.bs[s.key]:null;const avg=m.slotAvgs[s.key];const cls=bsColorClass(val,s.key);return'<div class="bs-slot '+cls+'"><div class="bs-time">'+s.key+'</div><div class="bs-val">'+(val!==null?val.toFixed(1):'—')+'</div><div class="bs-avg">avg '+(avg!==null?avg.toFixed(1):'—')+'</div></div>';}).join('')}
   </div>
@@ -690,7 +690,7 @@ function showDashboard(csvText){
   renderDashboard('Emi',allData.Emi||[]);
   document.getElementById('dash-Declan').classList.add('active');
 }
-fetch('data.csv')
+fetch('data.csv?t=' + Date.now())
   .then(r=>{if(!r.ok)throw new Error('no file');return r.text();})
   .then(text=>{showDashboard(text);})
   .catch(()=>{console.log('No data.csv found.');});
