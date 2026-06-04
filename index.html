@@ -461,7 +461,7 @@ function renderDashboard(person,rows){
     <div style="background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:12px 18px;flex:1;min-width:140px;">
       <div style="font-size:20px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:var(--muted);margin-bottom:6px;"><span style="text-transform:none;">HbA1c</span></div>
       <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;">
-        <span style="font-size:clamp(13px,2vw,20px);font-weight:700;color:var(--red);">${tgt.startHba1c}%</span>
+        <span style="font-size:clamp(13px,2vw,20px);font-weight:700;color:var(--red);">${tgt.startHba1c?tgt.startHba1c+'%':'No Data Yet'}</span>
         <span style="color:var(--muted);">→</span>
         <span style="font-size:clamp(13px,2vw,20px);font-weight:700;color:${tgt.endHba1c?'var(--green)':'var(--muted)'};">${tgt.endHba1c?tgt.endHba1c+'%':'TBC'}</span>
       </div>
@@ -470,7 +470,7 @@ function renderDashboard(person,rows){
     <div style="background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:12px 18px;flex:1;min-width:140px;">
       <div style="font-size:20px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:var(--muted);margin-bottom:6px;">Weight</div>
       <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;">
-        <span style="font-size:clamp(13px,2vw,20px);font-weight:700;color:var(--red);">${tgt.startWeight}kg</span>
+        <span style="font-size:clamp(13px,2vw,20px);font-weight:700;color:var(--red);">${tgt.startWeight?tgt.startWeight+'kg':'No Data Yet'}</span>
         <span style="color:var(--muted);">→</span>
         <span style="font-size:clamp(13px,2vw,20px);font-weight:700;color:${tgt.endWeight?'var(--green)':'var(--muted)'};">${tgt.endWeight?tgt.endWeight+'kg':'TBC'}</span>
       </div>
@@ -529,7 +529,7 @@ function renderDashboard(person,rows){
   <div class="section-title" id="section-hba1c"><span style="text-transform:none;">HbA1c</span> Projection <span class="section-line"></span></div>
   <div style="font-size:16px;color:#b0bdd4;margin-bottom:14px;margin-top:-8px;">HbA1c reflects your average blood sugar over the past 90 days. The projection is calculated from your cumulative daily average using the standard formula.</div>
   <div class="kpi-grid">
-    <div class="kpi-card"><div class="kpi-label"><span style="text-transform:none;">HbA1c</span> Start</div><div class="kpi-value">${tgt.startHba1c}%</div><div class="kpi-sub">baseline</div></div>
+    <div class="kpi-card"><div class="kpi-label"><span style="text-transform:none;">HbA1c</span> Start</div><div class="kpi-value">${tgt.startHba1c?tgt.startHba1c+'%':'No Data Yet'}</div><div class="kpi-sub">baseline</div></div>
     <div class="kpi-card ${m.latestHba1c?(m.latestHba1c.hba1cProj<=HBAIC_TARGET?'green':m.latestHba1c.hba1cProj<=6.0?'amber':'red'):''}"><div class="kpi-label">Current Proj.</div><div class="kpi-value">${m.latestHba1c?fmt(m.latestHba1c.hba1cProj)+'%':'—'}</div><div class="kpi-sub">target ≤${HBAIC_TARGET}%</div></div>
     <div class="kpi-card ${m.hba1cDist!==null?(m.hba1cDist<=0?'green':m.hba1cDist<=0.5?'amber':'red'):''}"><div class="kpi-label">To Target</div><div class="kpi-value">${m.hba1cDist!==null?(m.hba1cDist>0?'+':'')+m.hba1cDist+'%':'—'}</div><div class="kpi-sub">from 5.4%</div></div>
   </div>
@@ -541,7 +541,7 @@ function renderDashboard(person,rows){
   <div style="font-size:16px;color:#b0bdd4;margin-bottom:14px;margin-top:-8px;">Tracks your weight loss progress against your target. Early losses are typically water and glycogen — fat loss becomes the primary driver from week 2 onwards.</div>
   <div class="kpi-grid">
     <div class="kpi-card"><div class="kpi-label">Current Weight</div><div class="kpi-value">${m.latestWeight?fmt(m.latestWeight.weight)+'kg':'—'}</div><div class="kpi-sub">target ${tgt.weight}kg</div></div>
-    <div class="kpi-card"><div class="kpi-label">Start Weight</div><div class="kpi-value">${tgt.startWeight}kg</div><div class="kpi-sub">baseline</div></div>
+    <div class="kpi-card"><div class="kpi-label">Start Weight</div><div class="kpi-value">${tgt.startWeight?tgt.startWeight+'kg':'No Data Yet'}</div><div class="kpi-sub">baseline</div></div>
     <div class="kpi-card green"><div class="kpi-label">Total Lost</div><div class="kpi-value">${m.totalWeightLost!==null?fmt(m.totalWeightLost)+'kg':'—'}</div><div class="kpi-sub">since start</div></div>
     <div class="kpi-card"><div class="kpi-label">To Target</div><div class="kpi-value">${m.latestWeight?fmt(Math.abs(m.latestWeight.weightFromTarget||0))+'kg':'—'}</div><div class="kpi-sub">remaining</div></div>
     <div class="kpi-card"><div class="kpi-label">7-Day Avg</div><div class="kpi-value">${fmt(m.rolling7w)}kg</div><div class="kpi-sub">smoothed</div></div>
