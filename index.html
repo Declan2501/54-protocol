@@ -262,16 +262,12 @@ const barLabelPlugin={
 Chart.register(barLabelPlugin);
  
 const TARGETS={Declan:{weight:72,startHba1c:6.2,startWeight:81.3},Emi:{weight:89,startHba1c:6.4,startWeight:100.0}};
-const BS_SLOTS=[{key:'05:00'},{key:'09:00'},{key:'13:00'},{key:'17:00'},{key:'18:30'},{key:'19:30'},{key:'22:00'}];
+const BS_SLOTS=[{key:'05:00'},{key:'17:00'},{key:'18:30'}];
  
 const BS_THRESHOLDS={
   '05:00':{greenMax:6.5,redMin:7.8},
-  '09:00':{greenMax:7.5,redMin:8.5},
-  '13:00':{greenMax:6.5,redMin:7.8},
   '17:00':{greenMax:6.0,redMin:7.5},
-  '18:30':{greenMax:7.5,redMin:8.5},
-  '19:30':{greenMax:6.5,redMin:8.0},
-  '22:00':{greenMax:6.5,redMin:7.8}
+  '18:30':{greenMax:7.5,redMin:8.5}
 };
 let allData={},charts={},filterMonth='all',filterWeekend=false;
  
@@ -328,14 +324,14 @@ function processData(csvText){
     const person=row[1];if(person!=='Declan'&&person!=='Emi')continue;
     data[person].push({
       date:parseDate(row[0]),dateStr:row[0],person,
-      bs:{'05:00':parseNum(row[2]),'09:00':parseNum(row[3]),'13:00':parseNum(row[4]),'17:00':parseNum(row[5]),'18:30':parseNum(row[6]),'19:30':parseNum(row[7]),'22:00':parseNum(row[8])},
-      dailyAvg:parseNum(row[9]),cumAvg:parseNum(row[10]),hba1cProj:parseNum(row[11]),
-      protocolZone:(row[12]||'').trim(),whoZone:(row[13]||'').trim(),
-      weight:parseNum(row[14]),weightDelta:parseNum(row[15]),weightFromBaseline:parseNum(row[16]),weightFromTarget:parseNum(row[17]),
-      bloodTestCount:parseNum(row[18]),bloodTestPct:parsePct(row[19]),
-      water5am:(row[20]||'').trim(),omega3:(row[21]||'').trim(),water2l:(row[22]||'').trim(),
-      omad:(row[23]||'').trim(),exercise:(row[24]||'').trim(),acv:(row[25]||'').trim(),magnesium:(row[26]||'').trim(),
-      adhereScore:parseScore(row[27]),adherePct:parsePct(row[28]),notes:row[29]||'',
+      bs:{'05:00':parseNum(row[2]),'17:00':parseNum(row[3]),'18:30':parseNum(row[4])},
+      dailyAvg:parseNum(row[5]),cumAvg:parseNum(row[6]),hba1cProj:parseNum(row[7]),
+      protocolZone:(row[8]||'').trim(),whoZone:(row[9]||'').trim(),
+      weight:parseNum(row[10]),weightDelta:parseNum(row[11]),weightFromBaseline:parseNum(row[12]),weightFromTarget:parseNum(row[13]),
+      bloodTestCount:parseNum(row[14]),bloodTestPct:parsePct(row[15]),
+      water5am:(row[16]||'').trim(),omega3:(row[17]||'').trim(),water2l:(row[18]||'').trim(),
+      omad:(row[19]||'').trim(),exercise:(row[20]||'').trim(),acv:(row[21]||'').trim(),magnesium:(row[22]||'').trim(),
+      adhereScore:parseScore(row[23]),adherePct:parsePct(row[24]),notes:row[25]||'',
     });
   }
   data.Declan.sort((a,b)=>(a.date||0)-(b.date||0));data.Emi.sort((a,b)=>(a.date||0)-(b.date||0));
@@ -604,7 +600,7 @@ function renderDashboard(person,rows){
   </div>
   <div id="${person}-bt-wrap" class="bt-table-wrap">
     <table class="bt-table">
-      <thead><tr><th>Date</th><th>05:00</th><th>09:00</th><th>13:00</th><th>17:00</th><th>18:30</th><th>19:30</th><th>22:00</th><th>Daily Avg</th><th>Protocol Zone</th><th>WHO Zone</th><th>Notes</th></tr></thead>
+      <thead><tr><th>Date</th><th>05:00</th><th>17:00</th><th>18:30</th><th>Daily Avg</th><th>Protocol Zone</th><th>WHO Zone</th><th>Notes</th></tr></thead>
       <tbody id="${person}-bt-body"></tbody>
     </table>
   </div>
@@ -663,7 +659,7 @@ function renderBTTable(person){
   const rows=(allData[person]||[]).filter(r=>{if(!r.date)return false;if(month!=='all'&&r.date.getMonth()!==parseInt(month))return false;return true;});
   const tbody=document.getElementById(person+'-bt-body');if(!tbody)return;
   tbody.innerHTML=rows.map(r=>{
-    const slots=['05:00','09:00','13:00','17:00','18:30','19:30','22:00'];
+    const slots=['05:00','17:00','18:30'];
     const cells=slots.map(s=>{const v=r.bs[s];if(v===null||v===undefined)return'<td class="empty">—</td>';return'<td class="'+bsColorClass(v,s)+'">'+v.toFixed(1)+'</td>';}).join('');
     const avgCell=r.dailyAvg!==null?'<td>'+r.dailyAvg.toFixed(1)+'</td>':'<td class="empty">—</td>';
     const zc=r.protocolZone?(r.protocolZone.toLowerCase().includes('danger')?'zone-danger':r.protocolZone.toLowerCase().includes('warning')?'zone-warning':'zone-normal'):'';
