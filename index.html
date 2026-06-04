@@ -454,7 +454,7 @@ function renderDashboard(person,rows){
   <div class="section-title" id="section-progress">5.4 Protocol — Overall Results <span class="section-line"></span></div>
   <div style="font-size:16px;color:#b0bdd4;margin-bottom:14px;margin-top:-8px;">Your start and end metrics for the 90-day protocol — the proof of what lifestyle change alone can achieve.</div>
   <div class="progress-wrap">
-    <div class="progress-label"><span>${m.daysOnProtocol>0?'Day '+m.daysOnProtocol+' of '+CYCLE_DAYS:'Protocol starts 08 Jun 2026'}</span><span>${m.daysOnProtocol>0?m.cyclePct+'% complete — '+m.daysRemaining+' days remaining':m.daysRemaining+' days to go'}</span></div>
+    <div class="progress-label"><span>${m.daysOnProtocol>0?'Day '+m.daysOnProtocol+' of '+CYCLE_DAYS:'Protocol starts '+PROTOCOL_START.toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'numeric'})}</span><span>${m.daysOnProtocol>0?m.cyclePct+'% complete — '+m.daysRemaining+' days remaining':m.daysRemaining+' days to go'}</span></div>
     <div class="progress-bar"><div class="progress-fill" style="width:${m.cyclePct}%"></div></div>
   </div>
   <div style="display:flex;gap:12px;margin-bottom:24px;flex-wrap:wrap;">
