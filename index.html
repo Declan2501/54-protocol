@@ -261,7 +261,7 @@ const barLabelPlugin={
 };
 Chart.register(barLabelPlugin);
  
-const TARGETS={Declan:{weight:72,startHba1c:6.2,startWeight:81.3},Emi:{weight:89,startHba1c:6.4,startWeight:100.0}};
+const TARGETS={Declan:{weight:72,startHba1c:null,startWeight:null},Emi:{weight:89,startHba1c:null,startWeight:null}};
 const BS_SLOTS=[{key:'05:00'},{key:'17:00'},{key:'18:30'}];
  
 const BS_THRESHOLDS={
@@ -318,10 +318,10 @@ function processData(csvText){
     const r=rows[1];
     const safeNum=v=>{const n=parseFloat((v||'').toString().replace(/[^0-9.]/g,''));return isNaN(n)?null:n;};
     const safePct=v=>{const n=safeNum(v);if(n===null)return null;return n<1?Math.round(n*1000)/10:n;};
-    TARGETS.Declan.startWeight=safeNum(r[11])||TARGETS.Declan.startWeight;TARGETS.Declan.endWeight=safeNum(r[13]);
-    TARGETS.Declan.startHba1c=safePct(r[15])||TARGETS.Declan.startHba1c;TARGETS.Declan.endHba1c=safePct(r[17]);
-    TARGETS.Emi.startWeight=safeNum(r[21])||TARGETS.Emi.startWeight;TARGETS.Emi.endWeight=safeNum(r[23]);
-    TARGETS.Emi.startHba1c=safePct(r[25])||TARGETS.Emi.startHba1c;TARGETS.Emi.endHba1c=safePct(r[27]);
+    TARGETS.Declan.startWeight=safeNum(r[11]);TARGETS.Declan.endWeight=safeNum(r[13]);
+    TARGETS.Declan.startHba1c=safePct(r[15]);TARGETS.Declan.endHba1c=safePct(r[17]);
+    TARGETS.Emi.startWeight=safeNum(r[21]);TARGETS.Emi.endWeight=safeNum(r[23]);
+    TARGETS.Emi.startHba1c=safePct(r[25]);TARGETS.Emi.endHba1c=safePct(r[27]);
   }
   for(let i=0;i<rows.length;i++){
     const row=rows[i];
