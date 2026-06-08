@@ -47,7 +47,7 @@
   .logo { font-family: 'Calibri',sans-serif; font-weight: 700; font-size: 28px; color: var(--text); letter-spacing: -0.01em; display: flex; flex-direction: column; align-items: center; line-height: 1.2; }
   .theme-toggle { position: absolute; right: 32px; background: var(--toggle-bg); border: 1px solid var(--toggle-border); border-radius: 8px; padding: 6px 14px; cursor: pointer; font-family: 'Calibri',sans-serif; font-size: 12px; font-weight: 600; color: var(--toggle-text); transition: all 0.2s; letter-spacing: 0.03em; }
   .theme-toggle:hover { opacity: 0.75; }
-  .date-box { background: var(--date-box-bg); border: 1px solid var(--date-box-border); border-radius: 8px; padding: 6px 0; font-family: Calibri,sans-serif; font-size: 13px; font-weight: 700; color: var(--date-box-text); width: 140px; text-align: center; }
+  .date-box { background: var(--date-box-bg); border: 1px solid var(--date-box-border); border-radius: 8px; padding: 6px 0; font-family: Calibri,sans-serif; font-size: 13px; font-weight: 700; color: var(--date-box-text); width: 140px; text-align: center; flex-shrink: 0; }
   .date-box-label { color: var(--date-box-label); font-size: 10px; display: block; letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 2px; }
   .tabs { display: none; padding: 0 32px; border-bottom: 2px solid var(--border); background: var(--surface); gap: 12px; position: sticky; top: 82px; z-index: 95; box-shadow: 0 1px 3px rgba(0,0,0,0.06); }
   .tabs.visible { display: flex; }
@@ -128,10 +128,12 @@
   .filter-toggle input[type=checkbox] { width:16px; height:16px; cursor:pointer; accent-color:#22c97a; }
   .chart-grid,.kpi-grid,.bs-grid,.streak-grid,.adhere-grid { width:100%; }
   @media (max-width:1100px) { .chart-grid { grid-template-columns:1fr; } .kpi-grid { grid-template-columns:repeat(auto-fill,minmax(130px,1fr)); } }
+  @media (max-width:900px) { #date-boxes { display:none !important; } }
   @media (max-width:900px) { .bs-grid { grid-template-columns:repeat(4,1fr); } .streak-grid { grid-template-columns:repeat(auto-fill,minmax(160px,1fr)); } }
   .mobile-theme-btn { display:none; }
   @media (max-width:768px) {
     .header-logo,.theme-toggle { display:none; }
+    .date-box { display:none; }
     #tagline { font-size:11px !important; }
     .mobile-theme-btn { display:block; margin-left:auto; background:var(--toggle-bg); border:1px solid var(--toggle-border); border-radius:8px; padding:6px 12px; font-family:Calibri,sans-serif; font-size:11px; font-weight:600; color:var(--toggle-text); cursor:pointer; align-self:center; }
     .header { height:72px; } .tabs { top:72px; background:#111720; }
@@ -469,8 +471,8 @@ function renderDashboard(person,rows){
   <div style="display:flex;gap:12px;margin-bottom:24px;flex-wrap:wrap;">
     <div style="background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:12px 18px;flex:1;min-width:140px;">
       <div style="font-size:20px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:var(--muted);margin-bottom:6px;"><span style="text-transform:none;">HbA1c</span></div>
-      <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;">
-        <span style="font-size:clamp(13px,2vw,20px);font-weight:700;color:var(--red);">${tgt.startHba1c?tgt.startHba1c+'%':'No Data Yet'}</span>
+      <div style="display:flex;align-items:center;gap:8px;flex-wrap:nowrap;">
+        <span style="font-size:clamp(11px,2vw,18px);font-weight:700;color:var(--red);white-space:nowrap;">${tgt.startHba1c?tgt.startHba1c+'%':'No Data Yet'}</span>
         <span style="color:var(--muted);">→</span>
         <span style="font-size:clamp(13px,2vw,20px);font-weight:700;color:${tgt.endHba1c?'var(--green)':'var(--muted)'};">${tgt.endHba1c?tgt.endHba1c+'%':'TBC'}</span>
       </div>
@@ -478,8 +480,8 @@ function renderDashboard(person,rows){
     </div>
     <div style="background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:12px 18px;flex:1;min-width:140px;">
       <div style="font-size:20px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:var(--muted);margin-bottom:6px;">Weight</div>
-      <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;">
-        <span style="font-size:clamp(13px,2vw,20px);font-weight:700;color:var(--red);">${tgt.startWeight?tgt.startWeight+'kg':'No Data Yet'}</span>
+      <div style="display:flex;align-items:center;gap:8px;flex-wrap:nowrap;">
+        <span style="font-size:clamp(11px,2vw,18px);font-weight:700;color:var(--red);white-space:nowrap;">${tgt.startWeight?tgt.startWeight+'kg':'No Data Yet'}</span>
         <span style="color:var(--muted);">→</span>
         <span style="font-size:clamp(13px,2vw,20px);font-weight:700;color:${tgt.endWeight?'var(--green)':'var(--muted)'};">${tgt.endWeight?tgt.endWeight+'kg':'TBC'}</span>
       </div>
