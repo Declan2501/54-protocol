@@ -195,6 +195,10 @@ if(sessionStorage.getItem('54p-auth')==='1'){document.addEventListener('DOMConte
 <div class="tabs" id="tabs">
   <div class="tab active" data-person="Declan" onclick="switchTab('Declan')">Declan</div>
   <div class="tab" data-person="Emi" onclick="switchTab('Emi')">Emi</div>
+  <div id="date-boxes" style="display:none;margin-left:16px;display:flex;align-items:center;gap:8px;">
+    <div style="background:#1a2740;border:1px solid rgba(255,255,255,0.13);border-radius:8px;padding:6px 16px;font-family:Calibri,sans-serif;font-size:13px;font-weight:600;color:#4a9eff;"><span style="color:#6b7a96;font-size:11px;display:block;letter-spacing:0.05em;">START</span><span id="display-start-date">—</span></div>
+    <div style="background:#1a2740;border:1px solid rgba(255,255,255,0.13);border-radius:8px;padding:6px 16px;font-family:Calibri,sans-serif;font-size:13px;font-weight:600;color:#a78bfa;"><span style="color:#6b7a96;font-size:11px;display:block;letter-spacing:0.05em;">END</span><span id="display-end-date">—</span></div>
+  </div>
   <button class="mobile-theme-btn" onclick="toggleTheme()">Light / Dark</button>
 </div>
  
@@ -226,7 +230,7 @@ if(sessionStorage.getItem('54p-auth')==='1'){document.addEventListener('DOMConte
 <div class="dashboard" id="dash-Emi"></div>
  
 <script>
-let PROTOCOL_START=null,CYCLE_DAYS=90,HBAIC_TARGET=5.4;
+let PROTOCOL_START=null,PROTOCOL_END=null,CYCLE_DAYS=90,HBAIC_TARGET=5.4;
  
 const barLabelPlugin={
   id:'barLabels',
@@ -309,7 +313,8 @@ const parseDate=v=>{if(!v)return null;const p=v.split('/');return p.length===3?n
  
 function processData(csvText){
   const rows=parseCSV(csvText),data={Declan:[],Emi:[]};
-  // Read start date from row 2 col 1
+  // Read start and end date from row 2
+  if(rows.length>2&&rows[2][3]){const ep=rows[2][3].trim().split('/');if(ep.length===3){const ed=new Date(parseInt(ep[2]),parseInt(ep[1])-1,parseInt(ep[0]));if(!isNaN(ed))PROTOCOL_END=ed;}}
   if(rows.length>2&&rows[2][1]){
     const dp=rows[2][1].trim().split('/');
     if(dp.length===3){const d=new Date(parseInt(dp[2]),parseInt(dp[1])-1,parseInt(dp[0]));if(!isNaN(d))PROTOCOL_START=d;}
@@ -504,7 +509,7 @@ function renderDashboard(person,rows){
   </div>
  
   <div class="section-title" style="margin-top:16px;">Latest readings by time slot <span class="section-line"></span></div>
-  <div style="font-size:16px;color:#b0bdd4;margin-bottom:14px;margin-top:-8px;">Today's readings at each of the 7 test times, alongside your all-time average for that slot.</div>
+  <div style="font-size:16px;color:#b0bdd4;margin-bottom:14px;margin-top:-8px;">Today's readings at each of the 3 test times, alongside your all-time average for that slot.</div>
   <div class="bs-grid">
     ${BS_SLOTS.map(s=>{const val=m.latest?m.latest.bs[s.key]:null;const avg=m.slotAvgs[s.key];const cls=bsColorClass(val,s.key);return'<div class="bs-slot '+cls+'"><div class="bs-time">'+s.key+'</div><div class="bs-val">'+(val!==null?val.toFixed(1):'—')+'</div><div class="bs-avg">avg '+(avg!==null?avg.toFixed(1):'—')+'</div></div>';}).join('')}
   </div>
@@ -696,6 +701,13 @@ function showDashboard(csvText){
   renderDashboard('Declan',allData.Declan||[]);
   renderDashboard('Emi',allData.Emi||[]);
   document.getElementById('dash-Declan').classList.add('active');
+  // Update date boxes
+  const startEl=document.getElementById('display-start-date');
+  const endEl=document.getElementById('display-end-date');
+  const dateBoxes=document.getElementById('date-boxes');
+  if(startEl&&PROTOCOL_START){startEl.textContent=PROTOCOL_START.toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'numeric'});}
+  if(endEl&&PROTOCOL_END){endEl.textContent=PROTOCOL_END.toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'numeric'});}
+  if(dateBoxes&&(PROTOCOL_START||PROTOCOL_END)){dateBoxes.style.display='flex';}
 }
 fetch('data.csv?t=' + Date.now())
   .then(r=>{if(!r.ok)throw new Error('no file');return r.text();})
